@@ -31,6 +31,13 @@ class ResourcesTest extends TestBase {
         waitFor { at DatabasePage }
     }
 
+    /**
+     * User can delete database.
+     * @Step Select database.
+     * @Step Click delete button.
+     * @Step Confirm deletion.
+     * @verification Database deleted.
+     */
     @Test(groups="Smoke",dependsOnMethods="canCreateDatabaseWithDefaultConfiguration")
     void canDeleteDatabase() {
         at ResourcesPage
