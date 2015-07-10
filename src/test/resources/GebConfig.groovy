@@ -4,6 +4,7 @@
 	See: http://www.gebish.org/manual/current/configuration.html
 */
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
 
 waiting {
     timeout = 10
@@ -12,6 +13,10 @@ waiting {
 
 baseUrl = "http://localhost:8080/studio/index.html"
 
-driver = { new ChromeDriver() }
+driver = {
+    def options = new ChromeOptions()
+    options.addArguments(["--start-maximized"])
+    new ChromeDriver(options)
+}
 
 reportOnTestFailureOnly = true

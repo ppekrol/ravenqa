@@ -24,10 +24,17 @@ class ResourcesTest extends TestBase {
         createDatabase(lastCreatedDatabaseName)
 
         waitFor(message: "Database "+lastCreatedDatabaseName+" not found on the list.") {
-            getDatabaseLink(lastCreatedDatabaseName)
+            getResourceLink(lastCreatedDatabaseName)
         }
 
-        getDatabaseLink(lastCreatedDatabaseName).click()
+        getResourceLink(lastCreatedDatabaseName).click()
         waitFor { at DatabasePage }
+    }
+
+    @Test(groups="Smoke",dependsOnMethods="canCreateDatabaseWithDefaultConfiguration")
+    void canDeleteDatabase() {
+        at ResourcesPage
+
+        checkAndDeleteDatabase(lastCreatedDatabaseName)
     }
 }
