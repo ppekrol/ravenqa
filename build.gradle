@@ -1,0 +1,44 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+
+ext {
+    groovyVersion = '2.4.1'
+    gebVersion = '0.10.0'
+    seleniumVersion = '2.43.1'
+    chromeDriverVersion = '2.15'
+}
+
+apply plugin: "groovy"
+apply from: "gradle/idea.gradle"
+apply from: "gradle/ci.gradle"
+apply from: "gradle/osSpecificDownloads.gradle"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    testCompile "org.testng:testng:6.0.1"
+    testCompile "org.gebish:geb-testng:0.10.0"
+    testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
+    testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+}
+
+task "smoke"(type: Test) {
+    useTestNG() {
+        options {
+            listeners << "org.testng.reporters.XMLReporter"
+        }
+    }
+
+    reports {
+        html.destination = reporting.file("$name/tests")
+    }
+    outputs.upToDateWhen { false }  // Always run tests
+    systemProperty "geb.build.reportsDir", reporting.file("$name/geb")
+
+    dependsOn unzipChromeDriver
+    def chromedriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "chromedriver.exe" : "chromedriver"
+    systemProperty "webdriver.chrome.driver", new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
+}
