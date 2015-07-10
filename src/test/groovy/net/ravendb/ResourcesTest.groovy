@@ -7,6 +7,8 @@ import org.testng.annotations.Test
 
 class ResourcesTest extends TestBase {
 
+    private String lastCreatedDatabaseName
+
     /**
      * User can create new database with default configuration.
      * @Step Navigate to resources page
@@ -18,20 +20,14 @@ class ResourcesTest extends TestBase {
     void canCreateDatabaseWithDefaultConfiguration() {
         at ResourcesPage
 
-        createNewResourceButton.click()
-        waitFor { createDatabaseModalDialog.createButton.displayed }
+        lastCreatedDatabaseName = "db" + rand.nextInt()
+        createDatabase(lastCreatedDatabaseName)
 
-        String dbName = "db" + rand.nextInt()
-        createDatabaseModalDialog.databaseIcon.click()
-        createDatabaseModalDialog.databaseNameInput = dbName
-        createDatabaseModalDialog.createButton.click()
-        waitFor { createNewResourceButton.displayed }
-
-        waitFor(message: "Database "+dbName+" not found on the list.") {
-            getDatabaseLink(dbName)
+        waitFor(message: "Database "+lastCreatedDatabaseName+" not found on the list.") {
+            getDatabaseLink(lastCreatedDatabaseName)
         }
 
-        getDatabaseLink(dbName).click()
+        getDatabaseLink(lastCreatedDatabaseName).click()
         waitFor { at DatabasePage }
     }
 }

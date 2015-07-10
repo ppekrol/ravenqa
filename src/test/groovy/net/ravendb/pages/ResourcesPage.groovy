@@ -26,4 +26,14 @@ class ResourcesPage extends Page {
         }
         link
     }
+
+    def createDatabase(String dbName) {
+        createNewResourceButton.click()
+        waitFor { createDatabaseModalDialog.createButton.displayed }
+
+        createDatabaseModalDialog.databaseIcon.click()
+        createDatabaseModalDialog.databaseNameInput = dbName
+        createDatabaseModalDialog.createButton.click()
+        waitFor { createNewResourceButton.displayed }
+    }
 }

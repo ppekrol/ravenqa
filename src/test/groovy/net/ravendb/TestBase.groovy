@@ -2,7 +2,6 @@ package net.ravendb
 
 import geb.testng.GebReportingTest
 
-import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 
 import net.ravendb.pages.LandingPage
@@ -10,8 +9,6 @@ import net.ravendb.pages.ResourcesPage
 
 import org.openqa.selenium.JavascriptExecutor
 import org.testng.ITestContext
-import org.testng.ITestResult
-import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeGroups
 import org.testng.annotations.BeforeMethod
 
