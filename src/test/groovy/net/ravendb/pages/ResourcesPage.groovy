@@ -16,6 +16,7 @@ class ResourcesPage extends Page {
     static content = {
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
         deleteButton { $("button[title='Delete selected databases or file systems']") }
+        manageYourServerButton { $("button", text:"Manage Your Server") }
 
         resourceContainer(required:false) { $("div.resource") }
         resourceNameContainerSelector { "a.resource-name span" }
