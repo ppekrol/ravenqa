@@ -1,27 +1,28 @@
 package net.ravendb
 
 import net.ravendb.pages.DatabasePage
+import net.ravendb.pages.FileSystemPage;
 import net.ravendb.pages.ResourcesPage
 
 import org.testng.annotations.Test
 
 class ResourcesTest extends TestBase {
 
-    private String lastCreatedDatabaseName
-
     /**
-     * User can create new database with default configuration.
+     * User can create new database with default configuration and delete it.
      * @Step Navigate to resources page
      * @Step Click Create New Resource Button.
      * @Step Fill database name input and click Create button.
-     * @verification Database created and user can navigate to it.
+     * @Step Click on created database.
+     * @Step Delete created database.
+     * @verification Database created and user can navigate to it, database deleted.
      */
     @Test(groups="Smoke")
-    void canCreateDatabaseWithDefaultConfiguration() {
+    void canCreateAndDeleteDatabaseWithDefaultConfiguration() {
         at ResourcesPage
 
-        lastCreatedDatabaseName = "db" + rand.nextInt()
-        createDatabase(lastCreatedDatabaseName)
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
 
         waitFor(message: "Database "+lastCreatedDatabaseName+" not found on the list.") {
             getResourceLink(lastCreatedDatabaseName)
@@ -29,19 +30,39 @@ class ResourcesTest extends TestBase {
 
         getResourceLink(lastCreatedDatabaseName).click()
         waitFor { at DatabasePage }
+
+        topNavigation.resourcesLink.click()
+        waitFor { at ResourcesPage }
+
+        checkAndDeleteResource(lastCreatedDatabaseName)
     }
 
     /**
-     * User can delete database.
-     * @Step Select database.
-     * @Step Click delete button.
-     * @Step Confirm deletion.
-     * @verification Database deleted.
+     * User can create new filesystem with default configuration and delete it.
+     * @Step Navigate to resources page
+     * @Step Click Create New Resource Button.
+     * @Step Click Filesystem icon.
+     * @Step Fill database name input and click Create button.
+     * @Step Click on created database.
+     * @Step Delete created database.
+     * @verification Database created and user can navigate to it, database deleted.
      */
-    @Test(groups="Smoke",dependsOnMethods="canCreateDatabaseWithDefaultConfiguration")
-    void canDeleteDatabase() {
+    void canCreateAndDeleteFilesystemWithDefaultCOnfiguration() {
         at ResourcesPage
 
-        checkAndDeleteDatabase(lastCreatedDatabaseName)
+        String lastCreatedFilesystemName = "fs" + rand.nextInt()
+        createResource(lastCreatedFilesystemName, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
+
+        waitFor(message: "Filesystem "+lastCreatedFilesystemName+" not found on the list.") {
+            getResourceLink(lastCreatedFilesystemName)
+        }
+
+        getResourceLink(lastCreatedFilesystemName).click()
+        waitFor { at FileSystemPage }
+
+        topNavigation.resourcesLink.click()
+        waitFor { at ResourcesPage }
+
+        checkAndDeleteResource(lastCreatedFilesystemName)
     }
 }

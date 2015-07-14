@@ -5,5 +5,7 @@ import geb.Module
 
 class TopNavigationBar extends Module {
 
-    static content = {}
+    static content = {
+        resourcesLink { $("span", text:"Resources") }
+    }
 }

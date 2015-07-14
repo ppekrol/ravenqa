@@ -1,7 +1,7 @@
 package net.ravendb.pages
 
 import geb.Page
-import net.ravendb.modules.CreateDatabaseModalDialog
+import net.ravendb.modules.CreateResourceModalDialog
 
 
 class LandingPage extends Page {
@@ -21,6 +21,6 @@ class LandingPage extends Page {
         buildReminderCheckbox(required:false) { $("div.messageBox div.checkbox input") }
         buildReminderCloseButton(required:false) { $("div.messageBox button.close i") }
 
-        createDatabaseModalDialog { module CreateDatabaseModalDialog }
+        createDatabaseModalDialog { module CreateResourceModalDialog }
     }
 }
