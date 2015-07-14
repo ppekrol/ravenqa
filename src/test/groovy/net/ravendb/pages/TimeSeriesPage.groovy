@@ -4,15 +4,13 @@ import geb.Page
 import net.ravendb.modules.TopNavigationBar
 
 
-class FileSystemPage extends Page {
+class TimeSeriesPage extends Page {
 
     static at = {
-        newFolderButton
+        topNavigation
     }
 
     static content = {
         topNavigation { module TopNavigationBar }
-
-        newFolderButton { $("button[title='Create folder']") }
     }
 }

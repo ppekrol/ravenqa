@@ -12,8 +12,8 @@ class ResourcesPage extends Page {
 
     final static String RESOURCE_TYPE_DATABASE = "db"
     final static String RESOURCE_TYPE_FILESYSTEM = "fs"
-    final static String RESOURCE_COUNTER_STORAGE = "cs"
-    final static String RESOURCE_TIME_SERIES = "ts"
+    final static String RESOURCE_TYPE_COUNTER_STORAGE = "cs"
+    final static String RESOURCE_TYPE_TIME_SERIES = "ts"
 
     static at = {
         createNewResourceButton
@@ -74,11 +74,11 @@ class ResourcesPage extends Page {
                 createResourceModalDialog.filesystemIcon.click()
                 createResourceModalDialog.filesystemNameInput = name
                 break
-            case RESOURCE_COUNTER_STORAGE:
+            case RESOURCE_TYPE_COUNTER_STORAGE:
                 createResourceModalDialog.counterStorageIcon.click()
                 createResourceModalDialog.counterStorageNameInput = name
                 break
-            case RESOURCE_TIME_SERIES:
+            case RESOURCE_TYPE_TIME_SERIES:
                 createResourceModalDialog.timeSeriesIcon.click()
                 createResourceModalDialog.timeSeriesNameInput = name
                 break

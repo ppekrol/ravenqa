@@ -6,6 +6,10 @@ import geb.Module
 class TopNavigationBar extends Module {
 
     static content = {
-        resourcesLink { $("span", text:"Resources") }
+        filesLink { $("a[href^='#filesystems/files']") }
+        countersLink { $("a[href^='#counterstorages/counters']") }
+        resourcesLink { $("a[href='#resources']") }
+
+        goToDocInput { $("input#goToDocInput") }
     }
 }

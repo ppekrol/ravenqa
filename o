@@ -1,0 +1,84 @@
+Starting Build
+Settings evaluated using empty settings script.
+Projects loaded. Root project using build file 'C:\workspaces\ravenqa\build.gradle'.
+Included projects: [root project 'ravenqa']
+Evaluating root project 'ravenqa' using build file 'C:\workspaces\ravenqa\build.gradle'.
+All projects evaluated.
+Selected primary task 'DefaultTaskParameter{taskName='smoke',projectPath='null'}'
+Tasks to be executed: [task ':compileJava', task ':compileGroovy', task ':processResources', task ':classes', task ':compileTestJava', task ':compileTestGroovy', task ':processTestResources', task ':testClasses', task ':downloadChromeDriver', task ':unzipChromeDriver', task ':smoke']
+:compileJava (Thread[main,5,main]) started.
+:compileJava
+Skipping task ':compileJava' as it has no source files.
+:compileJava UP-TO-DATE
+:compileJava (Thread[main,5,main]) completed. Took 0.017 secs.
+:compileGroovy (Thread[main,5,main]) started.
+:compileGroovy
+Skipping task ':compileGroovy' as it has no source files.
+:compileGroovy UP-TO-DATE
+:compileGroovy (Thread[main,5,main]) completed. Took 0.001 secs.
+:processResources (Thread[main,5,main]) started.
+:processResources
+Skipping task ':processResources' as it has no source files.
+:processResources UP-TO-DATE
+:processResources (Thread[main,5,main]) completed. Took 0.001 secs.
+:classes (Thread[main,5,main]) started.
+:classes
+Skipping task ':classes' as it has no actions.
+:classes UP-TO-DATE
+:classes (Thread[main,5,main]) completed. Took 0.001 secs.
+:compileTestJava (Thread[main,5,main]) started.
+:compileTestJava
+Skipping task ':compileTestJava' as it has no source files.
+:compileTestJava UP-TO-DATE
+:compileTestJava (Thread[main,5,main]) completed. Took 0.001 secs.
+:compileTestGroovy (Thread[main,5,main]) started.
+:compileTestGroovy
+Executing task ':compileTestGroovy' (up-to-date check took 0.343 secs) due to:
+  Input file C:\workspaces\ravenqa\src\test\groovy\net\ravendb\pages\CounterStoragePage.groovy has changed.
+  Input file C:\workspaces\ravenqa\src\test\groovy\net\ravendb\modules\TopNavigationBar.groovy has changed.
+Starting process 'Gradle Compiler Daemon 1'. Working directory: C:\workspaces\ravenqa Command: C:\opt\java\jdk1.7.0\bin\java.exe -Dfile.encoding=windows-1250 -cp C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\gradle-base-services-2.0.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\gradle-core-2.0.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\gradle-cli-2.0.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\gradle-native-2.0.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\gradle-messaging-2.0.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\slf4j-api-1.7.5.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\logback-classic-1.0.13.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\logback-core-1.0.13.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\jul-to-slf4j-1.7.5.jar;C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\guava-jdk5-17.0.jar org.gradle.process.internal.launcher.GradleWorkerMain
+Successfully started process 'Gradle Compiler Daemon 1'
+Started Gradle compiler daemon (1.032 secs) with fork options DaemonForkOptions{minHeapSize=null, maxHeapSize=null, jvmArgs=[], classpath=[C:\Users\user\.gradle\caches\modules-2\files-2.1\org.codehaus.groovy\groovy-all\2.4.1\a9ca9c9de09361ec2a18d2c058d2524fbd8eae0c\groovy-all-2.4.1.jar, C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\ant-1.9.3.jar, C:\Users\user\.gradle\wrapper\dists\gradle-2.0-bin\34ooqmq1urnnhvpv2dlmidjcrc\gradle-2.0\lib\ant-launcher-1.9.3.jar]}.
+Executing org.gradle.api.internal.tasks.compile.ApiGroovyCompiler@1a18493 in compiler daemon.
+Successfully executed org.gradle.api.internal.tasks.compile.ApiGroovyCompiler@1a18493 in compiler daemon.
+:compileTestGroovy (Thread[main,5,main]) completed. Took 4.042 secs.
+:processTestResources (Thread[main,5,main]) started.
+:processTestResources
+Skipping task ':processTestResources' as it is up-to-date (took 0.006 secs).
+:processTestResources UP-TO-DATE
+:processTestResources (Thread[main,5,main]) completed. Took 0.009 secs.
+:testClasses (Thread[main,5,main]) started.
+:testClasses
+Skipping task ':testClasses' as it has no actions.
+:testClasses (Thread[main,5,main]) completed. Took 0.0 secs.
+:downloadChromeDriver (Thread[main,5,main]) started.
+:downloadChromeDriver
+Skipping task ':downloadChromeDriver' as it is up-to-date (took 0.001 secs).
+:downloadChromeDriver UP-TO-DATE
+:downloadChromeDriver (Thread[main,5,main]) completed. Took 0.003 secs.
+:unzipChromeDriver (Thread[main,5,main]) started.
+:unzipChromeDriver
+Skipping task ':unzipChromeDriver' as it is up-to-date (took 0.156 secs).
+:unzipChromeDriver UP-TO-DATE
+:unzipChromeDriver (Thread[main,5,main]) completed. Took 0.18 secs.
+:smoke (Thread[main,5,main]) started.
+:smoke
+Executing task ':smoke' (up-to-date check took 0.027 secs) due to:
+  Task.upToDateWhen is false.
+Starting process 'Gradle Test Executor 2'. Working directory: C:\workspaces\ravenqa Command: C:\opt\java\jdk1.7.0\bin\java.exe -Dgeb.build.reportsDir=C:\workspaces\ravenqa\build\reports\smoke\geb -Djava.security.manager=jarjar.org.gradle.process.internal.child.BootstrapSecurityManager -Dwebdriver.chrome.driver=C:\workspaces\ravenqa\build\webdriver\chromedriver\chromedriver.exe -Dfile.encoding=windows-1250 -ea -cp C:\Users\user\.gradle\caches\2.0\workerMain\gradle-worker.jar jarjar.org.gradle.process.internal.launcher.GradleWorkerMain
+Successfully started process 'Gradle Test Executor 2'
+Gradle Test Executor 2 started executing tests.
+
+Gradle test STANDARD_ERROR
+    Starting ChromeDriver 2.15.322448 (52179c1b310fec1797c81ea9a20326839860b7d3) on port 15736
+    Only local connections are allowed.
+Gradle Test Executor 2 finished executing tests.
+Finished generating test XML results (0.016 secs) into: C:\workspaces\ravenqa\build\test-results
+Generating HTML test report...
+Finished generating test html results (0.056 secs) into: C:\workspaces\ravenqa\build\reports\smoke\tests
+:smoke (Thread[main,5,main]) completed. Took 1 mins 1.748 secs.
+
+BUILD SUCCESSFUL
+
+Total time: 1 mins 11.762 secs
+Stopped 1 compiler daemon(s).

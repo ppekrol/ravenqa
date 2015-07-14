@@ -4,15 +4,15 @@ import geb.Page
 import net.ravendb.modules.TopNavigationBar
 
 
-class FileSystemPage extends Page {
+class CounterStoragePage extends Page {
 
     static at = {
-        newFolderButton
+        createNewCounterButton
     }
 
     static content = {
         topNavigation { module TopNavigationBar }
 
-        newFolderButton { $("button[title='Create folder']") }
+        createNewCounterButton { $("button[title='Create a new counter (Alt+N)']") }
     }
 }
