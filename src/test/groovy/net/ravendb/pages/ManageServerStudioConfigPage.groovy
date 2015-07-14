@@ -7,13 +7,10 @@ import geb.Page
 class ManageServerStudioConfigPage extends Page {
 
     static at = {
-        header.text() == "\"        Studio config                    \""
-        menu
+        $("div[data-view='views/manage/studioConfig']")
     }
 
     static content = {
         menu { module ManageServerMenu }
-
-        header { $("div.panel-heading") }
     }
 }

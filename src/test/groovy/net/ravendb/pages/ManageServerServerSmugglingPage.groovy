@@ -7,13 +7,10 @@ import geb.Page
 class ManageServerServerSmugglingPage extends Page {
 
     static at = {
-        header
-        menu
+        $("form[data-view='views/manage/serverSmuggling']")
     }
 
     static content = {
         menu { module ManageServerMenu }
-
-        header { $("div", text:"Server smuggling") }
     }
 }

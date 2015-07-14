@@ -8,7 +8,6 @@ import net.ravendb.pages.ManageServerAdminLogsPage
 import net.ravendb.pages.ManageServerAdministratorJsConsolePage
 import net.ravendb.pages.ManageServerApiKeysPage
 import net.ravendb.pages.ManageServerBackupPage
-import net.ravendb.pages.ManageServerClusterPage
 import net.ravendb.pages.ManageServerCompactPage
 import net.ravendb.pages.ManageServerGatherDebugInfoPage
 import net.ravendb.pages.ManageServerGlobalConfigurationPage
@@ -45,9 +44,6 @@ class ManageServerTest extends TestBase {
 
         menu.windowsAuthenticationLink.click()
         waitFor {at ManageServerWindowsAuthenticationPage }
-
-        menu.clusterLink.click()
-        waitFor { at ManageServerClusterPage }
 
         menu.globalConfigurationLink.click()
         waitFor { at ManageServerGlobalConfigurationPage }

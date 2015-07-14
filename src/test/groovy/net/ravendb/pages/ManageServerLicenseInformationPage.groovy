@@ -7,13 +7,10 @@ import geb.Page
 class ManageServerLicenseInformationPage extends Page {
 
     static at = {
-        header
-        menu
+        $("div[data-view='views/manage/licenseInformation']")
     }
 
     static content = {
         menu { module ManageServerMenu }
-
-        header { $("div", text:"License information") }
     }
 }
