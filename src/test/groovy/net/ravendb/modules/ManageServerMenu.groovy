@@ -21,7 +21,7 @@ class ManageServerMenu extends Module {
         ioTestLink { $("a[href='#admin/settings/ioTest']") }
         administratorJsConsole { $("a[href='#admin/settings/console']") }
         studioConfigLink { $("a[href='#admin/settings/studioConfig']") }
-        toSystemDatabaseLink { $("a", text:"To System Database") }
+        toSystemDatabaseLink { $("a[data-bind='click: navigateToSystemDatabase']") }
 
         areYouSureModalDialog { module AreYouSureModalDialog }
     }
