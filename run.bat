@@ -1,0 +1,1 @@
+gradlew smoke --info > tests_output.txt
