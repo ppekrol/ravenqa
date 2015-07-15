@@ -7,14 +7,16 @@ import net.ravendb.modules.TopNavigationBar
 class DocumentsPage extends Page {
 
     static at = {
-        documentsLink
+        selectAllDocumentsCheckbox
     }
 
     static content = {
         topNavigation { module TopNavigationBar }
 
-        documentsLink { $("a[href='#documents']") }
-        documentNameInput { $("input#documentName") }
+        collectionsList { $("ul.document-collections li") }
+
+        selectAllDocumentsCheckbox { $("button[title='Select all or none']") }
+        selectAllDocumentsInfoAllDocumentsCountContainer(required:false) { $("strong[data-bind='text: documentCount']") }
         saveButton { $("button[title='Save (Alt+S)']") }
     }
 

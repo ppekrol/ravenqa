@@ -9,8 +9,10 @@ class TopNavigationBar extends Module {
         filesLink { $("a[href^='#filesystems/files']") }
         countersLink { $("a[href^='#counterstorages/counters']") }
         documentsLink { $("a[href^='#databases/documents']") }
-        resourcesLink { $("a[href='#resources']") }
+        tasksLink { $("a[href^='#databases/tasks']") }
 
         goToDocInput { $("input#goToDocInput") }
+
+        resourcesLink { $("a[href='#resources']") }
     }
 }
