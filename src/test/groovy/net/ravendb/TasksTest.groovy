@@ -29,11 +29,17 @@ class TasksTest extends EmptyDatabaseTestBase {
 
         topNavigation.documentsLink.click()
         waitFor { at DocumentsPage }
+        waitFor(30) { collectionsList.size() == 10 }
+        waitFor(30) { selectAllDocumentsCheckbox.displayed }
 
-        collectionsList.size() == 10
-
-        waitFor { selectAllDocumentsCheckbox.displayed }
-        selectAllDocumentsCheckbox.click()
-        waitFor { selectAllDocumentsInfoAllDocumentsCountContainer.text() == "1059" }
+        waitFor {
+            selectAllDocumentsCheckbox.click()
+            if(selectAllDocumentsInfoAllDocumentsCountContainer.text() == "1059") {
+                return true
+            } else {
+                selectAllDocumentsCheckbox.click()
+                return false
+            }
+        }
     }
 }
