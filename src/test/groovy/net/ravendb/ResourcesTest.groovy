@@ -147,7 +147,82 @@ class ResourcesTest extends TestBase {
         }
 
         searchInput = lastCreatedDatabaseName
-        resourceContainer.size() == 1
+        def visibleResourcesCount = 0
+        resourceContainer.each {
+            if(it.displayed) {
+                visibleResourcesCount += 1
+            }
+        }
+        visibleResourcesCount == 1
         assert getResourceLink(lastCreatedDatabaseName)
+    }
+
+    /**
+     * User can filter resources.
+     * @Step Navigate to resources page
+     * @Step Create new resources.
+     * @Step Filter resources.
+     * @verification Resources filtered.
+     */
+    @Test(
+        groups="Smoke",
+        dependsOnMethods=[
+            "canCreateAndDeleteDatabaseWithDefaultConfiguration",
+            "canCreateAndDeleteFilesystemWithDefaultConfiguration",
+            "canCreateAndDeleteCounterStorageWithDefaultConfiguration"
+            ]
+        )
+    void canFilterResources() {
+        at ResourcesPage
+
+        String dbName = "db" + rand.nextInt()
+        createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+        waitFor(message: "Database "+dbName+" not found on the list.") {
+            getResourceLink(dbName)
+        }
+
+        String fsName = "fs" + rand.nextInt()
+        createResource(fsName, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
+        waitFor(message: "Filesystem "+fsName+" not found on the list.") {
+            getResourceLink(fsName)
+        }
+
+        String csName = "cs" + rand.nextInt()
+        createResource(csName, ResourcesPage.RESOURCE_TYPE_COUNTER_STORAGE)
+        waitFor(message: "Counter Storage "+csName+" not found on the list.") {
+            getResourceLink(csName)
+        }
+
+        String tsName = "ts" + rand.nextInt()
+        createResource(tsName, ResourcesPage.RESOURCE_TYPE_TIME_SERIES)
+        waitFor(message: "Time Series "+tsName+" not found on the list.") {
+            getResourceLink(tsName)
+        }
+
+        searchInput = ""
+        filterSelect = ResourcesPage.FILTER_OPTION_DATABASES
+        assert getResourceLink(dbName)
+        assert !getResourceLink(fsName)
+        assert !getResourceLink(csName)
+        assert !getResourceLink(tsName)
+
+        filterSelect = ResourcesPage.FILTER_OPTION_FILESYSTEM
+        assert !getResourceLink(dbName)
+        assert getResourceLink(fsName)
+        assert !getResourceLink(csName)
+        assert !getResourceLink(tsName)
+
+        filterSelect = ResourcesPage.FILTER_OPTION_COUNTER_STORAGE
+        assert !getResourceLink(dbName)
+        assert !getResourceLink(fsName)
+        assert getResourceLink(csName)
+        assert !getResourceLink(tsName)
+
+        filterSelect = ResourcesPage.FILTER_OPTION_TIME_SERIES
+        assert !getResourceLink(dbName)
+        assert !getResourceLink(fsName)
+        assert !getResourceLink(csName)
+        assert getResourceLink(tsName)
+
     }
 }

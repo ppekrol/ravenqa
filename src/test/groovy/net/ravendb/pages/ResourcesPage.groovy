@@ -15,6 +15,11 @@ class ResourcesPage extends Page {
     final static String RESOURCE_TYPE_COUNTER_STORAGE = "cs"
     final static String RESOURCE_TYPE_TIME_SERIES = "ts"
 
+    final static String FILTER_OPTION_DATABASES = "database"
+    final static String FILTER_OPTION_FILESYSTEM = "filesystem"
+    final static String FILTER_OPTION_COUNTER_STORAGE = "counterstorage"
+    final static String FILTER_OPTION_TIME_SERIES = "timeSeries"
+
     static at = {
         createNewResourceButton
     }
@@ -29,6 +34,7 @@ class ResourcesPage extends Page {
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
         searchInput { $("input[title='Search for a database or file system (Alt+/)']") }
         deleteButton { $("button[title='Delete selected databases or file systems']") }
+        filterSelect { $("select.form-control") }
         manageYourServerButton { $("button", text:"Manage Your Server") }
 
         // resources list
@@ -58,7 +64,9 @@ class ResourcesPage extends Page {
         def link
         resourceContainer.each {
             if(it.find(resourceNameContainerSelector).text().equals(resourceName)) {
-                link = it.find(resourceNameContainerSelector)
+                if(it.find(resourceNameContainerSelector).displayed) {
+                    link = it.find(resourceNameContainerSelector)
+                }
             }
         }
         link
