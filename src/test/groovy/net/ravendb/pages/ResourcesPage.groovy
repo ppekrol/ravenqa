@@ -20,18 +20,21 @@ class ResourcesPage extends Page {
     }
 
     static content = {
+        // modules
         topNavigation(required:false) { module TopNavigationBar }
+        createResourceModalDialog { module CreateResourceModalDialog }
+        deleteResourceModalDialog { module DeleteResourceModalDialog }
 
+        // tool bar
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
+        searchInput { $("input[title='Search for a database or file system (Alt+/)']") }
         deleteButton { $("button[title='Delete selected databases or file systems']") }
         manageYourServerButton { $("button", text:"Manage Your Server") }
 
+        // resources list
         resourceContainer(required:false) { $("div.resource") }
         resourceNameContainerSelector { "a.resource-name span" }
         resourceCheckboxSelector { "div.checkbox" }
-
-        createResourceModalDialog { module CreateResourceModalDialog }
-        deleteResourceModalDialog { module DeleteResourceModalDialog }
     }
 
     def checkResource(String resourceName) {

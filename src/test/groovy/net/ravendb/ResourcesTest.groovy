@@ -127,4 +127,27 @@ class ResourcesTest extends TestBase {
 
         checkAndDeleteResource(lastCreatedTimeSeriesName)
     }
+
+    /**
+     * User can search resources.
+     * @Step Navigate to resources page
+     * @Step Create new resource.
+     * @Step Search for resource.
+     * @verification Resource found.
+     */
+    @Test(groups="Smoke")
+    void canSearchResource() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        waitFor(message: "Database "+lastCreatedDatabaseName+" not found on the list.") {
+            getResourceLink(lastCreatedDatabaseName)
+        }
+
+        searchInput = lastCreatedDatabaseName
+        resourceContainer.size() == 1
+        assert getResourceLink(lastCreatedDatabaseName)
+    }
 }
