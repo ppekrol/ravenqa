@@ -1,12 +1,12 @@
 package net.ravendb
 
-import net.ravendb.pages.DatabasePage
 import net.ravendb.pages.DocumentsPage
+import net.ravendb.pages.NewDocumentPage
 
 import org.testng.annotations.Test
 
 
-class DocumentsTest extends DatabaseTestBase {
+class DocumentsTest extends DatabaseWithSampleDataTestBase {
 
     /**
      * User can create new document with default configuration.
@@ -19,14 +19,16 @@ class DocumentsTest extends DatabaseTestBase {
      */
     @Test(groups="Smoke")
     void canCreateAndDeleteDocumentWithDefaultData() {
-        at DatabasePage
+        at DocumentsPage
 
         newDocumentButton.click()
-        waitFor { at DocumentsPage }
+        waitFor { at NewDocumentPage }
 
         CharSequence documentName = "doc" + rand.nextInt()
         createAndSaveDocument(documentName)
-        waitFor { at DatabasePage }
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
 
         // wait for documents list to load
         waitFor { documentsList.size() > 0 }

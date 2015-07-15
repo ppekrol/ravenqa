@@ -1,8 +1,8 @@
 package net.ravendb
 
-import net.ravendb.pages.CounterStoragePage;
-import net.ravendb.pages.DatabasePage
-import net.ravendb.pages.FileSystemPage;
+import net.ravendb.pages.CounterStoragePage
+import net.ravendb.pages.DocumentsPage
+import net.ravendb.pages.FileSystemPage
 import net.ravendb.pages.ResourcesPage
 
 import org.testng.annotations.Test
@@ -30,7 +30,7 @@ class ResourcesTest extends TestBase {
         }
 
         getResourceLink(lastCreatedDatabaseName).click()
-        waitFor { at DatabasePage }
+        waitFor { at DocumentsPage }
 
         topNavigation.resourcesLink.click()
         waitFor { at ResourcesPage }

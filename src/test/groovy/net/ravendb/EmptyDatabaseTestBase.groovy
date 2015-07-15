@@ -1,13 +1,13 @@
 package net.ravendb
 
-import net.ravendb.pages.DatabasePage
+import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.ResourcesPage
 
 import org.testng.ITestContext
 import org.testng.annotations.BeforeMethod
 
 
-abstract class DatabaseTestBase extends TestBase {
+abstract class EmptyDatabaseTestBase extends TestBase {
 
     protected String dbName
 
@@ -15,7 +15,7 @@ abstract class DatabaseTestBase extends TestBase {
     def setup(ITestContext context) {
         super.setup(context)
 
-        String dbName = "db" + rand.nextInt()
+        dbName = "db" + rand.nextInt()
         createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
 
         waitFor(message: "Database "+dbName+" not found on the list.") {
@@ -23,6 +23,6 @@ abstract class DatabaseTestBase extends TestBase {
         }
 
         getResourceLink(dbName).click()
-        waitFor { at DatabasePage }
+        waitFor { at DocumentsPage }
     }
 }

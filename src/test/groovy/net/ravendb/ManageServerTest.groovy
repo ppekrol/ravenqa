@@ -3,7 +3,7 @@ package net.ravendb
 import java.awt.Robot
 import java.awt.event.KeyEvent
 
-import net.ravendb.pages.DatabasePage
+import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.ManageServerAdminLogsPage
 import net.ravendb.pages.ManageServerAdministratorJsConsolePage
 import net.ravendb.pages.ManageServerApiKeysPage
@@ -16,7 +16,6 @@ import net.ravendb.pages.ManageServerLicenseInformationPage
 import net.ravendb.pages.ManageServerPage
 import net.ravendb.pages.ManageServerRestorePage
 import net.ravendb.pages.ManageServerServerSmugglingPage
-import net.ravendb.pages.ManageServerStudioConfigPage
 import net.ravendb.pages.ManageServerTrafficWatchPage
 import net.ravendb.pages.ManageServerWindowsAuthenticationPage
 import net.ravendb.pages.ResourcesPage
@@ -89,6 +88,6 @@ class ManageServerTest extends TestBase {
         menu.toSystemDatabaseLink.click()
         waitFor { menu.areYouSureModalDialog.okButton.displayed }
         menu.areYouSureModalDialog.okButton.click()
-        waitFor { at DatabasePage }
+        waitFor { at DocumentsPage }
     }
 }
