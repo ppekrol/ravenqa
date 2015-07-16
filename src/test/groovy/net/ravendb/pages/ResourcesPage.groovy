@@ -121,15 +121,15 @@ class ResourcesPage extends Page {
         }
     }
 
-    def deleteResource(String name) {
+    def deleteResource(String name, String deleteOption=null) {
         deleteButton.click()
         waitFor { deleteResourceModalDialog.header.displayed }
-        deleteResourceModalDialog.confirmButton.click()
+        deleteResourceModalDialog.confirm(deleteOption)
         waitFor { !getResourceLink(name) }
     }
 
-    def checkAndDeleteResource(String name) {
+    def checkAndDeleteResource(String name, String deleteOption=null) {
         checkResource(name)
-        deleteResource(name)
+        deleteResource(name, deleteOption)
     }
 }

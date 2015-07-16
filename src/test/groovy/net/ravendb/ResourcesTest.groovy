@@ -3,6 +3,7 @@ package net.ravendb
 import net.ravendb.pages.CounterStoragePage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
+import net.ravendb.pages.NewDocumentPage
 import net.ravendb.pages.ResourcesPage
 
 import org.testng.annotations.Test
@@ -193,7 +194,6 @@ class ResourcesTest extends TestBase {
         assert getResourceLink(tsName)
     }
 
-
     /**
      * User can delete multiple resources.
      * @Step Navigate to resources page
@@ -226,5 +226,43 @@ class ResourcesTest extends TestBase {
         createResource(tsName, ResourcesPage.RESOURCE_TYPE_TIME_SERIES)
 
         deleteResources([dbName, fsName, csName, tsName])
+    }
+
+    /**
+     * User can delete resources and files on disk.
+     * @Step Navigate to resources page
+     * @Step Create new resources.
+     * @Step Delete resource selecting "Delete everything" option.
+     * @verification Resource deleted and files on disk removed.
+     */
+    @Test(groups="Smoke",dependsOnMethods="canCreateAndDeleteDatabaseWithDefaultConfiguration")
+    void canDeleteResourceAndFilesOnDisk() {
+        at ResourcesPage
+
+        String dbName = "db" + rand.nextInt()
+        createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        getResourceLink(dbName).click()
+        waitFor { at DocumentsPage }
+
+        newDocumentButton.click()
+        waitFor { at NewDocumentPage }
+
+        CharSequence documentName = "doc" + rand.nextInt()
+        createAndSaveDocument(documentName)
+
+        topNavigation.resourcesLink.click()
+        waitFor { at ResourcesPage }
+
+        checkAndDeleteResource(dbName, deleteResourceModalDialog.DELETE_OPTION_DELETE_EVERYTING)
+
+        createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        getResourceLink(dbName).click()
+        waitFor { at DocumentsPage }
+        sleep(5000)
+
+        collectionsList.size() == 2
+        documentsList.size() == 0
     }
 }
