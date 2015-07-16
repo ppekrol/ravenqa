@@ -25,10 +25,6 @@ class ResourcesTest extends TestBase {
         String lastCreatedDatabaseName = "db" + rand.nextInt()
         createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
 
-        waitFor(message: "Database "+lastCreatedDatabaseName+" not found on the list.") {
-            getResourceLink(lastCreatedDatabaseName)
-        }
-
         getResourceLink(lastCreatedDatabaseName).click()
         waitFor { at DocumentsPage }
 
@@ -54,10 +50,6 @@ class ResourcesTest extends TestBase {
 
         String lastCreatedFilesystemName = "fs" + rand.nextInt()
         createResource(lastCreatedFilesystemName, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
-
-        waitFor(message: "Filesystem "+lastCreatedFilesystemName+" not found on the list.") {
-            getResourceLink(lastCreatedFilesystemName)
-        }
 
         getResourceLink(lastCreatedFilesystemName).click()
         waitFor { at FileSystemPage }
@@ -85,10 +77,6 @@ class ResourcesTest extends TestBase {
         String lastCreatedCounterStorageName = "cs" + rand.nextInt()
         createResource(lastCreatedCounterStorageName, ResourcesPage.RESOURCE_TYPE_COUNTER_STORAGE)
 
-        waitFor(message: "Counter storage "+lastCreatedCounterStorageName+" not found on the list.") {
-            getResourceLink(lastCreatedCounterStorageName)
-        }
-
         getResourceLink(lastCreatedCounterStorageName).click()
         waitFor { at CounterStoragePage }
 
@@ -115,10 +103,6 @@ class ResourcesTest extends TestBase {
         String lastCreatedTimeSeriesName = "ts" + rand.nextInt()
         createResource(lastCreatedTimeSeriesName, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
 
-        waitFor(message: "Time series "+lastCreatedTimeSeriesName+" not found on the list.") {
-            getResourceLink(lastCreatedTimeSeriesName)
-        }
-
         getResourceLink(lastCreatedTimeSeriesName).click()
         waitFor { at FileSystemPage }
 
@@ -141,10 +125,6 @@ class ResourcesTest extends TestBase {
 
         String lastCreatedDatabaseName = "db" + rand.nextInt()
         createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
-
-        waitFor(message: "Database "+lastCreatedDatabaseName+" not found on the list.") {
-            getResourceLink(lastCreatedDatabaseName)
-        }
 
         searchInput = lastCreatedDatabaseName
         def visibleResourcesCount = 0
@@ -177,27 +157,15 @@ class ResourcesTest extends TestBase {
 
         String dbName = "db" + rand.nextInt()
         createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
-        waitFor(message: "Database "+dbName+" not found on the list.") {
-            getResourceLink(dbName)
-        }
 
         String fsName = "fs" + rand.nextInt()
         createResource(fsName, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
-        waitFor(message: "Filesystem "+fsName+" not found on the list.") {
-            getResourceLink(fsName)
-        }
 
         String csName = "cs" + rand.nextInt()
         createResource(csName, ResourcesPage.RESOURCE_TYPE_COUNTER_STORAGE)
-        waitFor(message: "Counter Storage "+csName+" not found on the list.") {
-            getResourceLink(csName)
-        }
 
         String tsName = "ts" + rand.nextInt()
         createResource(tsName, ResourcesPage.RESOURCE_TYPE_TIME_SERIES)
-        waitFor(message: "Time Series "+tsName+" not found on the list.") {
-            getResourceLink(tsName)
-        }
 
         searchInput = ""
         filterSelect = ResourcesPage.FILTER_OPTION_DATABASES
@@ -223,6 +191,40 @@ class ResourcesTest extends TestBase {
         assert !getResourceLink(fsName)
         assert !getResourceLink(csName)
         assert getResourceLink(tsName)
+    }
 
+
+    /**
+     * User can delete multiple resources.
+     * @Step Navigate to resources page
+     * @Step Create new resources.
+     * @Step Select all created resources.
+     * @Step Click trash button.
+     * @verification Resources deleted.
+     */
+    @Test(
+        groups="Smoke",
+        dependsOnMethods=[
+            "canCreateAndDeleteDatabaseWithDefaultConfiguration",
+            "canCreateAndDeleteFilesystemWithDefaultConfiguration",
+            "canCreateAndDeleteCounterStorageWithDefaultConfiguration"
+            ]
+        )
+    void canDeleteMultipleResources() {
+        at ResourcesPage
+
+        String dbName = "db" + rand.nextInt()
+        createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        String fsName = "fs" + rand.nextInt()
+        createResource(fsName, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
+
+        String csName = "cs" + rand.nextInt()
+        createResource(csName, ResourcesPage.RESOURCE_TYPE_COUNTER_STORAGE)
+
+        String tsName = "ts" + rand.nextInt()
+        createResource(tsName, ResourcesPage.RESOURCE_TYPE_TIME_SERIES)
+
+        deleteResources([dbName, fsName, csName, tsName])
     }
 }

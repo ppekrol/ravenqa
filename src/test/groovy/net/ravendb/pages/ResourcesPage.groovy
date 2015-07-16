@@ -43,6 +43,12 @@ class ResourcesPage extends Page {
         resourceCheckboxSelector { "div.checkbox" }
     }
 
+    def checkResources(List<String> resourcesNames) {
+        resourcesNames.each {
+            checkResource(it)
+        }
+    }
+
     def checkResource(String resourceName) {
         def checkbox
         resourceContainer.each {
@@ -97,6 +103,22 @@ class ResourcesPage extends Page {
 
         createResourceModalDialog.createButton.click()
         waitFor { createNewResourceButton.displayed }
+
+        waitFor(message: "Resource "+name+" not found on the list.") {
+            getResourceLink(name)
+        }
+    }
+
+    def deleteResources(List<String> names) {
+        checkResources(names)
+
+        deleteButton.click()
+        waitFor { deleteResourceModalDialog.header.displayed }
+        deleteResourceModalDialog.confirmButton.click()
+
+        names.each {
+            waitFor { !getResourceLink(it) }
+        }
     }
 
     def deleteResource(String name) {
