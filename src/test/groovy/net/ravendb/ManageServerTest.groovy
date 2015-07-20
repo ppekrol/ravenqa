@@ -3,6 +3,7 @@ package net.ravendb
 import java.awt.Robot
 import java.awt.event.KeyEvent
 
+import net.ravendb.modules.ManageServerPeriodicExport
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.ManageServerAdminLogsPage
 import net.ravendb.pages.ManageServerAdministratorJsConsolePage
@@ -108,16 +109,16 @@ class ManageServerTest extends TestBase {
         menu.globalConfigurationLink.click()
         waitFor { at ManageServerGlobalConfigurationPage }
 
-        createPeriodicExportToFilesystemConfiguration(
+        periodicExport.createPeriodicExportToFilesystemConfiguration(
             true,
             "test",
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            ManageServerPeriodicExport.INTERVAL_OPTION_MINUTES,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+            ManageServerPeriodicExport.INTERVAL_OPTION_DAYS
         )
 
-        deletePeriodicExportGlobalConfiuration()
+        periodicExport.deletePeriodicExportGlobalConfiuration()
     }
 
     /**
@@ -137,20 +138,20 @@ class ManageServerTest extends TestBase {
         menu.globalConfigurationLink.click()
         waitFor { at ManageServerGlobalConfigurationPage }
 
-        createPeriodicExportToRemoteServerConfiguration(
+        periodicExport.createPeriodicExportToRemoteServerConfiguration(
             true,
-            ManageServerGlobalConfigurationPage.REMOTE_SERVER_GLACIER,
+            ManageServerPeriodicExport.REMOTE_SERVER_GLACIER,
             "test-glacier",
             "AWSAccount",
             "AWSKey",
-            ManageServerGlobalConfigurationPage.AWS_REGION_US_EAST_1,
+            ManageServerPeriodicExport.AWS_REGION_US_EAST_1,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            ManageServerPeriodicExport.INTERVAL_OPTION_MINUTES,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+            ManageServerPeriodicExport.INTERVAL_OPTION_DAYS
         )
 
-        deletePeriodicExportGlobalConfiuration()
+        periodicExport.deletePeriodicExportGlobalConfiuration()
     }
 
     /**
@@ -170,20 +171,20 @@ class ManageServerTest extends TestBase {
         menu.globalConfigurationLink.click()
         waitFor { at ManageServerGlobalConfigurationPage }
 
-        createPeriodicExportToRemoteServerConfiguration(
+        periodicExport.createPeriodicExportToRemoteServerConfiguration(
             true,
-            ManageServerGlobalConfigurationPage.REMOTE_SERVER_S3,
+            ManageServerPeriodicExport.REMOTE_SERVER_S3,
             "test-s3",
             "AWSAccount",
             "AWSKey",
-            ManageServerGlobalConfigurationPage.AWS_REGION_US_EAST_1,
+            ManageServerPeriodicExport.AWS_REGION_US_EAST_1,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            ManageServerPeriodicExport.INTERVAL_OPTION_MINUTES,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+            ManageServerPeriodicExport.INTERVAL_OPTION_DAYS
         )
 
-        deletePeriodicExportGlobalConfiuration()
+        periodicExport.deletePeriodicExportGlobalConfiuration()
     }
 
     /**
@@ -203,19 +204,19 @@ class ManageServerTest extends TestBase {
         menu.globalConfigurationLink.click()
         waitFor { at ManageServerGlobalConfigurationPage }
 
-        createPeriodicExportToRemoteServerConfiguration(
+        periodicExport.createPeriodicExportToRemoteServerConfiguration(
             true,
-            ManageServerGlobalConfigurationPage.REMOTE_SERVER_AZURE,
+            ManageServerPeriodicExport.REMOTE_SERVER_AZURE,
             "test-azure",
             "AWSAccount",
             "AWSKey",
-            ManageServerGlobalConfigurationPage.AWS_REGION_US_EAST_1,
+            ManageServerPeriodicExport.AWS_REGION_US_EAST_1,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            ManageServerPeriodicExport.INTERVAL_OPTION_MINUTES,
             1,
-            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+            ManageServerPeriodicExport.INTERVAL_OPTION_DAYS
         )
 
-        deletePeriodicExportGlobalConfiuration()
+        periodicExport.deletePeriodicExportGlobalConfiuration()
     }
 }
