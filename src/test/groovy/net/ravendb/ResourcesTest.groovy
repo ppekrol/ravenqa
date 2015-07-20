@@ -120,7 +120,7 @@ class ResourcesTest extends TestBase {
      * @Step Search for resource.
      * @verification Resource found.
      */
-    @Test(groups="Smoke")
+    @Test(groups="Smoke",dependsOnMethods="canCreateAndDeleteDatabaseWithDefaultConfiguration")
     void canSearchResource() {
         at ResourcesPage
 
@@ -264,5 +264,28 @@ class ResourcesTest extends TestBase {
 
         collectionsList.size() == 2
         documentsList.size() == 0
+    }
+
+    /**
+     * User can disable and enable resource.
+     * @Step Navigate to resources page.
+     * @Step Create new resource.
+     * @Step Disable and then enable resource.
+     * @verification Resource disabled and enabled.
+     */
+    @Test(
+        groups="Smoke",
+        enabled=false,
+        dependsOnMethods="canCreateAndDeleteDatabaseWithDefaultConfiguration"
+        )
+    void canDisableEnableResource() {
+        at ResourcesPage
+
+        String dbName = "db" + rand.nextInt()
+        createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        disable(dbName)
+
+        enable(dbName)
     }
 }

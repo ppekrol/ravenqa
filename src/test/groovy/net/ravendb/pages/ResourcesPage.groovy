@@ -20,6 +20,10 @@ class ResourcesPage extends Page {
     final static String FILTER_OPTION_COUNTER_STORAGE = "counterstorage"
     final static String FILTER_OPTION_TIME_SERIES = "timeSeries"
 
+    private resourceDiv
+    private resourceDropdownButton
+    private resourceTakedownMenuOption
+
     static at = {
         createNewResourceButton
     }
@@ -41,6 +45,47 @@ class ResourcesPage extends Page {
         resourceContainer(required:false) { $("div.resource") }
         resourceNameContainerSelector { "a.resource-name span" }
         resourceCheckboxSelector { "div.checkbox" }
+        resourceDropdownButtonSelector { "a.dropdown-toggle" }
+        resourceDropDownTakedownsSelector { "li.dropdown-submenu" }
+        resourceDropDownDisableEnableSelector { "span[data-bind=\"text: disabled() ? 'Enable' : 'Disable'\"]" }
+        resourceDisabledTextContainerSelector { "span.stats-disabled" }
+    }
+
+    def getResource(String resourceName) {
+        resourceContainer.each {
+            if(it.find(resourceNameContainerSelector).text().equals(resourceName)) {
+                resourceDiv = it
+                resourceDropdownButton = it.find(resourceDropdownButtonSelector)
+                resourceTakedownMenuOption = it.find(resourceDropDownTakedownsSelector)
+            }
+        }
+        assert resourceDiv
+        assert resourceDropdownButton
+        assert resourceTakedownMenuOption
+    }
+
+    def disable(String resourceName) {
+        getResource(resourceName)
+
+        resourceDropdownButton.click()
+
+        Actions actions = new Actions(browser.driver)
+        actions.moveToElement(resourceTakedownMenuOption.firstElement()).build().perform()
+
+        resourceDiv.find(resourceDropDownDisableEnableSelector).click()
+        waitFor { resourceDiv.find(resourceDisabledTextContainerSelector) }
+    }
+
+    def enable(String resourceName) {
+        getResource(resourceName)
+
+        resourceDropdownButton.click()
+
+        Actions actions = new Actions(browser.driver)
+        actions.moveToElement(resourceTakedownMenuOption.firstElement()).build().perform()
+
+        resourceDiv.find(resourceDropDownDisableEnableSelector).click()
+        waitFor { !resourceDiv.find(resourceDisabledTextContainerSelector) }
     }
 
     def checkResources(List<String> resourcesNames) {
