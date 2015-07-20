@@ -90,4 +90,35 @@ class ManageServerTest extends TestBase {
         menu.areYouSureModalDialog.okButton.click()
         waitFor { at DocumentsPage }
     }
+
+
+    /**
+     * User can create and delete Global Configuration for Periodic Export.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Periodic Export configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(groups="Smoke")
+    void canCreateAndDeleteGlobalConfigurationForPeriodicExportToFilesystem() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        createPeriodicExportToFilesystemConfiguration(
+            true,
+            true,
+            "test",
+            1,
+            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            1,
+            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+        )
+
+        deletePeriodicExportGlobalConfiuration()
+    }
 }

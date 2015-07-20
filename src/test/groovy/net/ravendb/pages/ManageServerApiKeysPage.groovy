@@ -7,13 +7,13 @@ import geb.Page
 class ManageServerApiKeysPage extends Page {
 
     static at = {
-        createNewAPiKeyButton
+        createNewAPIKeyButton
         menu
     }
 
     static content = {
         menu { module ManageServerMenu }
 
-        createNewAPiKeyButton { $("button[title='Create a new API Key (Alt+N)']") }
+        createNewAPIKeyButton { $("button[title='Create a new API Key (Alt+N)']") }
     }
 }
