@@ -140,7 +140,73 @@ class ManageServerTest extends TestBase {
         createPeriodicExportToRemoteServerConfiguration(
             true,
             ManageServerGlobalConfigurationPage.REMOTE_SERVER_GLACIER,
-            "testGlacier",
+            "test-glacier",
+            "AWSAccount",
+            "AWSKey",
+            ManageServerGlobalConfigurationPage.AWS_REGION_US_EAST_1,
+            1,
+            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            1,
+            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+        )
+
+        deletePeriodicExportGlobalConfiuration()
+    }
+
+    /**
+     * User can create and delete Global Configuration for Periodic Export to S3.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Periodic Export configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(groups="Smoke")
+    void canCreateAndDeleteGlobalConfigurationForPeriodicExportToS3() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        createPeriodicExportToRemoteServerConfiguration(
+            true,
+            ManageServerGlobalConfigurationPage.REMOTE_SERVER_S3,
+            "test-s3",
+            "AWSAccount",
+            "AWSKey",
+            ManageServerGlobalConfigurationPage.AWS_REGION_US_EAST_1,
+            1,
+            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
+            1,
+            ManageServerGlobalConfigurationPage.INTERVAL_OPTION_DAYS
+        )
+
+        deletePeriodicExportGlobalConfiuration()
+    }
+
+    /**
+     * User can create and delete Global Configuration for Periodic Export to Azure.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Periodic Export configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(groups="Smoke")
+    void canCreateAndDeleteGlobalConfigurationForPeriodicExportToAzure() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        createPeriodicExportToRemoteServerConfiguration(
+            true,
+            ManageServerGlobalConfigurationPage.REMOTE_SERVER_AZURE,
+            "test-azure",
             "AWSAccount",
             "AWSKey",
             ManageServerGlobalConfigurationPage.AWS_REGION_US_EAST_1,

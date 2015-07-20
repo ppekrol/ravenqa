@@ -63,6 +63,8 @@ class ManageServerGlobalConfigurationPage extends Page {
         periodicExportAwsAccessKeyInput(required:false) { $("input#awsAccessKey") }
         periodicExportAwsSecretKeyInput(required:false) { $("input#awsSecretKey") }
         periodicExportAwsRegionSelect(required:false) { $("select#awsRegionEndpoint") }
+        periodicExportAzureStorageAccount(required:false) { $("input#azureStorageAccount") }
+        periodicExportAzureStorageKey(required:false) { $("input#azureStorageKey") }
     }
 
     def createPeriodicExportToFilesystemConfiguration(
@@ -176,11 +178,19 @@ class ManageServerGlobalConfigurationPage extends Page {
             periodicExportUploadToServerYes.click()
             periodicExportRemoteServerName = serverName
             periodicExportRemoteServerResourceNameInput = resourceName
+
             switch(serverName) {
-                case this.REMOTE_SERVER_GLACIER:
+                case ManageServerGlobalConfigurationPage.REMOTE_SERVER_GLACIER:
+                case ManageServerGlobalConfigurationPage.REMOTE_SERVER_S3:
                     periodicExportAwsAccessKeyInput = account
                     periodicExportAwsSecretKeyInput = secretKey
-                    periodicExportAwsRegionSelect = awsRegion
+                    if(awsRegion) {
+                        periodicExportAwsRegionSelect = awsRegion
+                    }
+                    break
+                case ManageServerGlobalConfigurationPage.REMOTE_SERVER_AZURE:
+                    periodicExportAzureStorageAccount = account
+                    periodicExportAzureStorageKey = secretKey
                     break
             }
         }
