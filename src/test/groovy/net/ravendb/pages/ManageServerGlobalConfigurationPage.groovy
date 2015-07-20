@@ -1,10 +1,9 @@
 package net.ravendb.pages
 
 import geb.Page
-import net.ravendb.modules.AlertTextModule
 import net.ravendb.modules.ManageServerMenu
 import net.ravendb.modules.ManageServerPeriodicExport
-import net.ravendb.modules.YesNoModalDialog
+import net.ravendb.modules.ManageServerReplication
 
 
 class ManageServerGlobalConfigurationPage extends Page {
@@ -18,6 +17,7 @@ class ManageServerGlobalConfigurationPage extends Page {
         //modules
         menu { module ManageServerMenu }
         periodicExport { module ManageServerPeriodicExport }
+        replication { module ManageServerReplication }
 
         // tabs
         periodicExportTab { $("a[href='#admin/settings/globalConfig']") }
