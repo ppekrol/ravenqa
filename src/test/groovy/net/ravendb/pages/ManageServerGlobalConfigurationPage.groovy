@@ -85,6 +85,7 @@ class ManageServerGlobalConfigurationPage extends Page {
             null,
             null,
             null,
+            null,
             incrementalBackupInterval,
             incrementalBackupIntervalUnit,
             fullBackupInterval,
@@ -106,6 +107,7 @@ class ManageServerGlobalConfigurationPage extends Page {
         String resourceName,
         String account,
         String secretKey,
+        String awsRegion,
         int incrementalBackupInterval,
         String incrementalBackupIntervalUnit,
         int fullBackupInterval,
@@ -123,6 +125,7 @@ class ManageServerGlobalConfigurationPage extends Page {
             resourceName,
             account,
             secretKey,
+            awsRegion,
             incrementalBackupInterval,
             incrementalBackupIntervalUnit,
             fullBackupInterval,
@@ -155,6 +158,7 @@ class ManageServerGlobalConfigurationPage extends Page {
         String resourceName,
         String account,
         String secretKey,
+        String awsRegion,
         int incrementalBackupInterval,
         String incrementalBackupIntervalUnit,
         int fullBackupInterval,
@@ -176,6 +180,7 @@ class ManageServerGlobalConfigurationPage extends Page {
                 case this.REMOTE_SERVER_GLACIER:
                     periodicExportAwsAccessKeyInput = account
                     periodicExportAwsSecretKeyInput = secretKey
+                    periodicExportAwsRegionSelect = awsRegion
                     break
             }
         }
