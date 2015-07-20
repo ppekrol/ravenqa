@@ -1,5 +1,6 @@
 package net.ravendb.pages
 
+import sun.security.ssl.ServerNameExtension.ServerName;
 import geb.Page
 import net.ravendb.modules.AlertTextModule
 import net.ravendb.modules.ManageServerMenu
@@ -11,6 +12,18 @@ class ManageServerGlobalConfigurationPage extends Page {
     final static String INTERVAL_OPTION_MINUTES = "minutes"
     final static String INTERVAL_OPTION_HOURS = "hours"
     final static String INTERVAL_OPTION_DAYS = "days"
+
+    final static String REMOTE_SERVER_GLACIER = "glacierVault"
+    final static String REMOTE_SERVER_S3 = "s3bucket"
+    final static String REMOTE_SERVER_AZURE = "azureStorage"
+
+    final static String AWS_REGION_US_EAST_1 = "us-east-1"
+    final static String AWS_REGION_US_WEST_1 = "us-west-1"
+    final static String AWS_REGION_US_WEST_2 = "us-west-2"
+    final static String AWS_REGION_EU_WEST_1 = "eu-west-1"
+    final static String AWS_REGION_AP_NORTHEAST_1 = "ap-northeast-1"
+    final static String AWS_REGION_AP_SOUTHEASTT_1 = "ap-southeast-1"
+    final static String AWS_REGION_SA_EAST_1 = "sa-east-1"
 
     static at = {
         periodicExportTab
@@ -44,12 +57,16 @@ class ManageServerGlobalConfigurationPage extends Page {
         periodicExportIncrementalBackupIntervalInput(required:false) { $("input#incrementalBackupInterval") }
         periodicExportIncrementalBackupIntervalSelect { $("label", text:"Incremental Backup Interval:").siblings()[1].$("select") }
         periodicExportFullBackupIntervalInput(required:false) { $("input#fullBackupInterval") }
-        periodicExportFullBackupIntervalSelect { $("label", text:"Full Backup Interval:").siblings()[1].$("select") }
+        periodicExportFullBackupIntervalSelect(required:false) { $("label", text:"Full Backup Interval:").siblings()[1].$("select") }
+        periodicExportRemoteServerName(required:false) { $("div[data-bind='if: remoteUploadEnabled, visible: remoteUploadEnabled']").$("select") }
+        periodicExportRemoteServerResourceNameInput(required:false) { $("div[data-bind='if: remoteUploadEnabled, visible: remoteUploadEnabled']").$("input")[0] }
+        periodicExportAwsAccessKeyInput(required:false) { $("input#awsAccessKey") }
+        periodicExportAwsSecretKeyInput(required:false) { $("input#awsSecretKey") }
+        periodicExportAwsRegionSelect(required:false) { $("select#awsRegionEndpoint") }
     }
 
     def createPeriodicExportToFilesystemConfiguration(
         boolean enabled,
-        boolean onDiskExport,
         String onDiskFolder,
         int incrementalBackupInterval,
         String incrementalBackupIntervalUnit,
@@ -59,17 +76,58 @@ class ManageServerGlobalConfigurationPage extends Page {
         createGlobalConfigurationForPeriodicExportButton.click()
         waitFor { periodicExportEnabledButton.displayed }
 
-        periodicExportEnabledButton.click()
-        enabled ? periodicExportEnabledYes.click() : periodicExportEnabledNo.click()
-        periodicExportOnDiskExportButton.click()
-        onDiskExport ? periodicExportOnDiskExportYes.click() : periodicExportOnDiskExportNo.click()
-        periodicExportOnDiskExportFolder = onDiskFolder
+        fillForm(
+            enabled,
+            true,
+            onDiskFolder,
+            false,
+            null,
+            null,
+            null,
+            null,
+            incrementalBackupInterval,
+            incrementalBackupIntervalUnit,
+            fullBackupInterval,
+            fullBackupIntervalUnit
+            )
 
-        periodicExportIncrementalBackupIntervalInput = incrementalBackupInterval
-        periodicExportIncrementalBackupIntervalSelect = incrementalBackupIntervalUnit
+        waitFor { saveButton.displayed }
+        saveButton.click()
 
-        periodicExportFullBackupIntervalInput = fullBackupInterval
-        periodicExportFullBackupIntervalSelect = fullBackupIntervalUnit
+        waitFor {
+            saveButton.@disabled == "true"
+            removeGlobalConfigurationForPeriodicExportButton.displayed
+        }
+    }
+
+    def createPeriodicExportToRemoteServerConfiguration(
+        boolean enabled,
+        String serverName,
+        String resourceName,
+        String account,
+        String secretKey,
+        int incrementalBackupInterval,
+        String incrementalBackupIntervalUnit,
+        int fullBackupInterval,
+        String fullBackupIntervalUnit
+        ) {
+        createGlobalConfigurationForPeriodicExportButton.click()
+        waitFor { periodicExportEnabledButton.displayed }
+
+        fillForm(
+            enabled,
+            false,
+            null,
+            true,
+            serverName,
+            resourceName,
+            account,
+            secretKey,
+            incrementalBackupInterval,
+            incrementalBackupIntervalUnit,
+            fullBackupInterval,
+            fullBackupIntervalUnit
+            )
 
         waitFor { saveButton.displayed }
         saveButton.click()
@@ -86,5 +144,46 @@ class ManageServerGlobalConfigurationPage extends Page {
 
         yesNoDialog.yesButton.click()
         waitFor { createGlobalConfigurationForPeriodicExportButton.displayed }
+    }
+
+    private fillForm(
+        boolean enabled,
+        boolean onDiskExport,
+        String onDiskFolder,
+        boolean uploadToServer,
+        String serverName,
+        String resourceName,
+        String account,
+        String secretKey,
+        int incrementalBackupInterval,
+        String incrementalBackupIntervalUnit,
+        int fullBackupInterval,
+        String fullBackupIntervalUnit
+        ) {
+        periodicExportEnabledButton.click()
+        enabled ? periodicExportEnabledYes.click() : periodicExportEnabledNo.click()
+        periodicExportOnDiskExportButton.click()
+
+        onDiskExport ? periodicExportOnDiskExportYes.click() : periodicExportOnDiskExportNo.click()
+        onDiskExport ? periodicExportOnDiskExportFolder = onDiskFolder : null
+
+        periodicExportUploadToServerButton.click()
+        if(uploadToServer) {
+            periodicExportUploadToServerYes.click()
+            periodicExportRemoteServerName = serverName
+            periodicExportRemoteServerResourceNameInput = resourceName
+            switch(serverName) {
+                case this.REMOTE_SERVER_GLACIER:
+                    periodicExportAwsAccessKeyInput = account
+                    periodicExportAwsSecretKeyInput = secretKey
+                    break
+            }
+        }
+
+        periodicExportIncrementalBackupIntervalInput = incrementalBackupInterval
+        periodicExportIncrementalBackupIntervalSelect = incrementalBackupIntervalUnit
+
+        periodicExportFullBackupIntervalInput = fullBackupInterval
+        periodicExportFullBackupIntervalSelect = fullBackupIntervalUnit
     }
 }

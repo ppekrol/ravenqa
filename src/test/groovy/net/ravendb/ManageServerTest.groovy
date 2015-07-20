@@ -111,7 +111,6 @@ class ManageServerTest extends TestBase {
 
         createPeriodicExportToFilesystemConfiguration(
             true,
-            true,
             "test",
             1,
             ManageServerGlobalConfigurationPage.INTERVAL_OPTION_MINUTES,
