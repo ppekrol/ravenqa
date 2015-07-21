@@ -27,6 +27,7 @@ abstract class TestBase extends GebReportingTest {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         String date = formatter.format(new Date())
         ((JavascriptExecutor)browser.driver).executeScript("window.localStorage.setItem('LastServerBuildReminder', '${date}')")
+        ((JavascriptExecutor)browser.driver).executeScript("window.localStorage.setItem('ChangesApiWarnDisabled', true)")
 
         try {
             waitFor { at LandingPage }

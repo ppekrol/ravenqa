@@ -4,6 +4,7 @@ import java.awt.Robot
 import java.awt.event.KeyEvent
 
 import net.ravendb.modules.ManageServerPeriodicExport
+import net.ravendb.modules.ManageServerReplication
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.ManageServerAdminLogsPage
 import net.ravendb.pages.ManageServerAdministratorJsConsolePage
@@ -218,5 +219,42 @@ class ManageServerTest extends TestBase {
         )
 
         periodicExport.deletePeriodicExportGlobalConfiuration()
+    }
+
+    /**
+     * User can create and delete Global Configuration for Replication with single destination.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Replication configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(groups="Smoke")
+    void canCreateAndDeleteReplicationWithOneDestination() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        replicationTab.click()
+        replication.createGlobalConfigurationForReplication.click()
+
+        replication.fillBaseForm(
+            ManageServerReplication.CLIENT_FAILOVER_ALLOW_READS_FROM_SECONDARIES,
+            ManageServerReplication.CONFLICT_RESOLUTION_LOCAL
+            )
+
+        replication.addDestination(
+            true,
+            "http://localhost:8080",
+            ManageServerReplication.CREDENTIALS_NONE,
+            false
+            )
+
+        replication.save()
+
+        replication.remove()
     }
 }
