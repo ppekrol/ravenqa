@@ -23,7 +23,7 @@ class ManageServerReplication extends Module {
 
     final static String CREDENTIALS_NONE = "None"
     final static String CREDENTIALS_USER = "User"
-    final static String CREDENTIALS_API = "API Key"
+    final static String CREDENTIALS_API = "API key"
 
     final static String FAILOVER_INCLUDE = "Include"
     final static String FAILOVER_SKIP = "Skip"
@@ -58,12 +58,16 @@ class ManageServerReplication extends Module {
         destinationContainerCredentialsButtonIndex { 2 }
         destinationContainerCredentialsOptionsIndex { 1 }
         destinationContainerAdvancedLinkSelector { "a.advanced-replication-settings" }
-        destinationContainerClientVisibleUrl { "input[data-bind='value: clientVisibleUrl, valueUpdate: \'afterkeydown\'']" }
+        destinationContainerClientVisibleUrl { "input[data-bind=\"value: clientVisibleUrl, valueUpdate: 'afterkeydown'\"]" }
         destinationContainerSkipIndexReplicationCheckboxSelector { "input[role='checkbox']" }
         destinationContainerFailoverButtonIndex { 3 }
         destinationContainerFailoverButtonOptionsIndex { 2 }
         destinationContainerTransitiveReplicationButtonIndex { 4 }
         destinationContainerTransitiveReplicationOptionsIndex { 3 }
+        destinationContainerUsernameInput { $("input[data-bind=\"value: username, valueUpdate: 'afterkeydown'\"]") }
+        destinationContainerPasswordInput { $("input[data-bind=\"value: password, valueUpdate: 'afterkeydown'\"]") }
+        destinationContainerDomainInput { $("input[data-bind=\"value: domain, valueUpdate: 'afterkeydown'\"]") }
+        destinationContainserAPIKeyInput { $("input[data-bind=\"value: apiKey, valueUpdate: 'afterkeydown'\"]") }
     }
 
     def fillBaseForm(String clientBehaviour, CharSequence conflictResolution) {
@@ -92,7 +96,11 @@ class ManageServerReplication extends Module {
         boolean enabled,
         String url,
         String credentials,
-        boolean advanced
+        String username = null,
+        String password = null,
+        String domain = null,
+        String APIKey = null,
+        boolean advanced = false
         ) {
 
         addDestinationButton.click()
@@ -126,6 +134,17 @@ class ManageServerReplication extends Module {
         }
         assert toClick
         toClick.click()
+
+        switch(credentials) {
+            case ManageServerReplication.CREDENTIALS_USER:
+                destinationContainerUsernameInput = username
+                destinationContainerPasswordInput = password
+                destinationContainerDomainInput = domain
+                break
+            case ManageServerReplication.CREDENTIALS_API:
+                destinationContainserAPIKeyInput = APIKey
+                break
+        }
     }
 
     def save() {

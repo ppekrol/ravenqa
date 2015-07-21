@@ -250,8 +250,7 @@ class ManageServerTest extends TestBase {
         replication.addDestination(
             true,
             "http://localhost:8080",
-            ManageServerReplication.CREDENTIALS_NONE,
-            false
+            ManageServerReplication.CREDENTIALS_NONE
             )
 
         replication.save()
@@ -288,15 +287,70 @@ class ManageServerTest extends TestBase {
         replication.addDestination(
             true,
             "http://localhost:8080",
-            ManageServerReplication.CREDENTIALS_NONE,
-            false
+            ManageServerReplication.CREDENTIALS_NONE
             )
 
         replication.addDestination(
             true,
             "http://localhost:8081",
-            ManageServerReplication.CREDENTIALS_NONE,
-            false
+            ManageServerReplication.CREDENTIALS_NONE
+            )
+
+        replication.save()
+
+        replication.remove()
+    }
+
+
+    /**
+     * User can create and delete Global Configuration for Replication with credentials.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Replication configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(
+        groups="Smoke",
+        dependsOnMethods=[
+            "canCreateAndDeleteReplicationWithOneDestination",
+            "canCreateAndDeleteReplicationWithMultipleDestinations"
+            ]
+        )
+    void canCreateAndDeleteReplicationWithCredentials() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        replicationTab.click()
+        waitFor { replication.createGlobalConfigurationForReplication.displayed }
+        replication.createGlobalConfigurationForReplication.click()
+
+        replication.fillBaseForm(
+            ManageServerReplication.CLIENT_FAILOVER_FAILS_IMMEDIATELY,
+            ManageServerReplication.CONFLICT_RESOLUTION_REMOTE
+            )
+
+        replication.addDestination(
+            true,
+            "http://localhost:8080",
+            ManageServerReplication.CREDENTIALS_USER,
+            "username",
+            "password",
+            "domain"
+            )
+
+        replication.addDestination(
+            true,
+            "http://localhost:8081",
+            ManageServerReplication.CREDENTIALS_API,
+            null,
+            null,
+            null,
+            "APIKey"
             )
 
         replication.save()
