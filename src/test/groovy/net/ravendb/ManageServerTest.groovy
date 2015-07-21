@@ -357,4 +357,53 @@ class ManageServerTest extends TestBase {
 
         replication.remove()
     }
+
+    /**
+     * User can create and delete Global Configuration for Replication with advanced options.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Replication configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(
+        groups="Smoke",
+        dependsOnMethods="canCreateAndDeleteReplicationWithOneDestination"
+        )
+    void canCreateAndDeleteReplicationWithAdvancedOptions() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        replicationTab.click()
+        waitFor { replication.createGlobalConfigurationForReplication.displayed }
+        replication.createGlobalConfigurationForReplication.click()
+
+        replication.fillBaseForm(
+            ManageServerReplication.CLIENT_FAILOVER_READ_FROM_ALL_SERVERS,
+            ManageServerReplication.CONFLICT_RESOLUTION_LOCAL
+            )
+
+        replication.addDestination(
+            true,
+            "http://localhost:8080",
+            ManageServerReplication.CREDENTIALS_NONE,
+            null,
+            null,
+            null,
+            null,
+            true,
+            "http://localhost:8081",
+            true,
+            ManageServerReplication.FAILOVER_SKIP,
+            ManageServerReplication.TRANSITIVE_REPLICATION_CHANGED_AND_REPLICATED
+            )
+
+        replication.save()
+
+        replication.remove()
+    }
 }

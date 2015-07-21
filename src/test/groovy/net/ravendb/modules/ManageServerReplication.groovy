@@ -1,6 +1,7 @@
 package net.ravendb.modules
 
 import geb.Module
+import net.ravendb.utils.HtmlUtils
 
 
 class ManageServerReplication extends Module {
@@ -58,7 +59,7 @@ class ManageServerReplication extends Module {
         destinationContainerCredentialsButtonIndex { 2 }
         destinationContainerCredentialsOptionsIndex { 1 }
         destinationContainerAdvancedLinkSelector { "a.advanced-replication-settings" }
-        destinationContainerClientVisibleUrl { "input[data-bind=\"value: clientVisibleUrl, valueUpdate: 'afterkeydown'\"]" }
+        destinationContainerClientVisibleUrlSelector { "input[data-bind=\"value: clientVisibleUrl, valueUpdate: 'afterkeydown'\"]" }
         destinationContainerSkipIndexReplicationCheckboxSelector { "input[role='checkbox']" }
         destinationContainerFailoverButtonIndex { 3 }
         destinationContainerFailoverButtonOptionsIndex { 2 }
@@ -100,9 +101,12 @@ class ManageServerReplication extends Module {
         String password = null,
         String domain = null,
         String APIKey = null,
-        boolean advanced = false
+        boolean advanced = false,
+        String clientUrl = null,
+        boolean skipIndexReplication = false,
+        String failover = null,
+        String transitiveReplication = null
         ) {
-
         addDestinationButton.click()
 
         def container = destinationContainers[0]
@@ -145,9 +149,41 @@ class ManageServerReplication extends Module {
                 destinationContainserAPIKeyInput = APIKey
                 break
         }
+
+        if(advanced) {
+            container.$(destinationContainerAdvancedLinkSelector).click()
+            waitFor { container.$(destinationContainerClientVisibleUrlSelector).displayed }
+
+            /// scroll down a bit
+            HtmlUtils.scrollIntoView(browser, container.$("button")[destinationContainerTransitiveReplicationButtonIndex])
+
+            container.$(destinationContainerClientVisibleUrlSelector) << clientUrl
+            skipIndexReplication ? container.$(destinationContainerSkipIndexReplicationCheckboxSelector).click() : null
+
+            container.$("button")[destinationContainerFailoverButtonIndex].click()
+            toClick = null
+            container.$("ul")[destinationContainerFailoverButtonOptionsIndex].$("a").each {
+                if(it.text() == failover) {
+                    toClick = it
+                }
+            }
+            assert toClick
+            toClick.click()
+
+            container.$("button")[destinationContainerTransitiveReplicationButtonIndex].click()
+            toClick = null
+            container.$("ul")[destinationContainerTransitiveReplicationOptionsIndex].$("a").each {
+                if(it.text() == transitiveReplication) {
+                    toClick = it
+                }
+            }
+            assert toClick
+            toClick.click()
+        }
     }
 
     def save() {
+        HtmlUtils.scrollToTop(browser)
         saveButton.click()
         waitFor(10, 0.1) {
             messagesContainer.containsMessage(ManageServerReplication.SUCCESS_MESSAGE)
@@ -157,6 +193,7 @@ class ManageServerReplication extends Module {
     }
 
     def remove() {
+        HtmlUtils.scrollToTop(browser)
         removeGlobalConfigurationForReplication.click()
         waitFor { yesNoDialog.yesButton.displayed }
 

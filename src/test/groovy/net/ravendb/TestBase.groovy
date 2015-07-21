@@ -8,6 +8,7 @@ import net.ravendb.pages.LandingPage
 import net.ravendb.pages.ResourcesPage
 
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.WebElement
 import org.testng.ITestContext
 import org.testng.annotations.BeforeGroups
 import org.testng.annotations.BeforeMethod
@@ -49,11 +50,5 @@ abstract class TestBase extends GebReportingTest {
     def setup(ITestContext context) {
         go browser.baseUrl
         waitFor {at ResourcesPage }
-    }
-
-    protected makeElementVisible(def element) {
-        // make file input visible (needs to be more than 10px x 10px for IE web driver)
-        String js = "arguments[0].style.height='20px'; arguments[0].style.width='20px'; arguments[0].style.visibility='visible'; arguments[0].style.display='block';arguments[0].style.opacity=1;"
-        ((JavascriptExecutor) browser.driver).executeScript(js, element.firstElement());
     }
 }
