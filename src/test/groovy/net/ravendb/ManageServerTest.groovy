@@ -239,6 +239,7 @@ class ManageServerTest extends TestBase {
         waitFor { at ManageServerGlobalConfigurationPage }
 
         replicationTab.click()
+        waitFor { replication.createGlobalConfigurationForReplication.displayed }
         replication.createGlobalConfigurationForReplication.click()
 
         replication.fillBaseForm(
@@ -249,6 +250,51 @@ class ManageServerTest extends TestBase {
         replication.addDestination(
             true,
             "http://localhost:8080",
+            ManageServerReplication.CREDENTIALS_NONE,
+            false
+            )
+
+        replication.save()
+
+        replication.remove()
+    }
+
+    /**
+     * User can create and delete Global Configuration for Replication with multiple destinations.
+     * @Step Click Manage Server button on Resources page.
+     * @Step Choose Global Configuration from left menu.
+     * @Step Create Replication configuration.
+     * @verification Configuration created and deleted.
+     */
+    @Test(groups="Smoke",dependsOnMethods="canCreateAndDeleteReplicationWithOneDestination")
+    void canCreateAndDeleteReplicationWithMultipleDestinations() {
+        at ResourcesPage
+
+        manageYourServerButton.click()
+        waitFor { at ManageServerPage }
+
+        menu.globalConfigurationLink.click()
+        waitFor { at ManageServerGlobalConfigurationPage }
+
+        replicationTab.click()
+        waitFor { replication.createGlobalConfigurationForReplication.displayed }
+        replication.createGlobalConfigurationForReplication.click()
+
+        replication.fillBaseForm(
+            ManageServerReplication.CLIENT_FAILOVER_ALLOW_READS_FROM_SECONDARIES_AND_WRITES_TO_SECONDARIES,
+            ManageServerReplication.CONFLICT_RESOLUTION_LATEST
+            )
+
+        replication.addDestination(
+            true,
+            "http://localhost:8080",
+            ManageServerReplication.CREDENTIALS_NONE,
+            false
+            )
+
+        replication.addDestination(
+            true,
+            "http://localhost:8081",
             ManageServerReplication.CREDENTIALS_NONE,
             false
             )

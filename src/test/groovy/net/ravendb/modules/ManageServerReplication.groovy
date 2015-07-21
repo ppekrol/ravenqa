@@ -40,8 +40,8 @@ class ManageServerReplication extends Module {
         container { $("form[data-view='views/manage/globalConfig/globalConfigReplications']") }
 
         saveButton { $("button[title='Save changes (Alt+S)']") }
-        createGlobalConfigurationForReplication { container.$("button", text:"Create global configuration for Replication") }
-        removeGlobalConfigurationForReplication { container.$("button", text:"Remove global configuration for Replication") }
+        createGlobalConfigurationForReplication { $("button", text:"Create global configuration for Replication") }
+        removeGlobalConfigurationForReplication { $("button", text:"Remove global configuration for Replication") }
 
         clientFailoverBehaviourButton { container.$("div[data-bind='with: replicationsSetup']").$("button")[0] }
         clientFailoverBehaviourOptions { container.$("ul")[0].$("a") }
@@ -97,7 +97,7 @@ class ManageServerReplication extends Module {
 
         addDestinationButton.click()
 
-        def container = destinationContainers[destinationContainers.size()-1]
+        def container = destinationContainers[0]
         assert container
 
         // set status
