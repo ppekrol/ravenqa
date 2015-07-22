@@ -6,10 +6,10 @@ import geb.Module
 class AlertTextModule extends Module {
 
     static content = {
-        alert { $("div.studio-alerts") }
+        alert(required:false) { $("div.studio-alerts") }
     }
 
     def containsMessage(CharSequence message) {
-        alert.text().contains(message)
+        alert.firstElement().getAttribute("innerHTML").contains(message)
     }
 }
