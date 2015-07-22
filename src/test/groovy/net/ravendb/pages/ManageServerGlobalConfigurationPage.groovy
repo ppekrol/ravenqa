@@ -7,6 +7,7 @@ import net.ravendb.modules.ManageServerMenu
 import net.ravendb.modules.ManageServerPeriodicExport
 import net.ravendb.modules.ManageServerQuotas
 import net.ravendb.modules.ManageServerReplication
+import net.ravendb.modules.ManageServerVersioning
 
 
 class ManageServerGlobalConfigurationPage extends Page {
@@ -24,6 +25,7 @@ class ManageServerGlobalConfigurationPage extends Page {
         sqlReplication { module ManageServeSQLReplication }
         quotas { module ManageServerQuotas }
         customFunctions { module ManageServerCustomFunctions }
+        versioning { module ManageServerVersioning }
 
         // tabs
         periodicExportTab { $("a[href='#admin/settings/globalConfig']") }
@@ -31,6 +33,6 @@ class ManageServerGlobalConfigurationPage extends Page {
         sqlReplicationTab { $("a[href='#admin/settings/globalConfigSqlReplication']") }
         quotasTab { $("a[href='#admin/settings/globalConfigQuotas']") }
         customFunctionsTab { $("a[href='#admin/settings/globalConfigCustomFunctions']") }
-        versionsTab { $("a[href='#admin/settings/globalConfigVersioning']") }
+        versioningTab { $("a[href='#admin/settings/globalConfigVersioning']") }
     }
 }
