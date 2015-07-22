@@ -4,6 +4,7 @@ import geb.Page
 import net.ravendb.modules.ManageServeSQLReplication
 import net.ravendb.modules.ManageServerMenu
 import net.ravendb.modules.ManageServerPeriodicExport
+import net.ravendb.modules.ManageServerQuotas
 import net.ravendb.modules.ManageServerReplication
 
 
@@ -20,6 +21,7 @@ class ManageServerGlobalConfigurationPage extends Page {
         periodicExport { module ManageServerPeriodicExport }
         replication { module ManageServerReplication }
         sqlReplication { module ManageServeSQLReplication }
+        quotas { module ManageServerQuotas }
 
         // tabs
         periodicExportTab { $("a[href='#admin/settings/globalConfig']") }
