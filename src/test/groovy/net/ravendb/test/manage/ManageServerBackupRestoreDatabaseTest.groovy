@@ -12,6 +12,13 @@ import org.testng.annotations.Test
 
 class ManageServerBackupRestoreDatabaseTest extends DatabaseWithSampleDataTestBase {
 
+    /**
+     * User can backup and restore Northwind database.
+     * @Step Navigate to resources page
+     * @Step Create new database and create sampke data.
+     * @Step Backup and restore databse.
+     * @verification Database backed up and restored.
+     */
     @Test(groups="Smoke")
     void canBackupAndRestoreDatabaseWithSampleData() {
         at DocumentsPage

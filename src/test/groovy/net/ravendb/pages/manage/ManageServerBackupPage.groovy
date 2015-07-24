@@ -28,9 +28,10 @@ class ManageServerBackupPage extends Page {
         counterStorageBackupButton { $("button", text:"Start File System Backup") }
 
         databaseNameInput { $("input[name='databaseName']") }
+        databaseLocationInput { $("input#location") }
         fileSystemNameInput { $("input[name='filesystemName']") }
+        fileSystemLocationInput { $("input#Text1") }
         couterStorageNameInput { $("input[name='countersstoragename']") }
-        locationInput { $("input#location") }
     }
 
     String backupBatabase(String name) {
@@ -40,10 +41,26 @@ class ManageServerBackupPage extends Page {
 
     String backupDatabase(String name, String location) {
         databaseNameInput = name
-        locationInput = location
+        databaseLocationInput = location
         startDatabaseBackupButton.click()
 
         messagesContainer.waitForMessage(DB_BACKUP_SUCCESS)
+
+        return location
+    }
+
+    String backupFileSystem(String name) {
+        String tmpPath = File.createTempDir().getAbsolutePath()
+        return backupFileSystem(name, tmpPath)
+    }
+
+    String backupFileSystem(String name, String location) {
+        fileSystemTab.click()
+        fileSystemNameInput = name
+        fileSystemLocationInput = location
+        startFileSystemBackupButton.click()
+
+        messagesContainer.waitForMessage(FS_BACKUP_SUCCESS)
 
         return location
     }

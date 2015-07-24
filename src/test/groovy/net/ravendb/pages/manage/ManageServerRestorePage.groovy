@@ -9,6 +9,7 @@ import net.ravendb.modules.manage.ManageServerMenu
 class ManageServerRestorePage extends Page {
 
     private final static String DB_RESTORE_SUCCESS = "Database was successfully restored!"
+    private final static String FS_RESTORE_SUCCESS = "File system was successfully restored!"
 
     static at = {
         restoreDatabaseButton
@@ -30,6 +31,8 @@ class ManageServerRestorePage extends Page {
 
         databaseBackupLocationInput { $("input#backupLocation") }
         databaseNameInput { $("input#databaseName") }
+        fileSystemBackupLocationInput { $("input#Text1") }
+        fileSystemNameInput { $("input#filesystemName") }
     }
 
     def restoreDatabase(String location, String name) {
@@ -38,5 +41,16 @@ class ManageServerRestorePage extends Page {
         restoreDatabaseButton.click()
 
         messagesContainer.waitForMessage(DB_RESTORE_SUCCESS)
+    }
+
+    def restoreFileSystem(String location, String name) {
+        fileSystemTab.click()
+        waitFor { fileSystemBackupLocationInput.displayed }
+
+        fileSystemBackupLocationInput = location
+        fileSystemNameInput = name
+        restoreFileSystemButton.click()
+
+        messagesContainer.waitForMessage(FS_RESTORE_SUCCESS)
     }
 }
