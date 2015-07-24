@@ -27,6 +27,7 @@ class ManageServerCustomFunctions extends Module {
 
     def save() {
         HtmlUtils.scrollToTop(browser)
+        sleep(1000)
         saveButton.click()
         waitFor(10, 0.1) {
             messagesContainer.containsMessage(ManageServerCustomFunctions.SUCCESS_MESSAGE)
