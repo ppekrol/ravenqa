@@ -17,7 +17,7 @@ class NewIndexPage extends Page {
 
     static content = {
         topNavigation { module TopNavigationBar }
-        alert { module AlertTextModule }
+        messagesContainer { module AlertTextModule }
 
         //tool bar
         saveButton { $("button[title='Save the index (Alt+S)']") }
@@ -37,6 +37,6 @@ class NewIndexPage extends Page {
         waitFor { !(saveButton.@disabled == 'true') }
         saveButton.click()
 
-        waitFor { alert.containsMessage("Saved " + name) }
+        messagesContainer.waitForMessage("Saved " + name)
     }
 }

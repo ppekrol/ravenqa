@@ -1,6 +1,7 @@
 package net.ravendb.modules
 
 import geb.Module
+import net.ravendb.pages.ResourcesPage
 
 
 class TopNavigationBar extends Module {
@@ -14,6 +15,12 @@ class TopNavigationBar extends Module {
 
         goToDocInput { $("input#goToDocInput") }
 
+        menuCaret { $("li.vertical-navbar-menu-item i.fa-caret-down") }
         resourcesLink { $("a[href='#resources']") }
+    }
+
+    def switchToResources() {
+        menuCaret.click()
+        resourcesLink.click()
     }
 }
