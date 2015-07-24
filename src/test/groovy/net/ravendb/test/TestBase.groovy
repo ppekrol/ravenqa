@@ -20,6 +20,8 @@ abstract class TestBase extends GebReportingTest {
 
     protected Random rand = new Random()
 
+    protected final static SIMPLE_TEXT_FILENAME = "simple-text-file.txt"
+
     @BeforeGroups(groups="Smoke")
     def setupGroup() {
         go browser.baseUrl
@@ -50,5 +52,11 @@ abstract class TestBase extends GebReportingTest {
     def setup(ITestContext context) {
         go browser.baseUrl
         waitFor {at ResourcesPage }
+    }
+
+    protected loadTestFile(String filename) {
+        URL sampleDataFileUrl = this.getClass().getClassLoader().getResource("test-data/"+filename)
+        assert sampleDataFileUrl
+        new File(sampleDataFileUrl.toURI())
     }
 }

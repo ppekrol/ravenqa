@@ -8,6 +8,7 @@ import net.ravendb.modules.manage.ManageServerMenu
 class ManageServerBackupPage extends Page {
 
     private final static String DB_BACKUP_SUCCESS = "Database backup was successfully created!"
+    private final static String FS_BACKUP_SUCCESS = "Filesystem backup was successfully created!"
 
     static at = {
         startDatabaseBackupButton
