@@ -2,9 +2,9 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 
 ext {
-    groovyVersion = '2.4.1'
+    groovyVersion = '2.4.4'
     gebVersion = '0.10.0'
-    seleniumVersion = '2.43.1'
+    seleniumVersion = '2.46.0'
     chromeDriverVersion = '2.15'
 }
 
@@ -19,10 +19,19 @@ repositories {
 
 dependencies {
     testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    testCompile "org.testng:testng:6.0.1"
+    testCompile "org.testng:testng:6.9.4"
     testCompile "org.gebish:geb-testng:$gebVersion"
     testCompile "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
     testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
+    testCompile "com.google.inject:guice:2.0"
+}
+
+sourceSets {
+    test {
+        groovy {
+            srcDirs = ['src/test/groovy']
+        }
+    }
 }
 
 task "smoke"(type: Test) {

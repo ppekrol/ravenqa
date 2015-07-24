@@ -17,7 +17,7 @@ class ManageServerCustomFunctionsTest extends TestBase {
      * @verification Configuration created and deleted.
      */
     @Test(groups="Smoke")
-    void canCreateAndDeleteQuotasConfiguration() {
+    void canCreateAndDeleteCustomFunctionsConfiguration() {
         at ResourcesPage
 
         manageYourServerButton.click()
