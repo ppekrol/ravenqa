@@ -47,4 +47,31 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         getIndexLink(indexName).click()
         waitFor { NewIndexPage }
     }
+
+	/**
+	 * User can delete simple index.
+	 * @Step Navigate to Indexes page.
+	 * @Step Delete index.
+	 * @verification Index deleted.
+	 */
+	@Test(groups="Smoke")
+	void canDeleteSimpleIndex() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DELETE)
+		waitFor {
+			deleteIndexModalDialog.confirmButton.displayed
+		}
+
+		deleteIndexModalDialog.confirmButton.click()
+		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		waitFor {
+			!getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		}
+
+	}
+
 }
