@@ -9,6 +9,7 @@ import net.ravendb.modules.TopNavigationBar
 class IndexesPage extends Page {
 
 	final static String INDEX_NAME_ORDERS_BY_COMPANY = "Orders/ByCompany"
+	final static String INDEX_NAME_ORDERS_BY_COMPANY_LINK = "Orders%2FByCompany"
 
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
 	final static String INDEX_TOGGLE_OPTION_DISABLED = "Disabled"

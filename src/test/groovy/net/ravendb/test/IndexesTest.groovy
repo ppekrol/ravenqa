@@ -1,5 +1,6 @@
 package net.ravendb.test
 
+import net.ravendb.pages.DetailsIndexPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.IndexesPage
 import net.ravendb.pages.NewIndexPage
@@ -89,7 +90,30 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
 		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
 		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+	}
 
+	/**
+	 * User can view query stats.
+	 * @Step Navigate to Indexes page.
+	 * @Step Navigate to Index`s Details page.
+	 * @Step Click Query Stats button.
+	 * @verification Query Stats modal dialog displayed and user can close the modal dialog.
+	 */
+	@Test(groups="Smoke")
+	void canViewQueryStats() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY_LINK).click()
+		waitFor { at DetailsIndexPage }
+
+		queryStatsButton.click()
+		waitFor { queryStatsModalDialog.header.displayed }
+
+		queryStatsModalDialog.okButton.click()
+		waitFor { at DetailsIndexPage }
 	}
 
 }
