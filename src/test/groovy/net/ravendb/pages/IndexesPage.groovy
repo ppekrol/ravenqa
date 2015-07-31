@@ -11,8 +11,10 @@ class IndexesPage extends Page {
 	final static String INDEX_NAME_ORDERS_BY_COMPANY = "Orders/ByCompany"
 
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
+	final static String INDEX_TOGGLE_OPTION_DISABLED = "Disabled"
 
 	final static String INDEX_DELETE_SUCCESS = "Deleted "
+	final static String INDEX_SAVE_SUCCESS = "Saved "
 
     static at = {
         newIndexButton
@@ -27,7 +29,7 @@ class IndexesPage extends Page {
 
         indexesLinks(required:false) { $("a[href^='#databases/query/index/']") }
 
-		indexRowContainer {$('.index-panel.panel.panel-default')}
+		indexRowContainer { $('.index-panel.panel.panel-default') }
 		indexRowButtonSelector { "button" }
 		indexRowLinkSelector { "li[role='presentation'] a" }
 

@@ -74,4 +74,22 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
 	}
 
+	/**
+	 * User can disable index.
+	 * @Step Navigate to Indexes page.
+	 * @Step Disable index.
+	 * @verification Index disabled.
+	 */
+	@Test(groups="Smoke")
+	void canDisableIndex() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
+		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+
+	}
+
 }
