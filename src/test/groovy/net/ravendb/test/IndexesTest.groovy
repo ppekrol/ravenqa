@@ -72,7 +72,31 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		waitFor {
 			!getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
 		}
+	}
 
+	/**
+	 * User can delete all indexes.
+	 * @Step Navigate to Indexes page.
+	 * @Step Click on trash icon and delete all indexes.
+	 * @verification All indexes deleted.
+	 */
+	@Test(groups="Smoke")
+	void canDeleteAllIndexes() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		getTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES).click()
+		waitFor {
+			deleteIndexModalDialog.confirmButton.displayed
+		}
+
+		deleteIndexModalDialog.confirmButton.click()
+		alert.waitForMessage(IndexesPage.DELETE_ALL_INDEXES_SUCCESS)
+		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
+		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_TOTALS) }
+		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_PRODUCT_SALES) }
 	}
 
 	/**
@@ -111,9 +135,9 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
 		queryStatsButton.click()
 		waitFor { queryStatsModalDialog.header.displayed }
+		waitFor { queryStatsModalDialog.okButton.displayed }
 
 		queryStatsModalDialog.okButton.click()
 		waitFor { at DetailsIndexPage }
 	}
-
 }

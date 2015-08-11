@@ -10,12 +10,17 @@ class IndexesPage extends Page {
 
 	final static String INDEX_NAME_ORDERS_BY_COMPANY = "Orders/ByCompany"
 	final static String INDEX_NAME_ORDERS_BY_COMPANY_LINK = "Orders%2FByCompany"
+	final static String INDEX_NAME_ORDERS_TOTALS = "Orders/Totals"
+	final static String INDEX_NAME_PRODUCT_SALES = "Product/Sales"
 
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
 	final static String INDEX_TOGGLE_OPTION_DISABLED = "Disabled"
 
 	final static String INDEX_DELETE_SUCCESS = "Deleted "
 	final static String INDEX_SAVE_SUCCESS = "Saved "
+
+	final static String TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES = "Delete All Indexes"
+	final static String DELETE_ALL_INDEXES_SUCCESS = "Successfully deleted 3 indexes!"
 
     static at = {
         newIndexButton
@@ -26,6 +31,11 @@ class IndexesPage extends Page {
 		deleteIndexModalDialog { module DeleteResourceModalDialog }
 		alert { module AlertTextModule }
 
+		//menu toolbar
+		menuToolbar { $('.btn-toolbar') }
+		trashButton { "i.fa-trash-o" }
+		deleteDropdownMenu { "ul.dropdown-menu li" }
+
         newIndexButton { $("a[title='Add a new index (Alt+N)']") }
 
         indexesLinks(required:false) { $("a[href^='#databases/query/index/']") }
@@ -33,7 +43,6 @@ class IndexesPage extends Page {
 		indexRowContainer { $('.index-panel.panel.panel-default') }
 		indexRowButtonSelector { "button" }
 		indexRowLinkSelector { "li[role='presentation'] a" }
-
     }
 
     def getIndexLink(CharSequence name) {
@@ -69,4 +78,15 @@ class IndexesPage extends Page {
 		link.click()
 	}
 
+	def getTrashDropdownOption(CharSequence optionName) {
+		def container = menuToolbar
+		container.find(trashButton).click()
+		def link
+		container.find(deleteDropdownMenu).each {
+			if(it.getAttribute("innerHTML").contains(optionName)) {
+				link = it
+			}
+		}
+		link
+	}
 }

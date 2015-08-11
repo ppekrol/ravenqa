@@ -14,9 +14,6 @@ class DetailsIndexPage extends Page {
 		queryStatsModalDialog { module QueryStatsModalDialog }
 
         queryStatsButton { $("a[title='Show Query Stats In Dialog']") }
-
-
-
     }
 
 }
