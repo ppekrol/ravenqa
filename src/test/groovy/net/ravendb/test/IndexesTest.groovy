@@ -63,15 +63,11 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		waitFor { at IndexesPage }
 
 		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DELETE)
-		waitFor {
-			deleteIndexModalDialog.confirmButton.displayed
-		}
+		waitFor { deleteIndexModalDialog.confirmButton.displayed }
 
 		deleteIndexModalDialog.confirmButton.click()
 		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		waitFor {
-			!getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		}
+		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
 	}
 
 	/**
@@ -88,9 +84,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		waitFor { at IndexesPage }
 
 		getTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES).click()
-		waitFor {
-			deleteIndexModalDialog.confirmButton.displayed
-		}
+		waitFor { deleteIndexModalDialog.confirmButton.displayed }
 
 		deleteIndexModalDialog.confirmButton.click()
 		alert.waitForMessage(IndexesPage.DELETE_ALL_INDEXES_SUCCESS)
@@ -134,15 +128,32 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
 
 		getTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES).click()
-		waitFor {
-			deleteIndexModalDialog.confirmButton.displayed
-		}
+		waitFor { deleteIndexModalDialog.confirmButton.displayed }
 
 		deleteIndexModalDialog.confirmButton.click()
 		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		waitFor {
-			!getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		}
+		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
+	}
+
+	/**
+	 * User can collapse/expand all indexes list.
+	 * @Step Navigate to Indexes page.
+	 * @Step Collapse all indexes.
+	 * @Step Expand all indexes.
+	 * @verification All indexes expanded.
+	 */
+	@Test(groups="Smoke")
+	void canCollapseExpandAllIndexesList() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		collapseAllButton.click()
+		waitFor { expandAllButton.displayed }
+
+		expandAllButton.click()
+		waitFor { collapseAllButton.displayed }
 	}
 
 	/**

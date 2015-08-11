@@ -36,6 +36,8 @@ class IndexesPage extends Page {
 		menuToolbar { $('.btn-toolbar') }
 		trashButton { "i.fa-trash-o" }
 		deleteDropdownMenu { "ul.dropdown-menu li" }
+		collapseAllButton { $("a[title='Collapse all']") }
+		expandAllButton { $("a[title='Expand all']") }
 
         newIndexButton { $("a[title='Add a new index (Alt+N)']") }
 
