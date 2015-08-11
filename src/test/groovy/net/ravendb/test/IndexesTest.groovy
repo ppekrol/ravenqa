@@ -117,6 +117,35 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 	}
 
 	/**
+	 * User can delete disabled index.
+	 * @Step Navigate to Indexes page.
+	 * @Step Disable index.
+	 * @Step Click on trash icon and delete disabled index.
+	 * @verification Disabled index deleted.
+	 */
+	@Test(groups="Smoke")
+	void canDeleteDisabledIndex() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
+		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+
+		getTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES).click()
+		waitFor {
+			deleteIndexModalDialog.confirmButton.displayed
+		}
+
+		deleteIndexModalDialog.confirmButton.click()
+		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		waitFor {
+			!getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		}
+	}
+
+	/**
 	 * User can view query stats.
 	 * @Step Navigate to Indexes page.
 	 * @Step Navigate to Index`s Details page.

@@ -20,6 +20,7 @@ class IndexesPage extends Page {
 	final static String INDEX_SAVE_SUCCESS = "Saved "
 
 	final static String TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES = "Delete All Indexes"
+	final static String TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES = "Delete Disabled Indexes"
 	final static String DELETE_ALL_INDEXES_SUCCESS = "Successfully deleted 3 indexes!"
 
     static at = {
