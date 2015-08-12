@@ -221,4 +221,29 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		copyIndexModalDialog.closeButton.click()
 		waitFor { at IndexesPage }
 	}
+
+	/**
+	 * User can lock and unlock index.
+	 * @Step Navigate to Indexes page.
+	 * @Step Lock (Error) index.
+	 * @Step Unlock index.
+	 * @Step Lock (side-by-side) index.
+	 * @verification Index locked.
+	 */
+	@Test(groups="Smoke")
+	void canLockAndUnlockIndex() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_ERROR)
+		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_UNLOCKED)
+		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE)
+		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+	}
 }

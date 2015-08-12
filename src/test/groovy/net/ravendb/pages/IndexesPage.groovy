@@ -16,6 +16,9 @@ class IndexesPage extends Page {
 
 	final static String INDEX_TOGGLE_OPTION_COPY = "Copy index"
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
+	final static String INDEX_TOGGLE_OPTION_UNLOCKED = "Unlocked"
+	final static String INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE = "Locked (side-by-side)"
+	final static String INDEX_TOGGLE_OPTION_LOCKED_ERROR = "Locked (Error)"
 	final static String INDEX_TOGGLE_OPTION_DISABLED = "Disabled"
 
 	final static String INDEX_DELETE_SUCCESS = "Deleted "
