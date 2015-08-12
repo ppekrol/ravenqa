@@ -38,6 +38,7 @@ class IndexesPage extends Page {
 		deleteDropdownMenu { "ul.dropdown-menu li" }
 		collapseAllButton { $("a[title='Collapse all']") }
 		expandAllButton { $("a[title='Expand all']") }
+		indexMergeSuggestionsButton { $("a[title='Index merge suggestions']") }
 
         newIndexButton { $("a[title='Add a new index (Alt+N)']") }
 

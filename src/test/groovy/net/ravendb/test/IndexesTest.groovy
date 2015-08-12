@@ -2,6 +2,7 @@ package net.ravendb.test
 
 import net.ravendb.pages.DetailsIndexPage
 import net.ravendb.pages.DocumentsPage
+import net.ravendb.pages.IndexMergeSuggestionsPage
 import net.ravendb.pages.IndexesPage
 import net.ravendb.pages.NewIndexPage
 
@@ -179,5 +180,24 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
 		queryStatsModalDialog.okButton.click()
 		waitFor { at DetailsIndexPage }
+	}
+
+	/**
+	 * User view merge suggestions.
+	 * @Step Navigate to Indexes page.
+	 * @Step Click Index merge suggestions button.
+	 * @Step Navigate to Merge Suggestions page.
+	 * @verification Merge Suggestions page displayed.
+	 */
+	@Test(groups="Smoke")
+	void canViewMergeSuggestions() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		indexMergeSuggestionsButton.click()
+        waitFor { at IndexMergeSuggestionsPage }
+		waitFor { header.displayed }
 	}
 }
