@@ -183,7 +183,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 	}
 
 	/**
-	 * User view merge suggestions.
+	 * User can view merge suggestions.
 	 * @Step Navigate to Indexes page.
 	 * @Step Click Index merge suggestions button.
 	 * @Step Navigate to Merge Suggestions page.
@@ -199,5 +199,26 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		indexMergeSuggestionsButton.click()
         waitFor { at IndexMergeSuggestionsPage }
 		waitFor { header.displayed }
+	}
+
+	/**
+	 * User can copy index.
+	 * @Step Navigate to Indexes page.
+	 * @Step Copy index.
+	 * @verification Copy Index modal dialog displayed and user can close the modal dialog.
+	 */
+	@Test(groups="Smoke")
+	void canCopyIndex() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_COPY)
+		waitFor { copyIndexModalDialog.header.displayed }
+		waitFor { copyIndexModalDialog.closeButton.displayed }
+
+		copyIndexModalDialog.closeButton.click()
+		waitFor { at IndexesPage }
 	}
 }

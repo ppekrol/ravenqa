@@ -2,6 +2,7 @@ package net.ravendb.pages
 
 import geb.Page
 import net.ravendb.modules.AlertTextModule
+import net.ravendb.modules.CopyIndexModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.TopNavigationBar
 
@@ -13,6 +14,7 @@ class IndexesPage extends Page {
 	final static String INDEX_NAME_ORDERS_TOTALS = "Orders/Totals"
 	final static String INDEX_NAME_PRODUCT_SALES = "Product/Sales"
 
+	final static String INDEX_TOGGLE_OPTION_COPY = "Copy index"
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
 	final static String INDEX_TOGGLE_OPTION_DISABLED = "Disabled"
 
@@ -30,6 +32,7 @@ class IndexesPage extends Page {
     static content = {
         topNavigation { module TopNavigationBar }
 		deleteIndexModalDialog { module DeleteResourceModalDialog }
+		copyIndexModalDialog { module CopyIndexModalDialog }
 		alert { module AlertTextModule }
 
 		//menu toolbar
