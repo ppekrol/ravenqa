@@ -36,12 +36,14 @@ class IndexesPage extends Page {
     }
 
     static content = {
+		// modules
         topNavigation { module TopNavigationBar }
 		deleteIndexModalDialog { module DeleteResourceModalDialog }
 		copyIndexModalDialog { module CopyIndexModalDialog }
 		alert { module AlertTextModule }
 
-		//menu toolbar
+		// tool bar
+		newIndexButton { $("a[title='Add a new index (Alt+N)']") }
 		menuToolbar { $('.btn-toolbar') }
 		trashButton { "i.fa-trash-o" }
 		deleteDropdownMenu { "ul.dropdown-menu li" }
@@ -49,13 +51,16 @@ class IndexesPage extends Page {
 		expandAllButton { $("a[title='Expand all']") }
 		indexMergeSuggestionsButton { $("a[title='Index merge suggestions']") }
 
-        newIndexButton { $("a[title='Add a new index (Alt+N)']") }
-
         indexesLinks(required:false) { $("a[href^='#databases/query/index/']") }
 
+		// index panel
 		indexRowContainer { $('.index-panel.panel.panel-default') }
 		indexRowButtonSelector { "button" }
 		indexRowLinkSelector { "li[role='presentation'] a" }
+		indexStatusContainer { "small" }
+
+		// lock icon
+		lockErrorIcon { $('i.fa-unlock.text-danger') }
     }
 
     def getIndexLink(CharSequence name) {
@@ -101,5 +106,16 @@ class IndexesPage extends Page {
 			}
 		}
 		link
+	}
+
+	def getIndexStatusContainer(CharSequence indexName, CharSequence statusName) {
+		def container = getIndexContainer(indexName)
+		def status
+		container.find(indexStatusContainer).each {
+			if(it.getAttribute("innerHTML").contains(statusName)) {
+				status = it
+			}
+		}
+		status
 	}
 }
