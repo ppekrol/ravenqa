@@ -57,7 +57,7 @@ class ManageServerBackupPage extends Page {
     String backupFileSystem(String name, String location) {
         fileSystemTab.click()
         fileSystemNameInput = name
-        fileSystemLocationInput = location
+        try {fileSystemLocationInput = location} catch(Exception e) {}
         startFileSystemBackupButton.click()
 
         messagesContainer.waitForMessage(FS_BACKUP_SUCCESS)

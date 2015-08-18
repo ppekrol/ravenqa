@@ -19,7 +19,7 @@ class ManageServerBackupRestoreFileSystem extends TestBase {
      * @Step Backup and restore file system.
      * @verification File system backed up and restored.
      */
-    @Test(groups="Smoke",enabled=false)
+    @Test(groups="Smoke")
     void canBackupAndRestoreSimpleFileSystem() {
         at ResourcesPage
 

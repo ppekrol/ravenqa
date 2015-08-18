@@ -9,7 +9,7 @@ import net.ravendb.modules.manage.ManageServerMenu
 class ManageServerRestorePage extends Page {
 
     private final static String DB_RESTORE_SUCCESS = "Database was successfully restored!"
-    private final static String FS_RESTORE_SUCCESS = "File system was successfully restored!"
+    private final static String FS_RESTORE_SUCCESS = "Filesystem was successfully restored!"
 
     static at = {
         restoreDatabaseButton
@@ -47,8 +47,14 @@ class ManageServerRestorePage extends Page {
         fileSystemTab.click()
         waitFor { fileSystemBackupLocationInput.displayed }
 
-        fileSystemBackupLocationInput = location
-        fileSystemNameInput = name
+        try {
+            fileSystemBackupLocationInput = location
+        } catch(Exception e) {
+        }
+        try {
+            fileSystemNameInput = name
+        } catch(Exception e) {
+        }
         restoreFileSystemButton.click()
 
         messagesContainer.waitForMessage(FS_RESTORE_SUCCESS)
