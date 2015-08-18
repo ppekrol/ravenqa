@@ -273,11 +273,7 @@ class ResourcesTest extends TestBase {
      * @Step Disable and then enable resource.
      * @verification Resource disabled and enabled.
      */
-    @Test(
-        groups="Smoke",
-        enabled=false,
-        dependsOnMethods="canCreateAndDeleteDatabaseWithDefaultConfiguration"
-        )
+    @Test(groups="Smoke")
     void canDisableEnableResource() {
         at ResourcesPage
 

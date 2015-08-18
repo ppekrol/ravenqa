@@ -3,6 +3,7 @@ package net.ravendb.pages
 import geb.Page
 import net.ravendb.modules.CreateResourceModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
+import net.ravendb.modules.DisableEnableResourceModalDialog
 import net.ravendb.modules.TopNavigationBar
 
 import org.openqa.selenium.interactions.Actions
@@ -33,6 +34,7 @@ class ResourcesPage extends Page {
         topNavigation(required:false) { module TopNavigationBar }
         createResourceModalDialog { module CreateResourceModalDialog }
         deleteResourceModalDialog { module DeleteResourceModalDialog }
+        disableEnableResourceModalDialog { module DisableEnableResourceModalDialog }
 
         // tool bar
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
@@ -68,11 +70,16 @@ class ResourcesPage extends Page {
         getResource(resourceName)
 
         resourceDropdownButton.click()
+        waitFor { resourceTakedownMenuOption.displayed }
 
         Actions actions = new Actions(browser.driver)
-        actions.moveToElement(resourceTakedownMenuOption.firstElement()).build().perform()
+        actions.moveToElement(resourceTakedownMenuOption.firstElement())
+            .click(resourceDiv.find(resourceDropDownDisableEnableSelector).firstElement())
+            .build()
+            .perform()
+        waitFor { disableEnableResourceModalDialog.header.displayed }
 
-        resourceDiv.find(resourceDropDownDisableEnableSelector).click()
+        disableEnableResourceModalDialog.disableButton.click()
         waitFor { resourceDiv.find(resourceDisabledTextContainerSelector) }
     }
 
@@ -80,11 +87,16 @@ class ResourcesPage extends Page {
         getResource(resourceName)
 
         resourceDropdownButton.click()
+        waitFor { resourceTakedownMenuOption.displayed }
 
         Actions actions = new Actions(browser.driver)
-        actions.moveToElement(resourceTakedownMenuOption.firstElement()).build().perform()
+        actions.moveToElement(resourceTakedownMenuOption.firstElement())
+            .click(resourceDiv.find(resourceDropDownDisableEnableSelector).firstElement())
+            .build()
+            .perform()
+        waitFor { disableEnableResourceModalDialog.header.displayed }
 
-        resourceDiv.find(resourceDropDownDisableEnableSelector).click()
+        disableEnableResourceModalDialog.enableButton.click()
         waitFor { !resourceDiv.find(resourceDisabledTextContainerSelector) }
     }
 
