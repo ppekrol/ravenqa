@@ -25,7 +25,7 @@ class ResourcesPage extends Page {
     private resourceTakedownMenuOption
 
     static at = {
-        createNewResourceButton
+        createNewResourceButton.displayed
     }
 
     static content = {
