@@ -9,7 +9,7 @@ import net.ravendb.modules.TopNavigationBar
 class DocumentsPage extends Page {
 
     static at = {
-        newDocumentButton
+        newDocumentButton.displayed
     }
 
     static content = {

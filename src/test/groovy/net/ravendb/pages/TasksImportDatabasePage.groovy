@@ -8,7 +8,7 @@ import net.ravendb.modules.TopNavigationBar
 class TasksImportDatabasePage extends Page {
 
     static at = {
-        chooseFileButton
+        header.displayed
     }
 
     static content = {
@@ -16,6 +16,7 @@ class TasksImportDatabasePage extends Page {
 
         menu { module TasksMenu }
 
+        header { $("h3", text:"Import Database") }
         chooseFileButton { $("input#importDatabaseFilePicker") }
     }
 }

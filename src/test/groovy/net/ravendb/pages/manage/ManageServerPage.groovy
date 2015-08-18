@@ -9,7 +9,7 @@ class ManageServerPage extends Page {
 
     static at = {
         header.displayed
-        menu
+        menu.toSystemDatabaseLink.displayed
     }
 
     static content = {

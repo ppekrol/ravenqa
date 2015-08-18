@@ -8,7 +8,7 @@ import geb.Page
 class TasksCreateSampleDataPage extends Page {
 
     static at = {
-        createSampleDataButton
+        createSampleDataButton.displayed
     }
 
     static content = {
