@@ -13,7 +13,12 @@ import net.ravendb.modules.manage.ManageServerVersioning;
 class ManageServerGlobalConfigurationPage extends Page {
 
     static at = {
-        periodicExportTab
+        periodicExportTab.displayed
+        replicationTab.displayed
+        sqlReplicationTab.displayed
+        quotasTab.displayed
+        customFunctionsTab.displayed
+        versioningTab.displayed
         menu
     }
 

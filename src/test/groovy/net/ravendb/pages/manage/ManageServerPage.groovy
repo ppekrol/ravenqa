@@ -8,7 +8,7 @@ import geb.Page
 class ManageServerPage extends Page {
 
     static at = {
-        header
+        header.displayed
         menu
     }
 

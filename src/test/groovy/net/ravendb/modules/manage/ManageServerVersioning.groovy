@@ -16,7 +16,7 @@ class ManageServerVersioning extends Module {
 
         saveButton { $("button[title='Save Changes(Alt+S)']") }
         createGlobalConfigurationForVersioningButton { $("button", text:"Create global configuration for Versioning") }
-        removeGlobalConfigurationForVersioningButton { $("button",text:" Remove global configuration for Versioning") }
+        removeGlobalConfigurationForVersioningButton { $("button",text:"Remove global configuration for Versioning") }
         addVersioningButton { $("button[title='Add a replication destination (Alt+N)']") }
     }
 
@@ -31,7 +31,7 @@ class ManageServerVersioning extends Module {
             messagesContainer.containsMessage(ManageServerVersioning.SUCCESS_MESSAGE)
             saveButton.@disabled == "true"
             removeGlobalConfigurationForVersioningButton.displayed
-            }
+        }
     }
 
     def remove() {

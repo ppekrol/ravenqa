@@ -17,7 +17,7 @@ class ManageServerVersioningTest extends TestBase {
      * @Step Create Versioning configuration.
      * @verification Configuration created and deleted.
      */
-    @Test(groups="Smoke",enabled=false)
+    @Test(groups="Smoke")
     void canCreateAndDeleteVersioningConfiguration() {
         at ResourcesPage
 
@@ -31,8 +31,6 @@ class ManageServerVersioningTest extends TestBase {
         waitFor { versioning.createGlobalConfigurationForVersioningButton.displayed }
 
         versioning.createGlobalConfigurationForVersioningButton.click()
-        versioning.add()
-        versioning.add()
         versioning.save()
         versioning.remove()
     }
