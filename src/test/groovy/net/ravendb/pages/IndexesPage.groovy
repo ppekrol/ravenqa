@@ -118,4 +118,37 @@ class IndexesPage extends Page {
 		}
 		status
 	}
+
+	def clickTrashDropdownOption(String name) {
+		getTrashDropdownOption(name).click()
+		waitFor { deleteIndexModalDialog.confirmButton.displayed }
+		deleteIndexModalDialog.confirmButton.click()
+	}
+
+	def copyIndex(String name) {
+		clickDropdownOption(name, INDEX_TOGGLE_OPTION_COPY)
+		waitFor { copyIndexModalDialog.header.displayed }
+		waitFor { copyIndexModalDialog.closeButton.displayed }
+
+		copyIndexModalDialog.closeButton.click()
+	}
+
+	def deleteIndex(String name) {
+		clickDropdownOption(name, INDEX_TOGGLE_OPTION_DELETE)
+		waitFor { deleteIndexModalDialog.confirmButton.displayed }
+
+		deleteIndexModalDialog.confirmButton.click()
+		alert.waitForMessage(INDEX_DELETE_SUCCESS + name)
+		waitFor { !getIndexLink(name) }
+	}
+
+	def changeStatus(String indexName, String indexStatus) {
+		clickDropdownOption(indexName, indexStatus)
+		alert.waitForMessage(INDEX_SAVE_SUCCESS + indexName)
+	}
+
+	def changeLockOption(String indexName, String lockName) {
+		clickDropdownOption(indexName, lockName)
+		alert.waitForMessage(INDEX_SAVE_SUCCESS + indexName)
+	}
 }

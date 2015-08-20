@@ -63,12 +63,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DELETE)
-		waitFor { deleteIndexModalDialog.confirmButton.displayed }
-
-		deleteIndexModalDialog.confirmButton.click()
-		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
+		deleteIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
 	}
 
 	/**
@@ -84,32 +79,11 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		getTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES).click()
-		waitFor { deleteIndexModalDialog.confirmButton.displayed }
-
-		deleteIndexModalDialog.confirmButton.click()
+		clickTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES)
 		alert.waitForMessage(IndexesPage.DELETE_ALL_INDEXES_SUCCESS)
 		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
 		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_TOTALS) }
 		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_PRODUCT_SALES) }
-	}
-
-	/**
-	 * User can disable index.
-	 * @Step Navigate to Indexes page.
-	 * @Step Disable index.
-	 * @verification Index disabled, status "Disabled" displayed.
-	 */
-	@Test(groups="Smoke")
-	void canDisableIndex() {
-		at DocumentsPage
-
-		topNavigation.indexesLink.click()
-		waitFor { at IndexesPage }
-
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		waitFor { getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED).displayed }
 	}
 
 	/**
@@ -126,14 +100,9 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		waitFor { getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED).displayed }
+		changeStatus(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
 
-		getTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES).click()
-		waitFor { deleteIndexModalDialog.confirmButton.displayed }
-
-		deleteIndexModalDialog.confirmButton.click()
+		clickTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES)
 		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
 		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
 	}
@@ -216,11 +185,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_COPY)
-		waitFor { copyIndexModalDialog.header.displayed }
-		waitFor { copyIndexModalDialog.closeButton.displayed }
-
-		copyIndexModalDialog.closeButton.click()
+		copyIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
 		waitFor { at IndexesPage }
 	}
 
@@ -239,15 +204,12 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_ERROR)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_ERROR)
 		waitFor { lockErrorIcon.displayed }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_UNLOCKED)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_UNLOCKED)
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE)
 	}
 
 	/**
@@ -266,22 +228,18 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_IDLE)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		changeStatus(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_IDLE)
 		waitFor { getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_IDLE).displayed }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		changeStatus(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
 		waitFor { getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED).displayed }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_ABANDONED)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+		changeStatus(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_ABANDONED)
 		waitFor { getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_ABANDONED).displayed }
 
-		clickDropdownOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_NORMAL)
-		alert.waitForMessage(IndexesPage.INDEX_SAVE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
-		waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_IDLE).displayed }
-		waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED).displayed }
-		waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_ABANDONED).displayed }
+        changeStatus(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_NORMAL)
+		waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, INDEX_TOGGLE_OPTION_IDLE).displayed }
+		waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, INDEX_TOGGLE_OPTION_DISABLED).displayed }
+		waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, INDEX_TOGGLE_OPTION_ABANDONED).displayed }
 	}
 }
