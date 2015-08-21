@@ -10,7 +10,6 @@ import net.ravendb.modules.TopNavigationBar
 class IndexesPage extends Page {
 
 	final static String INDEX_NAME_ORDERS_BY_COMPANY = "Orders/ByCompany"
-	final static String INDEX_NAME_ORDERS_BY_COMPANY_LINK = "Orders%2FByCompany"
 	final static String INDEX_NAME_ORDERS_TOTALS = "Orders/Totals"
 	final static String INDEX_NAME_PRODUCT_SALES = "Product/Sales"
 
@@ -29,7 +28,7 @@ class IndexesPage extends Page {
 
 	final static String TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES = "Delete All Indexes"
 	final static String TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES = "Delete Disabled Indexes"
-	final static String DELETE_ALL_INDEXES_SUCCESS = "Successfully deleted 3 indexes!"
+	final static String DELETE_ALL_INDEXES_SUCCESS = "Successfully deleted 2 indexes!"
 
     static at = {
         newIndexButton

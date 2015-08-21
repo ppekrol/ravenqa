@@ -1,6 +1,7 @@
 package net.ravendb.pages
 
 import geb.Page
+import net.ravendb.modules.TopNavigationBar
 
 
 class IndexMergeSuggestionsPage extends Page {
@@ -10,6 +11,8 @@ class IndexMergeSuggestionsPage extends Page {
 	}
 
     static content = {
+		topNavigation { module TopNavigationBar }
+
 		header { $("h4", text:"Suggestions") }
     }
 
