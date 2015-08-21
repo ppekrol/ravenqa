@@ -33,7 +33,6 @@ class NewIndexPage extends Page {
             mapsEditors[index].firstElement().sendKeys(map)
         }
 
-        sleep(10000)
         waitFor { !(saveButton.@disabled == 'true') }
         saveButton.click()
 
