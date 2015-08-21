@@ -7,10 +7,14 @@ import geb.Page
 class ManageServerLicenseInformationPage extends Page {
 
     static at = {
-        $("div[data-view='views/manage/licenseInformation']")
+        forceLicenseUpdateButton.displayed
+        menu.toSystemDatabaseLink.displayed
     }
 
     static content = {
         menu { module ManageServerMenu }
+
+        forceLicenseUpdateButton { $("button[data-bind='click: forceUpdate']") }
+        licensingStatusHeader(required:false) { $("h4", text:"Licensing Status") }
     }
 }
