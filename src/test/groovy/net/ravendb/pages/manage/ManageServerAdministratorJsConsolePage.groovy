@@ -1,9 +1,8 @@
 package net.ravendb.pages.manage
 
-import java.util.List;
-
-import net.ravendb.modules.manage.ManageServerMenu;
 import geb.Page
+import net.ravendb.modules.AlertTextModule
+import net.ravendb.modules.manage.ManageServerMenu
 
 
 class ManageServerAdministratorJsConsolePage extends Page {
@@ -16,19 +15,24 @@ class ManageServerAdministratorJsConsolePage extends Page {
 
     public final static TARGET_DB_SYSTEM = "<system>"
 
+    public final static SUCCESS_MESSAGE = "Script executed"
+
     static at = {
         executeCommandButton.displayed
         menu.toSystemDatabaseLink.displayed
     }
 
     static content = {
+        // modules
         menu { module ManageServerMenu }
+        alert { module AlertTextModule }
 
         executeCommandButton { $("button", text:"Execute command") }
         targetDatabaseInput { $("input#databaseName") }
         operationTypeButton { $("button#operationType") }
         scriptEditor { $("pre.ace_editor")[0].$("textarea") }
         resultsContainer { $("pre.ace_editor")[1].$("textarea") }
+        resultsContainerLines { resultsContainer.parent().$(".ace_line") }
     }
 
     def selectOperation(String operation) {
@@ -48,9 +52,5 @@ class ManageServerAdministratorJsConsolePage extends Page {
 
     def typeScript(String script) {
         scriptEditor.firstElement().sendKeys(map)
-    }
-
-    def readResults() {
-
     }
 }
