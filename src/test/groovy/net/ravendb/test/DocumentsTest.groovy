@@ -2,6 +2,7 @@ package net.ravendb.test
 
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.NewDocumentPage
+import net.ravendb.pages.TasksCreateSampleDataPage;
 
 import org.testng.annotations.Test
 
@@ -46,5 +47,26 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         assert documentLink
 
         deleteDocument(documentName)
+    }
+
+
+    /**
+     * User can select collections on documents list.
+     * @Step Navigate to documents page.
+     * @Step Click collections
+     * @verification Documents properly filtered.
+     */
+    @Test(groups="Smoke")
+    void canSelectCollectionsOnDocumentsPage() {
+        at DocumentsPage
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES)
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES_COUNT
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_REGIONS)
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_REGIONS_COUNT
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_SHIPPERS)
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_SHIPPERS_COUNT
     }
 }

@@ -34,7 +34,7 @@ class TasksTest extends EmptyDatabaseTestBase {
 
         waitFor {
             selectAllDocumentsCheckbox.click()
-            if(selectAllDocumentsInfoAllDocumentsCountContainer.text() == "1059") {
+            if(selectAllDocumentsInfoAllDocumentsCountContainer.text() == TasksCreateSampleDataPage.DOCUMENTS_NUMBER) {
                 return true
             } else {
                 selectAllDocumentsCheckbox.click()

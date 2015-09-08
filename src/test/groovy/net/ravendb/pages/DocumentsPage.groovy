@@ -20,6 +20,7 @@ class DocumentsPage extends Page {
 
         //left panel
         collectionsList { $("ul.document-collections li") }
+        collectionsListNameSelector { "span.collection-name-part" }
 
         //tool bar
         selectAllDocumentsCheckbox(required:false) { $("button[title='Select all or none']") }
@@ -69,5 +70,29 @@ class DocumentsPage extends Page {
             }
             !document
         }
+    }
+
+    def selectCollection(String name) {
+        def elementToClick
+        collectionsList.each {
+            if(it.$(collectionsListNameSelector).text() == name) {
+                elementToClick = it
+            }
+        }
+
+        if(elementToClick) {
+            elementToClick.click()
+        }
+    }
+
+    int getRowsCount() {
+        int rowsCount = 0
+        documentsList.each {
+            if(!it.@style.contains("display: none")) {
+                rowsCount += 1
+            }
+        }
+
+        return rowsCount
     }
 }
