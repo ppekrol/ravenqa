@@ -11,6 +11,9 @@ class TasksCreateSampleDataPage extends Page {
 
     public final static String DOCUMENTS_COLLECTION_CATEGORIES = "Categories"
     public final static int DOCUMENTS_COLLECTION_CATEGORIES_COUNT = 8
+    public final static String DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_DESCRIPTION = "Description"
+    public final static String DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME = "Name"
+
     public final static String DOCUMENTS_COLLECTION_COMPANIES = "Companies"
     public final static int DOCUMENTS_COLLECTION_COMPANIES_COUNT = 91
     public final static String DOCUMENTS_COLLECTION_EMPLOYEES = "Employees"

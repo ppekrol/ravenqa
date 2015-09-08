@@ -2,6 +2,7 @@ package net.ravendb.pages
 
 import geb.Page
 import net.ravendb.modules.AlertTextModule
+import net.ravendb.modules.ChooseColumnsModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.TopNavigationBar
 
@@ -17,6 +18,7 @@ class DocumentsPage extends Page {
         topNavigation { module TopNavigationBar }
         alertText { module AlertTextModule }
         deleteResourceModalDialog { module DeleteResourceModalDialog }
+        chooseColumnsModalDialog { module ChooseColumnsModalDialog }
 
         //left panel
         collectionsList { $("ul.document-collections li") }
@@ -28,11 +30,13 @@ class DocumentsPage extends Page {
         newDocumentButton { $("button[title='Create new document (Alt+N)']") }
         saveButton { $("button[title='Save (Alt+S)']") }
         deleteDocumentButton(required:false) { $("button[data-bind='click: deleteSelectedDocs']") }
+        chooseColumnsButton(required:false) { $("button[title='Choose columns...']") }
 
         // documents list
         documentsList(required:false) { $("div#documentsGrid div.ko-grid-row") }
         documentsListLinksSelector { "a[href^='#databases/edit']" }
         documentsListcheckboxSelector { "img" }
+        documentsListHeaders(required:false) { $("div.ko-grid-column-header span[data-bind='text: header']") }
     }
 
     def deleteDocument(CharSequence name) {
@@ -94,5 +98,16 @@ class DocumentsPage extends Page {
         }
 
         return rowsCount
+    }
+
+    boolean isHeaderPresent(String title) {
+        boolean present = false
+        documentsListHeaders.each {
+            if(it.text().equals(title)) {
+                present = true
+            }
+        }
+
+        return present
     }
 }
