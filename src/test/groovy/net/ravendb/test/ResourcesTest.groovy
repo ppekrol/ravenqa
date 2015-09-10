@@ -3,7 +3,7 @@ package net.ravendb.test
 import net.ravendb.pages.CounterStoragePage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
-import net.ravendb.pages.NewDocumentPage
+import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.ResourcesPage
 
 import org.testng.annotations.Test
@@ -246,7 +246,7 @@ class ResourcesTest extends TestBase {
         waitFor { at DocumentsPage }
 
         newDocumentButton.click()
-        waitFor { at NewDocumentPage }
+        waitFor { at DocumentPage }
 
         CharSequence documentName = "doc" + rand.nextInt()
         createAndSaveDocument(documentName)

@@ -39,6 +39,19 @@ class DocumentsPage extends Page {
         documentsListHeaders(required:false) { $("div.ko-grid-column-header span[data-bind='text: header']") }
     }
 
+    def clickDocument(CharSequence name) {
+        def docToClick
+        documentsList.each {
+            if(it.$(documentsListLinksSelector).$("span").text().equals(name)) {
+                docToClick = it.$(documentsListLinksSelector)
+            }
+        }
+
+        if(docToClick) {
+            docToClick.click()
+        }
+    }
+
     def deleteDocument(CharSequence name) {
         def checkbox
         documentsList.each {

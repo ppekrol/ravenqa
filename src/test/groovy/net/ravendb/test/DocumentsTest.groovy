@@ -1,8 +1,8 @@
 package net.ravendb.test
 
+import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
-import net.ravendb.pages.NewDocumentPage
-import net.ravendb.pages.TasksCreateSampleDataPage;
+import net.ravendb.pages.TasksCreateSampleDataPage
 
 import org.testng.annotations.Test
 
@@ -23,7 +23,7 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         at DocumentsPage
 
         newDocumentButton.click()
-        waitFor { at NewDocumentPage }
+        waitFor { at DocumentPage }
 
         CharSequence documentName = "doc" + rand.nextInt()
         createAndSaveDocument(documentName)
@@ -98,5 +98,18 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         chooseColumnsModalDialog.okButton.click()
         waitFor { chooseColumnsButton.displayed }
         assert isHeaderPresent(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME)
+    }
+
+    @Test(groups="Smoke")
+    void canNavigateToDocumentFromDocumentsPage() {
+        at DocumentsPage
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+        waitFor { at DocumentPage }
+
+        assert documentNameInput.value() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT
     }
 }

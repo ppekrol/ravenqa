@@ -4,7 +4,7 @@ import geb.Page
 import net.ravendb.modules.TopNavigationBar
 
 
-class NewDocumentPage extends Page {
+class DocumentPage extends Page {
 
     static at = {
         documentNameInput
