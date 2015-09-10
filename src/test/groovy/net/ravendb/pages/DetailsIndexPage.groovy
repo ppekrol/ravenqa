@@ -15,7 +15,7 @@ class DetailsIndexPage extends Page {
 		topNavigation { module TopNavigationBar }
 		queryStatsModalDialog { module QueryStatsModalDialog }
 
-		runQueryButton { $('.fa.fa-play') }
+		runQueryButton { $("button[title='Run the query (Alt+R)']") }
 		queryStatsButton { $("a[title='Show Query Stats In Dialog']") }
 
 		queryResultsList { $("div#queryResultsGrid div.ko-grid-row") }
