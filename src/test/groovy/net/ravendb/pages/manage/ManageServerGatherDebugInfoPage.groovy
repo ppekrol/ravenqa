@@ -7,13 +7,14 @@ import geb.Page
 class ManageServerGatherDebugInfoPage extends Page {
 
     static at = {
-        importButton
-        menu
+        createInfoPackageButton.displayed
+        menu.toSystemDatabaseLink.displayed
     }
 
     static content = {
         menu { module ManageServerMenu }
 
-        importButton { $("button", text:"Import") }
+        createInfoPackageButton { $("button[title='Creates package with stacktrace (available ONLY for system database)']") }
+        parallelStacksContainer { $("svg#parallelStacks") }
     }
 }
