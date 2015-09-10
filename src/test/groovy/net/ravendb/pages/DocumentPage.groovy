@@ -24,6 +24,10 @@ class DocumentPage extends Page {
         saveButton { $("button[title='Save (Alt+S)']") }
         csharpButton { $("button[data-bind='click: generateCode, visible: lodaedDocumentName']") }
         removeButton { $("button[data-bind='click: deleteDocument, visible: lodaedDocumentName']") }
+        firstDocumentButton { $("button[title='Go to first document (Alt+Home)']") }
+        previousDocumentButton { $("button[title='Go to previous document (Alt+PageUp)']") }
+        nextDocumentButton { $("button[title='Go to next document (Alt+PageDown)']") }
+        lastDocumentButton { $("button[title='Go to last document (Alt+End)']") }
 
         documentNameInput { $("input#documentName") }
 
