@@ -15,7 +15,21 @@ class DetailsIndexPage extends Page {
 		topNavigation { module TopNavigationBar }
 		queryStatsModalDialog { module QueryStatsModalDialog }
 
-        queryStatsButton { $("a[title='Show Query Stats In Dialog']") }
+		runQueryButton { $('.fa.fa-play') }
+		queryStatsButton { $("a[title='Show Query Stats In Dialog']") }
+
+		queryResultsList { $("div#queryResultsGrid div.ko-grid-row") }
     }
+
+	int getRowsCount() {
+		int rowsCount = 0
+		queryResultsList.each {
+			if(!it.@style.contains("display: none")) {
+				rowsCount += 1
+			}
+		}
+
+		return rowsCount
+	}
 
 }

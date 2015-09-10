@@ -55,11 +55,10 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 	 * User can use tool bar menu options.
 	 * @Step Navigate to Indexes page.
 	 * @Step User can collapse/expand all indexes list.
-	 * @Step User can view query stats.
 	 * @Step User can view merge suggestions.
 	 * @Step User can delete disabled index.
 	 * @Step User can delete all indexes.
-	 * @verification All indexes collaps/expanded, Query Stats modal dialog displayed, Merge Suggestions page displayed
+	 * @verification All indexes collaps/expanded, Merge Suggestions page displayed
 	 * disabled index deleted, all indexes deleted.
 	 */
 	@Test(groups="Smoke")
@@ -69,7 +68,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		// can collapse/expand all indexes list
+		// collapse/expand all indexes list
 		collapseAllButton.click()
 		waitFor { expandAllButton.displayed }
 		sleep(1000)
@@ -78,23 +77,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		waitFor { collapseAllButton.displayed }
 		sleep(1000)
 
-		// can view query stats
-		getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
-		waitFor { at DetailsIndexPage }
-
-		queryStatsButton.click()
-		waitFor { queryStatsModalDialog.header.displayed }
-		waitFor { queryStatsModalDialog.getQueryStatsData(QueryStatsModalDialog.QUERY_STATS_TOTAL_RESULTS).displayed }
-		waitFor { queryStatsModalDialog.getQueryStatsData(QueryStatsModalDialog.QUERY_STATS_STATUS).displayed }
-		waitFor { queryStatsModalDialog.okButton.displayed }
-
-		queryStatsModalDialog.okButton.click()
-		waitFor { at DetailsIndexPage }
-
-		waitFor { topNavigation.indexesLink.click() }
-		waitFor { at IndexesPage }
-
-		// can view merge suggestions
+		// view merge suggestions
 		indexMergeSuggestionsButton.click()
 		waitFor { at IndexMergeSuggestionsPage }
 		waitFor { header.displayed }
@@ -102,14 +85,14 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		topNavigation.indexesLink.click()
 		waitFor { at IndexesPage }
 
-		// can delete disabled index
+		// delete disabled index
 		changeStatus(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED)
 
 	    clickTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES)
 		alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
 		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY) }
 
-		// can delete all indexes
+		// delete all indexes
 		clickTrashDropdownOption(IndexesPage.TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES)
 		alert.waitForMessage(IndexesPage.DELETE_ALL_INDEXES_SUCCESS)
 		waitFor { !getIndexLink(IndexesPage.INDEX_NAME_ORDERS_TOTALS) }
@@ -163,5 +146,39 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
 		// delete index
 		deleteIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+	}
+
+	/**
+	 * User can go to index details page.
+	 * @Step Navigate to Indexes page.
+	 * @Step Click on the index name.
+	 * @Step User can run the query and review loaded index`s documents.
+	 * @Step User can view query stats.
+	 * @verification Query results list and Query Stats modal dialog displayed.
+	 */
+	@Test(groups="Smoke")
+	void canManageIndexDetails() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+	    getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+		waitFor { at DetailsIndexPage }
+
+		// load index`s documents
+		runQueryButton.click()
+		waitFor { queryResultsList.size() > 0 }
+		waitFor { getRowsCount() > 0 }
+
+		// view query stats
+		queryStatsButton.click()
+		waitFor { queryStatsModalDialog.header.displayed }
+		waitFor { queryStatsModalDialog.getQueryStatsData(QueryStatsModalDialog.QUERY_STATS_TOTAL_RESULTS).displayed }
+		waitFor { queryStatsModalDialog.getQueryStatsData(QueryStatsModalDialog.QUERY_STATS_STATUS).displayed }
+		waitFor { queryStatsModalDialog.okButton.displayed }
+
+		queryStatsModalDialog.okButton.click()
+		waitFor { at DetailsIndexPage }
 	}
 }
