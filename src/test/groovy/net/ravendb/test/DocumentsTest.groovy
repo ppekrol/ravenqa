@@ -151,4 +151,29 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
 
         assert generatedClassCodeContainer.value().replaceAll("\\s","") == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT_CODE
     }
+
+    @Test(groups="Smoke")
+    void canDeleteDocumentOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+        waitFor { at DocumentPage }
+
+        removeButton.click()
+        waitFor { areYouSureModal.header.displayed }
+
+        areYouSureModal.yesButton.click()
+        alert.waitForMessage(DocumentPage.DOCUMENT_DELETED_MESSAGE + TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        waitFor { getRowsCount() > 0 }
+
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT - 1
+    }
 }
