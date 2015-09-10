@@ -14,7 +14,13 @@ class DocumentPage extends Page {
         topNavigation { module TopNavigationBar }
 
         saveButton { $("button[title='Save (Alt+S)']") }
+        csharpButton { $("button[data-bind='click: generateCode, visible: lodaedDocumentName']") }
+
         documentNameInput { $("input#documentName") }
+
+        // generated class modal dialog
+        generatedClassModalHeader(required:false) { $("h4", text:"Generated Class") }
+        generatedClassCodeContainer(required:false) { generatedClassModalHeader.parent().parent().$("textarea") }
     }
 
     def createAndSaveDocument(String name) {

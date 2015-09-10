@@ -135,4 +135,20 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         clickRecentDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
         waitFor { documentNameInput.value() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT }
     }
+
+    @Test(groups="Smoke")
+    void canGenerateCsharpClassFromDocument() {
+        at DocumentsPage
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+        waitFor { at DocumentPage }
+
+        csharpButton.click()
+        waitFor { generatedClassModalHeader.displayed }
+
+        assert generatedClassCodeContainer.value().replaceAll("\\s","") == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT_CODE
+    }
 }

@@ -14,6 +14,23 @@ class TasksCreateSampleDataPage extends Page {
     public final static String DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_DESCRIPTION = "Description"
     public final static String DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME = "Name"
     public final static String DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT = "categories/1"
+    public final static String DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT_CODE = """
+        using System;
+        using System.Collections.Generic;
+        using System.Linq;
+        using System.Text;
+        using System.Threading.Tasks;
+
+        namespace Orders
+        {
+            public class Category
+            {
+                public string Name { get; set; }
+                public string Description { get; set; }
+            }
+
+        }
+    """.replaceAll("\\s","")
 
     public final static String DOCUMENTS_COLLECTION_COMPANIES = "Companies"
     public final static int DOCUMENTS_COLLECTION_COMPANIES_COUNT = 91
