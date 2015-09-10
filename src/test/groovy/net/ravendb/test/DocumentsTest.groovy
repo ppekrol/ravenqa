@@ -112,4 +112,27 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
 
         assert documentNameInput.value() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT
     }
+
+    @Test(groups="Smoke")
+    void canViewAndClickResentDocumentsOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+        waitFor { at DocumentPage }
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES_DOCUMENT)
+        waitFor { at DocumentPage }
+
+        clickRecentDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+        waitFor { documentNameInput.value() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT }
+    }
 }

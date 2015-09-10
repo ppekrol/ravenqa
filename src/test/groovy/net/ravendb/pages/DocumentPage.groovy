@@ -17,10 +17,22 @@ class DocumentPage extends Page {
         documentNameInput { $("input#documentName") }
     }
 
-
     def createAndSaveDocument(String name) {
         documentNameInput = name
         saveButton.click()
         waitFor { saveButton.@disabled == 'true' }
+    }
+
+    def clickRecentDocument(String name) {
+        def docToClick
+        $("div[data-bind='visible:topRecentDocuments().length > 0']").$("span").each {
+            if(it.text().equals(name)) {
+                docToClick = it
+            }
+        }
+
+        if(docToClick) {
+            docToClick.click()
+        }
     }
 }
