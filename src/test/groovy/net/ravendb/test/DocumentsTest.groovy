@@ -1,8 +1,8 @@
 package net.ravendb.test
 
+import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
-import net.ravendb.pages.NewDocumentPage
-import net.ravendb.pages.TasksCreateSampleDataPage;
+import net.ravendb.pages.TasksCreateSampleDataPage
 
 import org.testng.annotations.Test
 
@@ -23,7 +23,7 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         at DocumentsPage
 
         newDocumentButton.click()
-        waitFor { at NewDocumentPage }
+        waitFor { at DocumentPage }
 
         CharSequence documentName = "doc" + rand.nextInt()
         createAndSaveDocument(documentName)
@@ -98,5 +98,93 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         chooseColumnsModalDialog.okButton.click()
         waitFor { chooseColumnsButton.displayed }
         assert isHeaderPresent(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME)
+    }
+
+    @Test(groups="Smoke")
+    void canNavigateToDocumentFromDocumentsPage() {
+        at DocumentsPage
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        assert documentNameInput.value() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT
+    }
+
+    @Test(groups="Smoke")
+    void canViewAndClickResentDocumentsOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES_DOCUMENT)
+        waitFor { at DocumentPage }
+
+        clickRecentDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+        waitFor { documentNameInput.value() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT }
+    }
+
+    @Test(groups="Smoke")
+    void canGenerateCsharpClassFromDocument() {
+        at DocumentsPage
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        csharpButton.click()
+        waitFor { generatedClassModalHeader.displayed }
+
+        assert generatedClassCodeContainer.value().replaceAll("\\s","") == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT_CODE
+    }
+
+    @Test(groups="Smoke")
+    void canDeleteDocumentOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        removeButton.click()
+        waitFor { areYouSureModal.header.displayed }
+
+        areYouSureModal.yesButton.click()
+        alert.waitForMessage(DocumentPage.DOCUMENT_DELETED_MESSAGE + TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+
+        selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
+        waitFor { getRowsCount() > 0 }
+
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT - 1
+    }
+
+    @Test(groups="Smoke")
+    void canNavigateToDocumentsUsingPagingFeatureOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        nextDocumentButton.click()
+        waitFor { documentNameInput.value().endsWith("/2") }
+
+        previousDocumentButton.click()
+        waitFor { documentNameInput.value().endsWith("/1") }
+
+        lastDocumentButton.click()
+        waitFor { documentNameInput.value().endsWith("/"+TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT) }
+
+        firstDocumentButton.click()
+        waitFor { documentNameInput.value().endsWith("/1") }
+    }
+
+    private void navigateToDocument(String collectionName, String documentName) {
+        selectCollection(collectionName)
+        waitFor { getRowsCount() > 0 }
+
+        clickDocument(documentName)
+        waitFor { at DocumentPage }
     }
 }
