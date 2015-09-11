@@ -181,4 +181,45 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 		queryStatsModalDialog.okButton.click()
 		waitFor { at DetailsIndexPage }
 	}
+
+	/**
+	 * User can change columns displayed in index query results panel.
+	 * @Step Navigate to Indexes page.
+	 * @Step Click on the index name.
+	 * @Step Choose columns.
+	 * @Step Delete column.
+	 * @Step Add new column.
+	 * @verification Columns filtered properly.
+	 */
+	@Test(groups="Smoke")
+	void canChooseColumnsOnIndexDetailsPage() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+		waitFor { at DetailsIndexPage }
+
+		chooseColumnsButton.click()
+		waitFor { chooseColumnsModalDialog.header.displayed }
+
+		chooseColumnsModalDialog.columnsButton.click()
+		chooseColumnsModalDialog.columnsCustom.click()
+        chooseColumnsModalDialog.deleteColumn(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+        chooseColumnsModalDialog.okButton.click()
+        waitFor { chooseColumnsButton.displayed }
+        assert !isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+
+		runQueryButton.click()
+		waitFor { queryResultsList.size() > 0 }
+
+        chooseColumnsButton.click()
+        waitFor { chooseColumnsModalDialog.header.displayed }
+
+        chooseColumnsModalDialog.addColumn(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY, DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+        chooseColumnsModalDialog.okButton.click()
+        waitFor { chooseColumnsButton.displayed }
+        assert isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+	}
 }
