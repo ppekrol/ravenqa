@@ -59,4 +59,17 @@ class DocumentPage extends Page {
             docToClick.click()
         }
     }
+
+    def clickRelatedDocument(String name) {
+        def docToClick
+        $("div[data-bind='visible: relatedDocumentHrefs().length >0']").$("span").each {
+            if(it.text().equals(name)) {
+                docToClick = it
+            }
+        }
+
+        if(docToClick) {
+            docToClick.click()
+        }
+    }
 }

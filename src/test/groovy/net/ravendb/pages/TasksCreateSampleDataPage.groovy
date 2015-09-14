@@ -41,9 +41,12 @@ class TasksCreateSampleDataPage extends Page {
 
     public final static String DOCUMENTS_COLLECTION_ORDERS = "Orders"
     public final static int DOCUMENTS_COLLECTION_ORDERS_COUNT = 830
+    public final static String DOCUMENTS_COLLECTION_ORDERS_DOCUMENT = "Orders/830"
+    public final static String DOCUMENTS_COLLECTION_ORDERS_DOCUMENT_RELATED = "shippers/2"
 
     public final static String DOCUMENTS_COLLECTION_PRODUCTS = "Products"
     public final static int DOCUMENTS_COLLECTION_PRODUCTS_COUNT = 77
+    public final static String DOCUMENTS_COLLECTION_PRODUCTS_DOCUMENT = "Products/75"
 
     public final static String DOCUMENTS_COLLECTION_REGIONS = "Regions"
     public final static int DOCUMENTS_COLLECTION_REGIONS_COUNT = 4
