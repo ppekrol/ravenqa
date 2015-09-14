@@ -130,6 +130,18 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
     }
 
     @Test(groups="Smoke")
+    void canViewAndClickRelatedDocumentsOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        navigateToDocumentUsingGoToDocFeature(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_ORDERS_DOCUMENT)
+
+        clickRelatedDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_ORDERS_DOCUMENT_RELATED)
+        waitFor { at DocumentPage }
+
+        assert documentNameInput.value().equals(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_ORDERS_DOCUMENT_RELATED)
+    }
+
+    @Test(groups="Smoke")
     void canGenerateCsharpClassFromDocument() {
         at DocumentsPage
 
@@ -202,10 +214,8 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
     void canUseGoToDocFeature() {
         at DocumentsPage
 
-        topNavigation.goToDocInput = TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT
-        waitFor { topNavigation.goToDocList.size() > 0 }
-        topNavigation.goToDocList[0].click()
-        waitFor { at DocumentPage }
+        navigateToDocumentUsingGoToDocFeature(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
         assert documentNameInput.value().equals(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
     }
 
@@ -214,6 +224,13 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         waitFor { getRowsCount() > 0 }
 
         clickDocument(documentName)
+        waitFor { at DocumentPage }
+    }
+
+    private void navigateToDocumentUsingGoToDocFeature(String documentName) {
+        topNavigation.goToDocInput = documentName
+        waitFor { topNavigation.goToDocList.size() > 0 }
+        topNavigation.goToDocList[0].click()
         waitFor { at DocumentPage }
     }
 }
