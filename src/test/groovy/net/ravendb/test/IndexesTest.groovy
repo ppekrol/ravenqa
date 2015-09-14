@@ -34,11 +34,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
             """
             from order in docs.Orders
             where order.IsShipped
-            select new {
-                order.Date,
-                order.Amount,
-                RegionId = order.Region.Id
-            }
+            select new {order.Date,order.Amount,RegionId = order.Region.Id}
             """.toString()
         ]
         createAndSaveIndex(indexName, maps)
