@@ -12,6 +12,7 @@ class DocumentPage extends Page {
 
     static at = {
         documentNameInput
+        documentsBreadcrumb.displayed
     }
 
     static content = {
@@ -19,6 +20,10 @@ class DocumentPage extends Page {
         topNavigation { module TopNavigationBar }
         areYouSureModal { module YesNoModalDialog }
         alert { module AlertTextModule }
+
+        // breadcrumbs
+        documentsBreadcrumb { $("ul.breadcrumb a[href='#documents']") }
+        collectionBreadcrumb { $("ul.breadcrumb a[href='System Documents']") }
 
         // tool bar
         saveButton { $("button[title='Save (Alt+S)']") }

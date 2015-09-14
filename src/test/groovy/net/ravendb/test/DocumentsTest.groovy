@@ -180,6 +180,23 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         waitFor { documentNameInput.value().endsWith("/1") }
     }
 
+    @Test(groups="Smoke")
+    void canClickBreadcrumbsOnDocumentDetailsPage() {
+        at DocumentsPage
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        documentsBreadcrumb.click()
+        waitFor { at DocumentsPage }
+
+        navigateToDocument(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
+
+        collectionBreadcrumb.click()
+        waitFor { at DocumentsPage }
+        waitFor { getRowsCount() > 0 }
+        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT
+    }
+
     private void navigateToDocument(String collectionName, String documentName) {
         selectCollection(collectionName)
         waitFor { getRowsCount() > 0 }
