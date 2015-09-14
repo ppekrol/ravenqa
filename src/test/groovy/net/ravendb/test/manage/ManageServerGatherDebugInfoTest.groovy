@@ -16,7 +16,7 @@ class ManageServerGatherDebugInfoTest extends TestBase {
      * @Step Click Gather Debug Info link.
      * @verification User can gather debug info.
      */
-    @Test(groups="Smoke")
+    @Test(groups="Smoke",enabled=false)
     void canGatherDebugInfo() {
         at ResourcesPage
 
@@ -27,6 +27,6 @@ class ManageServerGatherDebugInfoTest extends TestBase {
         waitFor { at ManageServerGatherDebugInfoPage }
 
         createInfoPackageButton.click()
-        waitFor { parallelStacksContainer.children().size() > 0 }
+        waitFor(60) { parallelStacksContainer.children().size() > 0 }
     }
 }
