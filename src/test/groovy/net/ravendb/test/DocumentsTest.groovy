@@ -4,6 +4,7 @@ import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.TasksCreateSampleDataPage
 
+import org.openqa.selenium.Keys
 import org.testng.annotations.Test
 
 
@@ -195,6 +196,17 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         waitFor { at DocumentsPage }
         waitFor { getRowsCount() > 0 }
         assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT
+    }
+
+    @Test(groups="Smoke")
+    void canUseGoToDocFeature() {
+        at DocumentsPage
+
+        topNavigation.goToDocInput = TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT
+        waitFor { topNavigation.goToDocList.size() > 0 }
+        topNavigation.goToDocList[0].click()
+        waitFor { at DocumentPage }
+        assert documentNameInput.value().equals(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_DOCUMENT)
     }
 
     private void navigateToDocument(String collectionName, String documentName) {

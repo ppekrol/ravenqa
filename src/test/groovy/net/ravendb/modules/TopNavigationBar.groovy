@@ -14,6 +14,7 @@ class TopNavigationBar extends Module {
         tasksLink { $("a[href^='#databases/tasks']") }
 
         goToDocInput { $("input#goToDocInput") }
+        goToDocList(required:false) { goToDocInput.parent().$("ul li") }
 
         menuCaret { $("li.vertical-navbar-menu-item i.fa-caret-down") }
         resourcesLink { $("a[href='#resources']") }
