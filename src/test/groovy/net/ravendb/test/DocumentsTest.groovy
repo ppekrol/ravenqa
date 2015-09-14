@@ -61,13 +61,13 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         at DocumentsPage
 
         selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
-        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT
+        waitFor { getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COUNT }
         selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES)
-        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES_COUNT
+        waitFor { getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_EMPLOYEES_COUNT }
         selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_REGIONS)
-        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_REGIONS_COUNT
+        waitFor { getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_REGIONS_COUNT }
         selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_SHIPPERS)
-        assert getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_SHIPPERS_COUNT
+        waitFor { getRowsCount() == TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_SHIPPERS_COUNT }
     }
 
     /**
