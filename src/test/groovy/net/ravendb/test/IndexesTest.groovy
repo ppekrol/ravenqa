@@ -4,6 +4,7 @@ import net.ravendb.modules.QueryStatsModalDialog
 import net.ravendb.pages.DetailsIndexPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.IndexMergeSuggestionsPage
+import net.ravendb.pages.IndexTermsPage
 import net.ravendb.pages.IndexesPage
 import net.ravendb.pages.NewIndexPage
 
@@ -217,5 +218,30 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         chooseColumnsModalDialog.okButton.click()
         waitFor { chooseColumnsButton.displayed }
         assert isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+	}
+
+	/**
+	 * User can display index's terms.
+	 * @Step Navigate to Indexes page.
+	 * @Step Click on the index name.
+	 * @Step Click on the Terms button.
+	 * @Step Expand all terms.
+	 * @verification Index`s terms displayed properly.
+	 */
+	@Test(groups="Smoke")
+	void canDisplayIndexTerms() {
+		at DocumentsPage
+
+		topNavigation.indexesLink.click()
+		waitFor { at IndexesPage }
+
+		getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+		waitFor { at DetailsIndexPage }
+
+		termsButton.click()
+		waitFor { at IndexTermsPage }
+
+		clickTermsLink(IndexTermsPage.TERMS_NAME_COMPANY)
+		assert termsItems.size() > 0
 	}
 }
