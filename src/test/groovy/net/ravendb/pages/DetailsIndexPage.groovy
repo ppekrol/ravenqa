@@ -15,14 +15,18 @@ class DetailsIndexPage extends Page {
     }
 
     static content = {
+		// modules
 		topNavigation { module TopNavigationBar }
 		queryStatsModalDialog { module QueryStatsModalDialog }
 		chooseColumnsModalDialog { module ChooseColumnsModalDialog }
 
+		// tool bar
 		runQueryButton { $("button[title='Run the query (Alt+R)']") }
 		chooseColumnsButton { $("button[title='Choose columns...']") }
+		termsButton { $("a[title='Navigate to index terms']") }
 		queryStatsButton { $("a[title='Show Query Stats In Dialog']") }
 
+		// results list
 		queryResultsList { $("div#queryResultsGrid div.ko-grid-row") }
 		queryResultsListHeaders(required:false) { $("div.ko-grid-column-header span[data-bind='text: header']") }
     }
