@@ -12,6 +12,7 @@ class IndexesPage extends Page {
 	final static String INDEX_NAME_ORDERS_BY_COMPANY = "Orders/ByCompany"
 	final static String INDEX_NAME_ORDERS_TOTALS = "Orders/Totals"
 	final static String INDEX_NAME_PRODUCT_SALES = "Product/Sales"
+    final static String INDEX_NAME_TEST_ORDERS_BY_COMPANY = "Test/Orders/ByCompany"
 
 	final static String INDEX_TOGGLE_OPTION_COPY = "Copy index"
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
@@ -54,6 +55,7 @@ class IndexesPage extends Page {
 
 		// index panel
 		indexRowContainer { $('.index-panel.panel.panel-default') }
+        indexEditButton { "a.indexes-controls[data-bind='attr: { href: editUrl }']" }
 		indexRowButtonSelector { "button" }
 		indexRowLinkSelector { "li[role='presentation'] a" }
 		indexStatusContainer { "small" }
@@ -94,6 +96,11 @@ class IndexesPage extends Page {
 		assert link
 		link.click()
 	}
+
+    def clickEditButton(CharSequence indexName) {
+        def container = getIndexContainer(indexName)
+        container.find(indexEditButton).click()
+    }
 
 	def getTrashDropdownOption(CharSequence optionName) {
 		def container = menuToolbar
