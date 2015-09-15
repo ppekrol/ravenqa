@@ -244,13 +244,8 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
 		termsButton.click()
 		waitFor { at IndexTermsPage }
-		sleep(1000)
 
-		getTermsLink(IndexTermsPage.TERMS_NAME_COMPANY).click()
-		sleep(1000)
-		getTermsLink(IndexTermsPage.TERMS_NAME_COUNT).click()
-		sleep(1000)
-		getTermsLink(IndexTermsPage.TERMS_NAME_TOTAL).click()
-		assert getRowsCount() == IndexTermsPage.TERMS_COUNT
+		clickTermsLink(IndexTermsPage.TERMS_NAME_COMPANY)
+		assert termsItems.size() > 0
 	}
 }

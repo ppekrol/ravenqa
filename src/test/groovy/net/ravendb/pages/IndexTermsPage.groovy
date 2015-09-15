@@ -11,32 +11,24 @@ class IndexTermsPage extends Page {
 	public final static int TERMS_COUNT = 280
 
 	static at = {
-		termsPanel
+		termsPanelLinks.size() > 0
 	}
 
     static content = {
-		termsPanel { $('.panel.panel-default a') }
-		termsItemsCount { $('ul.list-group .list-group-item') }
+        termsPanelLinks { $("div#accordion a[data-parent='#accordion']") }
+        termsItems { $("ul[data-bind='foreach: terms']") }
     }
 
-	def getTermsLink(CharSequence name) {
+	def clickTermsLink(CharSequence name) {
 		def container
-		termsPanel.each {
-			if(it.getAttribute("innerHTML").contains(name)) {
+		termsPanelLinks.each {
+			if(it.text().equals(name)) {
 				container = it
 			}
 		}
-		container
-	}
 
-	int getRowsCount() {
-		int rowsCount = 0
-		termsItemsCount.each {
-			if(!it.@style.contains("display: none")) {
-				rowsCount += 1
-			}
-		}
-
-		return rowsCount
+		if(container) {
+            container.click()
+        }
 	}
 }
