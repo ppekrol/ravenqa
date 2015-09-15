@@ -18,7 +18,8 @@ class ManageServerSqlReplicationTest extends TestBase {
      * @Step Create SQL Replication configuration.
      * @verification Configuration created and deleted.
      */
-    @Test(groups="Smoke")
+    //TODO enable when able to handle leave page dialog
+    @Test(groups="Smoke",enabled=false)
     void canCreateAndDeleteSqlReplicationWithAllAvailableOptions() {
         at ResourcesPage
 

@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat
 import net.ravendb.pages.LandingPage
 import net.ravendb.pages.ResourcesPage
 
-import org.openqa.selenium.Alert
 import org.openqa.selenium.JavascriptExecutor
 import org.testng.ITestContext
 import org.testng.annotations.BeforeGroups
@@ -50,13 +49,7 @@ abstract class TestBase extends GebReportingTest {
 
     @BeforeMethod(alwaysRun=true)
     def setup(ITestContext context) {
-        try {
-            go browser.baseUrl
-
-            Alert alert = browser.driver.switchTo().alert()
-            alert.accept()
-        } catch(Exception e) {
-        }
+        go browser.baseUrl
 
         waitFor { at ResourcesPage }
     }

@@ -71,7 +71,7 @@ class ResourcesTest extends TestBase {
      * @Step Delete created counter storage.
      * @verification Counter storage created and user can navigate to it, counter storage deleted.
      */
-    @Test(groups="Smoke")
+    @Test(groups="Smoke",enabled=false)
     void canCreateAndDeleteCounterStorageWithDefaultConfiguration() {
         at ResourcesPage
 
@@ -149,8 +149,7 @@ class ResourcesTest extends TestBase {
         groups="Smoke",
         dependsOnMethods=[
             "canCreateAndDeleteDatabaseWithDefaultConfiguration",
-            "canCreateAndDeleteFilesystemWithDefaultConfiguration",
-            "canCreateAndDeleteCounterStorageWithDefaultConfiguration"
+            "canCreateAndDeleteFilesystemWithDefaultConfiguration"
             ]
         )
     void canFilterResources() {
@@ -206,8 +205,7 @@ class ResourcesTest extends TestBase {
         groups="Smoke",
         dependsOnMethods=[
             "canCreateAndDeleteDatabaseWithDefaultConfiguration",
-            "canCreateAndDeleteFilesystemWithDefaultConfiguration",
-            "canCreateAndDeleteCounterStorageWithDefaultConfiguration"
+            "canCreateAndDeleteFilesystemWithDefaultConfiguration"
             ]
         )
     void canDeleteMultipleResources() {
