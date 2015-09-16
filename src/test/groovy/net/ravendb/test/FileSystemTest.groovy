@@ -3,6 +3,7 @@ package net.ravendb.test
 import net.ravendb.pages.FileDetailsPage
 import net.ravendb.pages.FileSystemPage
 import net.ravendb.pages.ResourcesPage
+import net.ravendb.utils.FilesUtils
 
 import org.openqa.selenium.Keys
 import org.testng.annotations.Test
@@ -149,6 +150,32 @@ class FileSystemTest extends TestBase {
 
         deleteFileModalDialog.confirmButton.click()
         alert.waitForMessage(FileSystemPage.FILE_REMOVED)
+    }
+
+    @Test(groups="Smoke")
+    void canDownloadFile() {
+        at ResourcesPage
+
+        String fsName = "fs" + rand.nextInt()
+        prepareFilesystem(fsName)
+
+        String dirName = "testdir"
+        createDirectory(dirName)
+
+        File f = loadTestFile(SIMPLE_TEXT_FILENAME)
+        uploadFile(f, dirName)
+        uploadQueueToggle.click()
+
+        clickFolder(dirName)
+        checkFile(SIMPLE_TEXT_FILENAME)
+        waitFor { downloadSelectedFileButton.displayed }
+
+        downloadSelectedFileButton.click()
+        sleep(10000)
+
+        File downloaded = new File(browser.config.rawConfig.tmpPath + File.separator + SIMPLE_TEXT_FILENAME)
+        assert downloaded.exists()
+        assert FilesUtils.streamsEqual(new FileInputStream(downloaded), new FileInputStream(f))
     }
 
     private void prepareFilesystem(String name) {
