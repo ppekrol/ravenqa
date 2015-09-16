@@ -30,6 +30,7 @@ class FileSystemPage extends Page {
         uploadInput { $("input#upload") }
         removeButton { $("button[title='Remove folder']") }
 
+        downloadSelectedFileButton(required:false) { $("button[title='Download selected document']") }
         deleteSelectedFileButton(required:false) { $("button[title='Delete selected documents (DEL)']") }
 
         // content
