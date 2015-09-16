@@ -2,6 +2,7 @@ package net.ravendb.pages
 
 import geb.Page
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -11,7 +12,9 @@ import net.ravendb.modules.TopNavigationBar
 class FileSystemPage extends Page {
 
     static at = {
-        newFolderButton
+        newFolderButton.displayed
+        newFolderButton.displayed
+        folders.displayed
     }
 
     static content = {
@@ -25,6 +28,7 @@ class FileSystemPage extends Page {
         createButton { $("button", text:"Create") }
 
         folders { $("a.dynatree-title") }
+        files(required:false) { $("a[href*='#filesystems/edit']") }
 
         uploadQueueRow { $("div#uploadQueue table tr") }
     }
@@ -52,6 +56,19 @@ class FileSystemPage extends Page {
             if(it.text().contains(name)) {
                 it.click()
             }
+        }
+    }
+
+    def clickFile(String name) {
+        def linkToClick
+        files.each {
+            if(it.@href.contains(URLEncoder.encode(name, StandardCharsets.UTF_8.toString()))) {
+                linkToClick = it
+            }
+        }
+
+        if(linkToClick) {
+            linkToClick.click()
         }
     }
 
