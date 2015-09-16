@@ -20,6 +20,9 @@ class DetailsIndexPage extends Page {
 		queryStatsModalDialog { module QueryStatsModalDialog }
 		chooseColumnsModalDialog { module ChooseColumnsModalDialog }
 
+        // breadcrumbs
+        indexesBreadcrumbs { $("ul.breadcrumb a[data-bind='attr: { href: appUrls.indexes }']") }
+
 		// tool bar
 		runQueryButton { $("button[title='Run the query (Alt+R)']") }
 		chooseColumnsButton { $("button[title='Choose columns...']") }

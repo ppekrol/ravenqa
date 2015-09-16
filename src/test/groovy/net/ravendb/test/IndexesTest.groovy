@@ -279,4 +279,29 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_TEST_ORDERS_BY_COMPANY)
         waitFor { !warningContainer.displayed }
     }
+
+    /**
+     * User can switch index using breadcrumbs link on index details page.
+     * @Step Navigate to Indexes page.
+     * @Step Click on the index name.
+     * @Step Click breadcrumbs link.
+     * @Step Click on the index name.
+     * @verification Switching indexes using breadcrumbs link works properly.
+     */
+    @Test(groups="Smoke")
+    void canSwitchIndexUsingBreadcrumbsLinkOnIndexDetailsPage() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+        waitFor { at DetailsIndexPage }
+
+        indexesBreadcrumbs.click()
+        waitFor { at IndexesPage }
+
+        getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_TOTALS, "UTF-8")).click()
+        waitFor { at DetailsIndexPage }
+    }
 }
