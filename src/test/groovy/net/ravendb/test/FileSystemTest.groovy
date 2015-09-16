@@ -93,6 +93,42 @@ class FileSystemTest extends TestBase {
         assert filenameInput.value().equals(dirName + "/test.txt")
     }
 
+    @Test(groups="Smoke")
+    void canDeleteFile() {
+        at ResourcesPage
+
+        String fsName = "fs" + rand.nextInt()
+        prepareFilesystem(fsName)
+
+        String dirName = "testdir"
+        createDirectory(dirName)
+
+        File f = loadTestFile(SIMPLE_TEXT_FILENAME)
+        uploadFile(f, dirName)
+        uploadQueueToggle.click()
+
+        clickFolder(dirName)
+        checkFile(SIMPLE_TEXT_FILENAME)
+        waitFor { deleteSelectedFileButton.displayed }
+
+        deleteSelectedFileButton.click()
+        waitFor { deleteFileModalDialog.confirmButton.displayed }
+
+        deleteFileModalDialog.confirmButton.click()
+        alert.waitForMessage(FileSystemPage.FILE_REMOVED)
+
+        uploadFile(f, dirName)
+        clickFolder(dirName)
+        clickFile(SIMPLE_TEXT_FILENAME)
+        waitFor { at FileDetailsPage }
+
+        deleteFileButton.click()
+        waitFor { deleteFileModalDialog.confirmButton.displayed }
+
+        deleteFileModalDialog.confirmButton.click()
+        alert.waitForMessage(FileDetailsPage.DELETE_SUCCESS + dirName + "/" + SIMPLE_TEXT_FILENAME)
+    }
+
     private void prepareFilesystem(String name) {
         createResource(name, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
 

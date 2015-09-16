@@ -2,14 +2,16 @@ package net.ravendb.pages
 
 import geb.Page
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path
-import java.nio.file.Paths
+import java.nio.charset.StandardCharsets
 
+import net.ravendb.modules.AlertTextModule
+import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.TopNavigationBar
 
 
 class FileSystemPage extends Page {
+
+    public final static String FILE_REMOVED = "Files deleted"
 
     static at = {
         newFolderButton.displayed
@@ -18,19 +20,28 @@ class FileSystemPage extends Page {
     }
 
     static content = {
+        // modules
         topNavigation { module TopNavigationBar }
+        deleteFileModalDialog { module DeleteResourceModalDialog }
+        alert { module AlertTextModule }
 
+        // toolbars
         newFolderButton { $("button[title='Create folder']") }
         uploadInput { $("input#upload") }
         removeButton { $("button[title='Remove folder']") }
 
+        deleteSelectedFileButton(required:false) { $("button[title='Delete selected documents (DEL)']") }
+
+        // content
         folderNameInput { $("input#filesystemName") }
         createButton { $("button", text:"Create") }
 
         folders { $("a.dynatree-title") }
         files(required:false) { $("a[href*='#filesystems/edit']") }
+        checkboxesSelector(required:false) { "img[src='content/images/unchecked.png']" }
 
         uploadQueueRow { $("div#uploadQueue table tr") }
+        uploadQueueToggle { $("#uploadQueuePanelToggle") }
     }
 
     def createDirectory(String name) {
@@ -88,6 +99,19 @@ class FileSystemPage extends Page {
                 }
             }
             found
+        }
+    }
+
+    def checkFile(String name) {
+        def checkbox
+        files.each {
+            if(it.@href.contains(URLEncoder.encode(name, StandardCharsets.UTF_8.toString()))) {
+                checkbox = it.parent().parent().$(checkboxesSelector)
+            }
+        }
+
+        if(checkbox) {
+            checkbox.click()
         }
     }
 }
