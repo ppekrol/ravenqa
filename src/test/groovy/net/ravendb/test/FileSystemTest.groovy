@@ -65,6 +65,34 @@ class FileSystemTest extends TestBase {
         alert.waitForMessage(FileDetailsPage.SAVED_MESSAGE + dirName + "/" + SIMPLE_TEXT_FILENAME)
     }
 
+    @Test(groups="Smoke")
+    void canRenameFile() {
+        at ResourcesPage
+
+        String fsName = "fs" + rand.nextInt()
+        prepareFilesystem(fsName)
+
+        String dirName = "testdir"
+        createDirectory(dirName)
+
+        File f = loadTestFile(SIMPLE_TEXT_FILENAME)
+        uploadFile(f, dirName)
+
+        clickFolder(dirName)
+        clickFile(SIMPLE_TEXT_FILENAME)
+        waitFor { at FileDetailsPage }
+
+        renameFileButton.click()
+        waitFor { renameFileInput.displayed }
+
+        renameFileInput = dirName + "/test.txt"
+        renameFileOkButton.click()
+        waitFor { !renameFileInput.displayed }
+        alert.waitForMessage(FileDetailsPage.RENAME_SUCCESS)
+
+        assert filenameInput.value().equals(dirName + "/test.txt")
+    }
+
     private void prepareFilesystem(String name) {
         createResource(name, ResourcesPage.RESOURCE_TYPE_FILESYSTEM)
 
