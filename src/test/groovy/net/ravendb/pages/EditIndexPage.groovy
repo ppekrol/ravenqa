@@ -21,8 +21,8 @@ class EditIndexPage extends Page {
 
         //tool bar
         menuToolbar { $('.btn-toolbar') }
-        editOptionButton { ".dropdown-toggle" }
-        editDropdownMenu { "ul.dropdown-menu li" }
+        editOptionButtonSelector { ".dropdown-toggle" }
+        editDropdownMenuSelector { "ul.dropdown-menu li" }
 
         warningContainer { $('div.alert-warning') }
 
@@ -33,9 +33,9 @@ class EditIndexPage extends Page {
 
     def clickEditIndexOption(CharSequence optionName) {
         def container = menuToolbar
-        container.find(editOptionButton).click()
+        container.find(editOptionButtonSelector).click()
         def option
-        container.find(editDropdownMenu).each {
+        container.find(editDropdownMenuSelector).each {
             if(it.getAttribute("innerHTML").contains(optionName)) {
                 option = it
             }
