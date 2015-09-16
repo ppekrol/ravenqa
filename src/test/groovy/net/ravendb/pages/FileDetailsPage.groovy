@@ -8,6 +8,7 @@ import net.ravendb.modules.TopNavigationBar
 class FileDetailsPage extends Page {
 
     public final static String SAVED_MESSAGE = "Saved "
+    public final static String RENAME_SUCCESS = "Successfully renamed file"
 
     static at = {
         filenameInput.displayed
@@ -20,10 +21,15 @@ class FileDetailsPage extends Page {
 
         // toolbar
         saveButton { $("button[title='Save (Alt+S)']") }
+        renameFileButton { $("button[title='Rename file (Alt+E)']") }
 
         // content
         filenameInput { $("input[title='File name']") }
         fileMetadataContainer { $("pre#fileMetadataEditor textarea") }
+
+        // rename file modal dialog
+        renameFileInput(required:false) { $("input[data-bind='value: newName']") }
+        renameFileOkButton(required:false) { $("button[data-bind='click: rename']") }
     }
 
 }
