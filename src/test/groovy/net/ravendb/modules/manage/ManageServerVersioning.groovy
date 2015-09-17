@@ -15,6 +15,7 @@ class ManageServerVersioning extends Module {
         messagesContainer { module AlertTextModule }
 
         saveButton { $("button[title='Save Changes(Alt+S)']") }
+        closeButton { $("button[data-bind='click: close']") }
         createGlobalConfigurationForVersioningButton { $("button", text:"Create global configuration for Versioning") }
         removeGlobalConfigurationForVersioningButton { $("button",text:"Remove global configuration for Versioning") }
         addVersioningButton { $("button[title='Add a replication destination (Alt+N)']") }
