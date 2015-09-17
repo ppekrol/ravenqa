@@ -1,9 +1,11 @@
 package net.ravendb.pages
 
 import geb.Page
+import net.ravendb.modules.CreateEncryptionModalDialog
 import net.ravendb.modules.CreateResourceModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.DisableEnableResourceModalDialog
+import net.ravendb.modules.SaveEncryptionKeyModalDialog
 import net.ravendb.modules.TopNavigationBar
 import net.ravendb.modules.manage.ManageServerVersioning
 
@@ -50,6 +52,8 @@ class ResourcesPage extends Page {
         deleteResourceModalDialog { module DeleteResourceModalDialog }
         disableEnableResourceModalDialog { module DisableEnableResourceModalDialog }
         versioningModalDialog { module ManageServerVersioning }
+        createEncryptionModalDialog { module CreateEncryptionModalDialog }
+        saveEncryptionModalDialog { module SaveEncryptionKeyModalDialog }
 
         // tool bar
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
@@ -213,10 +217,6 @@ class ResourcesPage extends Page {
 
         createResourceModalDialog.createButton.click()
         waitFor { createNewResourceButton.displayed }
-
-        waitFor(message: "Resource "+name+" not found on the list.") {
-            getResourceLink(name)
-        }
     }
 
     def deleteResources(List<String> names) {
