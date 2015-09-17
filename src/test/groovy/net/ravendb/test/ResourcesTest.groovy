@@ -5,6 +5,7 @@ import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
 import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.ResourcesPage
+import net.ravendb.pages.SettingsPage;
 
 import org.testng.annotations.Test
 
@@ -281,5 +282,41 @@ class ResourcesTest extends TestBase {
         disable(dbName)
 
         enable(dbName)
+    }
+
+    @Test(groups="Smoke")
+    void canCreateDatabaseAndFilesystemWithVersioning() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.VERSIONING_BUNDLE])
+        waitFor { versioningModalDialog.addVersioningButton.displayed }
+
+        versioningModalDialog.closeButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseVersioningLink.displayed
+
+        topNavigation.resourcesLink.click()
+        waitFor { at ResourcesPage }
+
+        String lastCreatedFileSystem = "fs" + rand.nextInt()
+        createResource(lastCreatedFileSystem, ResourcesPage.RESOURCE_TYPE_FILESYSTEM, [ResourcesPage.FILESYSTEM_VERSIONING_BUNDLE])
+        waitFor { versioningModalDialog.closeButton.displayed }
+
+        versioningModalDialog.closeButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedFileSystem).click()
+        waitFor { at FileSystemPage }
+
+        topNavigation.filesystemSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert filesystemVersioningLink.displayed
     }
 }
