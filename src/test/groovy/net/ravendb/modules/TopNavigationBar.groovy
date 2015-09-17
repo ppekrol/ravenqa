@@ -14,6 +14,7 @@ class TopNavigationBar extends Module {
         tasksLink { $("a[href^='#databases/tasks']") }
         databaseSettingsLink { $("a[href^='#databases/settings']") }
         filesystemSettingsLink { $("a[href^='#filesystems/settings']") }
+        configurationsLink { $("a[href^='#filesystems/configuration']") }
 
         goToDocInput { $("input#goToDocInput") }
         goToDocList(required:false) { goToDocInput.parent().$("ul li") }

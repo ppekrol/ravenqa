@@ -19,5 +19,7 @@ class SettingsPage extends Page {
 
         databaseVersioningLink(required:false) { $("a[href^='#databases/settings']") }
         filesystemVersioningLink(required:false) { $("a[href^='#filesystems/settings']") }
+
+        databaseSettingsDocContainer(required:false) { $("pre#dbDocEditor textarea") }
     }
 }

@@ -1,11 +1,12 @@
 package net.ravendb.test
 
+import net.ravendb.pages.ConfigurationsPage
 import net.ravendb.pages.CounterStoragePage
+import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
-import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.ResourcesPage
-import net.ravendb.pages.SettingsPage;
+import net.ravendb.pages.SettingsPage
 
 import org.testng.annotations.Test
 
@@ -318,5 +319,46 @@ class ResourcesTest extends TestBase {
         topNavigation.filesystemSettingsLink.click()
         waitFor { at SettingsPage }
         assert filesystemVersioningLink.displayed
+    }
+
+    @Test(groups="Smoke")
+    void canCreateDatabaseAndFilesystemWithEncryption() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.ENCRYPTION_BUNDLE])
+        waitFor { createEncryptionModalDialog.header.displayed }
+
+        createEncryptionModalDialog.saveButton.click()
+        waitFor { saveEncryptionModalDialog.header.displayed }
+
+        saveEncryptionModalDialog.okButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        clickDocument("Raven/Encryption/Verification")
+        waitFor { at DocumentPage }
+
+        topNavigation.resourcesLink.click()
+        waitFor { at ResourcesPage }
+
+        String lastCreatedFileSystem = "fs" + rand.nextInt()
+        createResource(lastCreatedFileSystem, ResourcesPage.RESOURCE_TYPE_FILESYSTEM, [ResourcesPage.FILESYSTEM_ENCRYPTION_BUNDLE])
+        waitFor { createEncryptionModalDialog.header.displayed }
+
+        createEncryptionModalDialog.saveButton.click()
+        waitFor { saveEncryptionModalDialog.header.displayed }
+
+        saveEncryptionModalDialog.okButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedFileSystem).click()
+        waitFor { at FileSystemPage }
+
+        topNavigation.configurationsLink.click()
+        waitFor { at ConfigurationsPage }
+        assert encryptionConfigurationLink.displayed
     }
 }
