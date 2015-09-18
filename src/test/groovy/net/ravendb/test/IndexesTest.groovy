@@ -279,4 +279,27 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_TEST_ORDERS_BY_COMPANY)
         waitFor { !warningContainer.displayed }
     }
+
+    /**
+     * User can generate C# index definition.
+     * @Step Navigate to Indexes page.
+     * @Step Click on the edit index button.
+     * @Step Click on the C# button.
+     * @verification C# modal window displayed properly.
+     */
+    @Test(groups="Smoke")
+    void canGenerateCsharpIndexDefinition() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        clickEditButton(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+        waitFor { at EditIndexPage }
+
+        csharpButton.click()
+        waitFor { csharpIndexDefinitionModalHeader.displayed }
+
+        assert csharpIndexDefinitionCodeContainer.value().replaceAll("\\s","") == EditIndexPage.CSHARP_INDEX_DEFINITION_DOCUMENT_CODE
+    }
 }
