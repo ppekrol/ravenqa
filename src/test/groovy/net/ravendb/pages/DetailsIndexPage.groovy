@@ -9,9 +9,10 @@ import net.ravendb.modules.TopNavigationBar
 class DetailsIndexPage extends Page {
 
 	final static String INDEX_QUERY_RESULTS_COLUMN_COMPANY = "Company"
+    final static String INDEX_QUERY_RESULTS_COLLECTION_COMPANIES_DOCUMENT = "companies/43"
 
     static at = {
-        queryStatsButton
+        runQueryButton.displayed
     }
 
     static content = {
@@ -28,6 +29,7 @@ class DetailsIndexPage extends Page {
 
 		// results list
 		queryResultsList { $("div#queryResultsGrid div.ko-grid-row") }
+        documentsListLinksSelector { "a[href^='#databases/edit']" }
 		queryResultsListHeaders(required:false) { $("div.ko-grid-column-header span[data-bind='text: header']") }
     }
 
@@ -52,5 +54,18 @@ class DetailsIndexPage extends Page {
 
 		return present
 	}
+
+    def clickDocument(CharSequence name) {
+        def docToClick
+        queryResultsList.each {
+            if(it.$(documentsListLinksSelector).$("span").text().equals(name)) {
+                docToClick = it.$(documentsListLinksSelector)
+            }
+        }
+
+        if(docToClick) {
+            docToClick.click()
+        }
+    }
 
 }
