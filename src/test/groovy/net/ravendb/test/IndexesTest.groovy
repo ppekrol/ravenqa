@@ -279,4 +279,54 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         alert.waitForMessage(IndexesPage.INDEX_DELETE_SUCCESS + IndexesPage.INDEX_NAME_TEST_ORDERS_BY_COMPANY)
         waitFor { !warningContainer.displayed }
     }
+
+    /**
+     * User can filter index query results.
+     * @Step Navigate to Indexes page.
+     * @Step Click on the index name.
+     * @Step Use string filter.
+     * @Step Use range filter.
+     * @Step Use in filter.
+     * @verification Index`s query results filtered properly.
+     */
+    @Test(groups="Smoke")
+    void canFilterIndexQueryResults() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+        waitFor { at DetailsIndexPage }
+
+        // string filter
+        selectColumnToFilter(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+        waitFor { !(stringFilterButton.@disabled == 'true') }
+        stringFilterButton.click()
+        waitFor { stringFieldFilterModalHeader.displayed }
+        fieldSubTextInput = "companies"
+        waitFor { !(applyButton.@disabled == 'true') }
+        applyButton.click()
+        waitFor { !stringFieldFilterModalHeader.displayed }
+
+        // range filter
+        selectColumnToFilter(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COUNT)
+        rangeFilterButton.click()
+        waitFor { rangeFilterModalHeader.displayed }
+        fromInput = "1"
+        toInput = "2"
+        applyButton.click()
+        sleep(1000)
+
+        // in filter
+        selectColumnToFilter(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_TOTAL)
+        inFilterButton.click()
+        waitFor { addInFilterModalHeader.displayed }
+        searchValueInput = "100.8"
+        applyButton.click()
+        sleep(1000)
+
+        runQueryButton.click()
+        assert getRowsCount() == 1
+    }
 }
