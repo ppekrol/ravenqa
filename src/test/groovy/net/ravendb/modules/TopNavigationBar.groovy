@@ -21,10 +21,18 @@ class TopNavigationBar extends Module {
 
         menuCaret { $("li.vertical-navbar-menu-item i.fa-caret-down") }
         resourcesLink { $("a[href='#resources']") }
+
+        activeDropdown { $("li.navbar-splitbutton.active") }
+        transformersLink { $("a[href^='#databases/transformers']") }
     }
 
     def switchToResources() {
         menuCaret.click()
         resourcesLink.click()
+    }
+
+    def switchToTransformers() {
+        activeDropdown.next().click()
+        transformersLink.click()
     }
 }
