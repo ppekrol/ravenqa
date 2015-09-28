@@ -328,4 +328,55 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_TOTALS, "UTF-8")).click()
         waitFor { at DetailsIndexPage }
     }
+
+    /**
+     * User can create complex index.
+     * @Step Navigate to Indexes page.
+     * @Step Create and save new index with all available options.
+     * @verification Index created.
+     */
+    @Test(groups="Smoke")
+    void canCreateComplexIndex() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        newIndexButton.click()
+        waitFor { at NewIndexPage }
+
+        String indexName = "i" + rand.nextInt()
+        def maps = [
+            """
+            from order in docs.Orders
+            where order.IsShipped
+            select new {Count=1,order.Amount,RegionId = order.Region.Id}
+            """.toString()
+        ]
+        def reduce = [
+            """
+            from result in results
+            group result by result.RegionId into g
+            select new {Count = g.Sum(x => x),RegionId = g.Key,Amount = g.Sum(x => x.Amount)}
+            """.toString()
+        ]
+        String field = "Count"
+        String spatialField = "Amount"
+        String maxIndexOutputs = "3"
+
+        clickAddButtonAndSelectOption(NewIndexPage.NEW_INDEX_ADD_OPTION_BUTTON, NewIndexPage.NEW_INDEX_MAP_OPTION)
+        clickAddButtonAndSelectOption(NewIndexPage.NEW_INDEX_ADD_OPTION_BUTTON, NewIndexPage.NEW_INDEX_REDUCE_OPTION)
+        clickAddButtonAndSelectOption(NewIndexPage.NEW_INDEX_ADD_OPTION_BUTTON, NewIndexPage.NEW_INDEX_FIELD_OPTION)
+        clickAddButtonAndSelectOption(NewIndexPage.NEW_INDEX_ADD_OPTION_BUTTON, NewIndexPage.NEW_INDEX_SPATIAL_FIELD_OPTION)
+        clickAddButtonAndSelectOption(NewIndexPage.NEW_INDEX_ADD_OPTION_BUTTON, NewIndexPage.NEW_INDEX_MAX_INDEX_OUTPUTS_OPTION)
+        clickAddButtonAndSelectOption(NewIndexPage.NEW_INDEX_ADD_OPTION_BUTTON, NewIndexPage.NEW_INDEX_STORE_ALL_FIELDS_OPTION)
+
+        createAndSaveComplexIndex(indexName, maps, reduce, field, spatialField, maxIndexOutputs)
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+        waitFor { getIndexLink(indexName) }
+
+        getIndexLink(indexName).click()
+        waitFor { NewIndexPage }
+    }
 }
