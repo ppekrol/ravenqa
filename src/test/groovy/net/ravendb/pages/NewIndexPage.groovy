@@ -20,7 +20,7 @@ class NewIndexPage extends Page {
     final static String NEW_INDEX_STORE_ALL_FIELDS_OPTION = "Store All Fields"
 
     static at = {
-        indexNameInput
+        indexNameInput.displayed
     }
 
     static content = {
