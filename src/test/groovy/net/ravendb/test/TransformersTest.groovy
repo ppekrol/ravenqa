@@ -64,4 +64,45 @@ class TransformersTest extends DatabaseWithSampleDataTestBase {
         waitFor { at TransformersPage }
         waitFor { !getTransformerLink(transformerName) }
     }
+
+    /**
+     * User can paste transformer from JSON.
+     * @Step Navigate to Indexes page.
+     * @Step Navigate to Transformers page.
+     * @Step Paste and save transformer from JSON.
+     * @verification Transformer created properly.
+     */
+    @Test(groups="Smoke")
+    void canPasteTransformerFromJson() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        topNavigation.switchToTransformers()
+        waitFor { at TransformersPage }
+
+        String transformerName = "Testing"
+        def json =
+        """
+            {
+                "Transformer": {
+                    "TransformResults": "from result in results\r\nselect result.Company",
+                    "TransfomerId": 1,
+                    "Temporary": false,
+                    "Name": "Testing",
+                    "LockMode": "Unlock"
+                }
+            }
+        """.replaceAll("\\s"," ")
+        createAndSaveTransformerFromJson(transformerName, json)
+        waitFor { at NewTransformerPage }
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        topNavigation.switchToTransformers()
+        waitFor { at TransformersPage }
+        waitFor { getTransformerLink(transformerName) }
+    }
 }
