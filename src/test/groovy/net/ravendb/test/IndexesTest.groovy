@@ -45,9 +45,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         topNavigation.indexesLink.click()
         waitFor { at IndexesPage }
         waitFor { getIndexLink(indexName) }
-
-        getIndexLink(indexName).click()
-        waitFor { NewIndexPage }
+        deleteIndex(indexName)
     }
 
     /**
@@ -70,16 +68,19 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         // collapse/expand all indexes list
         collapseAllButton.click()
         waitFor { expandAllButton.displayed }
-        sleep(1000)
+        waitFor { !indexesLinks.displayed }
 
         expandAllButton.click()
         waitFor { collapseAllButton.displayed }
-        sleep(1000)
+        waitFor { indexesLinks.displayed }
 
         // view merge suggestions
         indexMergeSuggestionsButton.click()
         waitFor { at IndexMergeSuggestionsPage }
         waitFor { header.displayed }
+
+        collapseUnmergableLink.click()
+        waitFor { unmergablePanel.displayed }
 
         topNavigation.indexesLink.click()
         waitFor { at IndexesPage }
@@ -101,18 +102,22 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
     /**
      * User can use drop down menu actions.
      * @Step Navigate to Indexes page.
-     * @Step User can change index`s status: idle, disable, abandon, normal.
-     * @Step User can lock and unlock index: Lock (Error), Unlock, Lock (side-by-side).
-     * @Step User can copy index.
      * @Step User can delete index.
-     * @verification Index: idle, disabled, abandoned, normal, locked (error), unlocked, locked (side-by-side),
-     * copied, deleted.
+     * @Step User can change index`s status: idle, disable, abandon, normal.
+     * @Step User can lock and unlock index: Lock (side-by-side), Lock, Lock (Error), Unlock.
+     * @Step User can copy index.
+     * @verification Index: deleted, idle, disabled, abandoned, normal, locked (error), unlocked, locked (side-by-side),
+     * copied.
      */
     @Test(groups="Smoke")
     void canUseDropdownMenuOptions() {
         at DocumentsPage
 
         topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        // delete index
+        deleteIndex(IndexesPage.INDEX_NAME_ORDERS_TOTALS)
         waitFor { at IndexesPage }
 
         // change index's status
@@ -130,21 +135,23 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_DISABLED).displayed }
         waitFor { !getIndexStatusContainer(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_ABANDONED).displayed }
 
-        // lock and unlock index
+        // lock (side-by-side), lock, lock (Error), unlock index
+        changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE)
+        waitFor { getLockIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
+
+        changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED)
+        waitFor { getLockIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
+
         changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_ERROR)
-        waitFor { lockErrorIcon.displayed }
+        waitFor { getLockErrorIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
 
         changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_UNLOCKED)
-
-        changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE)
+        waitFor { !getLockIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
+        waitFor { !getLockErrorIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
 
         // copy index
         copyIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
         waitFor { at IndexesPage }
-        sleep(1000)
-
-        // delete index
-        deleteIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
     }
 
     /**
@@ -155,7 +162,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
      * @verification Query Stats modal dialog displayed.
      */
     @Test(groups="Smoke")
-    void canManageIndexDetails() {
+    void canViewIndexQueryStats() {
         at DocumentsPage
 
         topNavigation.indexesLink.click()

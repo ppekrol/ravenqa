@@ -14,6 +14,7 @@ class IndexMergeSuggestionsPage extends Page {
 		topNavigation { module TopNavigationBar }
 
 		header { $("h4", text:"Suggestions") }
+        collapseUnmergableLink { $("a[href^='#collapseUnmergable']") }
+        unmergablePanel { $("div.panel-collapse.collapse.in#collapseUnmergable") }
     }
-
 }

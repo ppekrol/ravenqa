@@ -18,6 +18,7 @@ class IndexesPage extends Page {
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
 	final static String INDEX_TOGGLE_OPTION_UNLOCKED = "Unlocked"
 	final static String INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE = "Locked (side-by-side)"
+    final static String INDEX_TOGGLE_OPTION_LOCKED = "Locked"
 	final static String INDEX_TOGGLE_OPTION_LOCKED_ERROR = "Locked (Error)"
 	final static String INDEX_TOGGLE_OPTION_NORMAL = "Normal"
 	final static String INDEX_TOGGLE_OPTION_IDLE = "Idle"
@@ -32,7 +33,7 @@ class IndexesPage extends Page {
 	final static String DELETE_ALL_INDEXES_SUCCESS = "Successfully deleted 2 indexes!"
 
     static at = {
-        newIndexButton
+        newIndexButton.displayed
     }
 
     static content = {
@@ -61,7 +62,8 @@ class IndexesPage extends Page {
 		indexStatusContainer { "small" }
 
 		// lock icon
-		lockErrorIcon { $('i.fa-unlock.text-danger') }
+        lockIconSelector { "i.fa.fa-lock" }
+		lockErrorIconSelector { "i.fa-unlock.text-danger" }
     }
 
     def getIndexLink(CharSequence name) {
@@ -84,18 +86,28 @@ class IndexesPage extends Page {
 		container
 	}
 
-	def clickDropdownOption(CharSequence indexName, CharSequence optionName) {
-		def container = getIndexContainer(indexName)
-		container.find(indexRowButtonSelector).click()
-		def link
-		container.find(indexRowLinkSelector).each {
-			if(it.getAttribute("innerHTML").contains(optionName)) {
-				link = it
-			}
-		}
-		assert link
-		link.click()
-	}
+    def getLockIcon(CharSequence indexName) {
+        def container = getIndexContainer(indexName)
+        container.find(lockIconSelector)
+    }
+
+    def getLockErrorIcon(CharSequence indexName) {
+        def container = getIndexContainer(indexName)
+        container.find(lockErrorIconSelector)
+    }
+
+    def clickDropdownOption(CharSequence indexName, CharSequence optionName) {
+        def container = getIndexContainer(indexName)
+        container.find(indexRowButtonSelector).click()
+        def link
+        container.find(indexRowLinkSelector).each {
+            if(it.text().equals(optionName)) {
+                link = it
+            }
+        }
+        assert link
+        link.click()
+    }
 
     def clickEditButton(CharSequence indexName) {
         def container = getIndexContainer(indexName)
@@ -134,7 +146,7 @@ class IndexesPage extends Page {
 	def copyIndex(String name) {
 		clickDropdownOption(name, INDEX_TOGGLE_OPTION_COPY)
 		waitFor { copyIndexModalDialog.header.displayed }
-		waitFor { copyIndexModalDialog.closeButton.displayed }
+        waitFor { copyIndexModalDialog.closeButton.displayed }
 
 		copyIndexModalDialog.closeButton.click()
 	}
