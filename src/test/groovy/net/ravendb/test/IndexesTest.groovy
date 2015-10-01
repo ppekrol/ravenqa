@@ -9,6 +9,7 @@ import net.ravendb.pages.IndexMergeSuggestionsPage
 import net.ravendb.pages.IndexTermsPage
 import net.ravendb.pages.IndexesPage
 import net.ravendb.pages.NewIndexPage
+import net.ravendb.pages.QueryDataExplorationPage
 
 import org.testng.annotations.Test
 
@@ -378,5 +379,38 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
 
         getIndexLink(indexName).click()
         waitFor { NewIndexPage }
+    }
+
+    /**
+     * User can use query data exploration tool.
+     * @Step Navigate to Query page.
+     * @Step Navigate to the data exploration tool.
+     * @Step Create and run the data exploration tool.
+     * @verification Query exploration results displayed properly.
+     */
+    @Test(groups="Smoke")
+    void canUseQueryDataExplorationTool() {
+        at DocumentsPage
+
+        topNavigation.queryLink.click()
+        waitFor { at DetailsIndexPage }
+
+        topNavigation.switchToDataExplorationTool()
+        waitFor { at QueryDataExplorationPage }
+
+        int timeout = 100
+        int maxDocumentsToScan = 4000
+        def linq = """
+            from result in results
+            select new { result.Name, result.Id, result.Description }
+            """.toString()
+
+        createAndRunDataExploration(QueryDataExplorationPage.QUERY_COLLECTION_OPTION_CATEGORIES, linq, timeout, maxDocumentsToScan)
+        waitFor { queryResultsList.size() > 0 }
+
+        assert getRowsCount() == 8
+        assert isHeaderPresent(QueryDataExplorationPage.QUERY_RESULTS_COLUMN_ID)
+        assert isHeaderPresent(QueryDataExplorationPage.QUERY_RESULTS_COLUMN_NAME)
+        assert isHeaderPresent(QueryDataExplorationPage.QUERY_RESULTS_COLUMN_DESCRIPTION)
     }
 }
