@@ -26,6 +26,7 @@ class TopNavigationBar extends Module {
         activeDropdown { $("li.navbar-splitbutton.active") }
         transformersLink { $("a[href^='#databases/transformers']") }
         dataExplorationLink { $("a[href^='#databases/query/exploration']") }
+        reportingLink { $("a[href^='#databases/query/reporting']") }
     }
 
     def switchToResources() {
@@ -41,5 +42,10 @@ class TopNavigationBar extends Module {
     def switchToDataExplorationTool() {
         activeDropdown.next().click()
         dataExplorationLink.click()
+    }
+
+    def switchToReportingTool() {
+        activeDropdown.next().click()
+        reportingLink.click()
     }
 }
