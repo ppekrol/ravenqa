@@ -307,7 +307,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         fieldSubTextInput = "companies"
         waitFor { !(applyButton.@disabled == 'true') }
         applyButton.click()
-        waitFor { !stringFieldFilterModalHeader.displayed }
+        waitFor { runQueryButton.click() }
 
         // range filter
         selectColumnToFilter(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COUNT)
@@ -316,7 +316,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         fromInput = "1"
         toInput = "2"
         applyButton.click()
-        sleep(1000)
+        waitFor { runQueryButton.click() }
 
         // in filter
         selectColumnToFilter(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_TOTAL)
@@ -324,9 +324,8 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         waitFor { addInFilterModalHeader.displayed }
         searchValueInput = "100.8"
         applyButton.click()
-        sleep(1000)
+        waitFor { runQueryButton.click() }
 
-        runQueryButton.click()
         assert getRowsCount() == 1
     }
 }

@@ -92,5 +92,4 @@ class DetailsIndexPage extends Page {
         selectField.click()
         selectQueryFilter(columnName)
     }
-
 }
