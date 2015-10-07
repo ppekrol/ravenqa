@@ -11,7 +11,7 @@ class QueryDataExplorationPage extends Page {
     final static String QUERY_RESULTS_COLUMN_DESCRIPTION = "Description"
 
     static at = {
-        runButton
+        runButton.displayed
     }
 
     static content = {
@@ -19,7 +19,6 @@ class QueryDataExplorationPage extends Page {
         runButton { $("button[title='Run']") }
         selectCollectionButton { $("button[title='Collection']") }
         collectionDropdown { $("ul.dropdown-menu[data-bind='foreach: collections']") }
-        dropdownOptionSelector { "a" }
 
         // form
         timeoutInput { $("input[data-bind*='explorationRequest.timeoutSeconds']") }
@@ -35,7 +34,7 @@ class QueryDataExplorationPage extends Page {
         selectCollectionButton.click()
         def container = collectionDropdown
         def option
-        container.find(dropdownOptionSelector).each {
+        container.$("a").each {
             if(it.getAttribute("innerHTML").contains(name)) {
                 option = it
             }
