@@ -21,7 +21,6 @@ class QueryReportingPage extends Page {
         // form
         groupByDropdownButton { $("button[title='Group By (Alt+G)']") }
         availableFieldsDropdown { $("div.btn-group.open ul.dropdown-menu[data-bind='foreach: availableFields']") }
-        dropdownOptionSelector { "li a" }
         valuesDropdownButton { $("button[title='Add a value (Alt+V)']") }
         filterDropdownButton { $("button[title='Add a filter (Alt+F)']") }
         filterAceEditor { $("pre[data-bind*='aceEditor'] textarea") }
@@ -34,7 +33,7 @@ class QueryReportingPage extends Page {
     def selectOption(CharSequence name) {
         def container = availableFieldsDropdown
         def option
-        container.find(dropdownOptionSelector).each {
+        container.$("li a").each {
             if(it.getAttribute("innerHTML").contains(name)) {
                 option = it
             }
