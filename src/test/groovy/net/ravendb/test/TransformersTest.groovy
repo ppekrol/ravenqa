@@ -105,4 +105,33 @@ class TransformersTest extends DatabaseWithSampleDataTestBase {
         waitFor { at TransformersPage }
         waitFor { getTransformerLink(transformerName) }
     }
+
+    /**
+     * User can lock/unlock transformer.
+     * @Step Navigate to Indexes page.
+     * @Step Navigate to Transformers page.
+     * @Step Lock transformer.
+     * @Step Unlock transformer.
+     * @verification Transformer locked and unlocked properly.
+     */
+    @Test(groups="Smoke")
+    void canLockAndUnlockTransformer() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        topNavigation.switchToTransformers()
+        waitFor { at TransformersPage }
+
+        // lock
+        clickLockUnlockButton(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
+        waitFor { getLockIcon(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY).displayed }
+        messagesContainer.waitForMessage(TransformersPage.TRANSFORMER_SAVE_SUCCESS + TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
+
+        // unlock
+        clickLockUnlockButton(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
+        waitFor { !getLockIcon(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY).displayed }
+        messagesContainer.waitForMessage(TransformersPage.TRANSFORMER_SAVE_SUCCESS + TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
+    }
 }

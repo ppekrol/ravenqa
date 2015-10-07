@@ -7,6 +7,9 @@ import net.ravendb.modules.TopNavigationBar
 
 class TransformersPage extends Page {
 
+    final static String TRANSFORMER_NAME_ORDERS_COMPANY = "Orders/Company"
+    final static String TRANSFORMER_SAVE_SUCCESS = "Saved "
+
     static at = {
         newTransformerButton
     }
@@ -26,6 +29,11 @@ class TransformersPage extends Page {
         pasteTransformerFromJsonModalHeader { $("h4", text:"Paste Transformer") }
         transformerAceEditorPasteFromJson { $("pre.ace_editor.ace-xcode.ui-resizable textarea") }
         saveTransformerButton { $("button[title='Save transformer (Alt+S)']") }
+
+        // transformer panel
+        transformerRowContainer { $('.transformers-group.panel.panel-default') }
+        lockUnlockTransformerButtonSelector { "a[title='Lock/Un-Lock Transformer']" }
+        lockTransformerIconSelector { "i.fa.fa-lock" }
     }
 
     def getTransformerLink(CharSequence name) {
@@ -47,5 +55,25 @@ class TransformersPage extends Page {
         saveTransformerButton.click()
 
         messagesContainer.waitForMessage("Saved " + name)
+    }
+
+    def getTransformerContainer(CharSequence name) {
+        def container
+        transformerRowContainer.each {
+            if(it.getAttribute("innerHTML").contains(name)) {
+                container = it
+            }
+        }
+        container
+    }
+
+    def clickLockUnlockButton(CharSequence transformerName) {
+        def container = getTransformerContainer(transformerName)
+        container.find(lockUnlockTransformerButtonSelector).click()
+    }
+
+    def getLockIcon(CharSequence transformerName) {
+        def container = getTransformerContainer(transformerName)
+        container.find(lockTransformerIconSelector)
     }
 }

@@ -56,10 +56,10 @@ class IndexesPage extends Page {
 
 		// index panel
 		indexRowContainer { $('.index-panel.panel.panel-default') }
-        indexEditButton { "a.indexes-controls[data-bind='attr: { href: editUrl }']" }
+        indexEditButtonSelector { "a.indexes-controls[data-bind='attr: { href: editUrl }']" }
 		indexRowButtonSelector { "button" }
 		indexRowLinkSelector { "li[role='presentation'] a" }
-		indexStatusContainer { "small" }
+		indexStatusContainerSelector { "small" }
 
 		// lock icon
         lockIconSelector { "i.fa.fa-lock" }
