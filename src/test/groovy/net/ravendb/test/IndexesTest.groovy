@@ -386,6 +386,52 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
     }
 
     /**
+     * User can run simple query on index.
+     * @Step Navigate to Indexes page.
+     * @Step Click on the index name.
+     * @Step Add multiple Sort By statements.
+     * @Step Add transformer.
+     * @Step Run the query.
+     * @verification Results are valid.
+     */
+    @Test(groups="Smoke")
+    void canRunSimpleQueryOnIndex() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+        waitFor { at DetailsIndexPage }
+
+        addButton.click()
+        sortByOption.click()
+        selectDropdownAndOptionToSort(DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_SELECT_A_FIELD, DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+
+        addButton.click()
+        sortByOption.click()
+        selectDropdownAndOptionToSort(DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_SELECT_A_FIELD, DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COUNT)
+        selectDropdownAndOptionToSort(DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_ASCENDING, DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_DESCENDING)
+
+        addButton.click()
+        sortByOption.click()
+        selectDropdownAndOptionToSort(DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_SELECT_A_FIELD, DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_TOTAL)
+        selectDropdownAndOptionToSort(DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_ASCENDING, DetailsIndexPage.INDEX_QUERY_RESULTS_SORT_BY_RANGE_ASCENDING)
+
+        addButton.click()
+        transformerOption.click()
+        selectTransformer(DetailsIndexPage.INDEX_QUERY_RESULTS_TRANSORMER_ORDERS_COMPANY)
+
+        runQueryButton.click()
+        waitFor { queryResultsList.size() > 0 }
+        waitFor { getRowsCount() > 0 }
+        assert isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_VALUE)
+        assert !isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
+        assert !isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COUNT)
+        assert !isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_TOTAL)
+    }
+
+    /**
      * User can generate C# index definition.
      * @Step Navigate to Indexes page.
      * @Step Click on the edit index button.
