@@ -2,6 +2,7 @@ package net.ravendb.test
 
 import net.ravendb.pages.ConfigurationsPage
 import net.ravendb.pages.CounterStoragePage
+import net.ravendb.pages.DatabaseReplicationPage
 import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
@@ -360,5 +361,35 @@ class ResourcesTest extends TestBase {
         topNavigation.configurationsLink.click()
         waitFor { at ConfigurationsPage }
         assert encryptionConfigurationLink.displayed
+    }
+
+    @Test(groups="Smoke")
+    void canSetupDatabaseReplication() {
+        at ResourcesPage
+
+        String url = "localhost:8080"
+
+        String databaseNameToReplicateTo = "replicate" + rand.nextInt()
+        createResource(databaseNameToReplicateTo, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        String primaryDatabaseName = "primary" + rand.nextInt()
+        createResource(primaryDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.REPLICATION_BUNDLE])
+
+        getResourceLink(primaryDatabaseName).click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 0
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseReplicationLink.displayed
+
+        databaseReplicationLink.click()
+        waitFor { at DatabaseReplicationPage }
+
+        addReplicationDestination(url, databaseNameToReplicateTo)
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 2
     }
 }

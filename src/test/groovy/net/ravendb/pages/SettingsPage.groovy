@@ -17,6 +17,7 @@ class SettingsPage extends Page {
         // content
         settingsBreadcrumb { $("ul.breadcrumb span", text:"Settings") }
 
+        databaseReplicationLink(required:false) { $("a[href^='#databases/settings/replication']") }
         databaseVersioningLink(required:false) { $("a[href^='#databases/settings']") }
         filesystemVersioningLink(required:false) { $("a[href^='#filesystems/settings']") }
 

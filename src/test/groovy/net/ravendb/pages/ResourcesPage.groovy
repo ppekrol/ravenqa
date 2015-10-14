@@ -155,7 +155,7 @@ class ResourcesPage extends Page {
     }
 
     def createResource(String name, String resourceType, def bundles = []) {
-        createNewResourceButton.click()
+        waitFor { createNewResourceButton.click() }
         waitFor { createResourceModalDialog.createButton.displayed }
 
         switch(resourceType) {
