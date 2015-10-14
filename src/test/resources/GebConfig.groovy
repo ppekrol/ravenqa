@@ -3,9 +3,14 @@
 
 	See: http://www.gebish.org/manual/current/configuration.html
 */
-import java.nio.file.Files
-import java.nio.file.Path
+import geb.Browser
 
+import java.nio.file.Files
+
+import net.ravendb.geb.EmptyNavigator
+import net.ravendb.geb.NonEmptyNavigator
+
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.DesiredCapabilities
@@ -18,6 +23,10 @@ waiting {
 baseUrl = "http://localhost:8080/studio/index.html"
 
 tmpPath = Files.createTempDirectory("raven").toString()
+
+innerNavigatorFactory = { Browser browser, List<WebElement> elements ->
+    elements ? new NonEmptyNavigator(browser, elements) : new EmptyNavigator(browser)
+}
 
 driver = {
     DesiredCapabilities caps = DesiredCapabilities.chrome()
