@@ -111,7 +111,7 @@ class IndexesPage extends Page {
 
     def clickEditButton(CharSequence indexName) {
         def container = getIndexContainer(indexName)
-        container.find(indexEditButton).click()
+        container.find(indexEditButtonSelector).click()
     }
 
 	def getTrashDropdownOption(CharSequence optionName) {
