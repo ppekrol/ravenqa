@@ -1,5 +1,6 @@
 package net.ravendb.test
 
+import net.ravendb.modules.manage.ManageServeSQLReplication
 import net.ravendb.pages.ConfigurationsPage
 import net.ravendb.pages.CounterStoragePage
 import net.ravendb.pages.DatabaseSQLReplicationPage
@@ -381,7 +382,7 @@ class ResourcesTest extends TestBase {
         String sourceDocumentCollection = "Orders"
         String tableName = "Orders"
         String documentKeyColumn = "Id"
-        String provider = manageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
+        String provider = ManageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
         def script =
         """
             var orderData = {Id: documentId,OrderLinesCount: this.Lines.length,TotalCost: 0};
@@ -391,7 +392,7 @@ class ResourcesTest extends TestBase {
         createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SQL_REPLICATION_BUNDLE])
         waitFor { manageServeSQLReplication.saveButton.displayed }
 
-        manageServeSQLReplication.addConnection(stringName, manageServeSQLReplication.SQL_PROVIDER_SQLCLIENT)
+        manageServeSQLReplication.addConnection(stringName, provider)
         manageServeSQLReplication.saveAndCloseConnectionStringSettings()
         waitFor { at ResourcesPage }
 

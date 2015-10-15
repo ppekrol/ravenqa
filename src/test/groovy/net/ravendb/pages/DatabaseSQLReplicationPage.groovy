@@ -31,7 +31,14 @@ class DatabaseSQLReplicationPage extends Page {
         advancedSettingsContainers { $("div.col-sm-6") }
     }
 
-    def createAndSaveNewSQLReplication(String name, String sourceDocumentCollection, String tableName, String documentKeyColumn, String script, String provider) {
+    def createAndSaveNewSQLReplication(
+        String name,
+        String sourceDocumentCollection,
+        String tableName,
+        String documentKeyColumn,
+        String script,
+        String provider
+        ) {
         newSQLReplicationButton.click()
         waitFor { nameInput.displayed }
         nameInput = name
