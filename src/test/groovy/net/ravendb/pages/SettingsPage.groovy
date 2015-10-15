@@ -2,6 +2,7 @@ package net.ravendb.pages
 
 import geb.Page
 import net.ravendb.modules.TopNavigationBar
+import net.ravendb.modules.manage.ManageServerReplication
 
 
 class SettingsPage extends Page {
@@ -13,6 +14,7 @@ class SettingsPage extends Page {
     static content = {
         // modules
         topNavigation(required:false) { module TopNavigationBar }
+        manageServerReplication { module ManageServerReplication }
 
         // content
         settingsBreadcrumb { $("ul.breadcrumb span", text:"Settings") }
