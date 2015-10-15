@@ -2,6 +2,7 @@ package net.ravendb.test
 
 import net.ravendb.pages.ConfigurationsPage
 import net.ravendb.pages.CounterStoragePage
+import net.ravendb.pages.DatabaseSQLReplicationPage
 import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
@@ -363,6 +364,65 @@ class ResourcesTest extends TestBase {
     }
 
     /**
+     * User can setup database SQL replication.
+     * @Step Navigate to resources page.
+     * @Step Create new resource with SQL Replication bundle.
+     * @Step Create new connection string.
+     * @Step Go to Documents, then to Settings.
+     * @Step Create new SQL Replication.
+     * @verification SQL Replication created.
+     */
+    @Test(groups="Smoke")
+    void canSetupDatabaseSqlReplication() {
+        at ResourcesPage
+
+        String stringName = "SQLEXPRESS"
+        String name = "OrdersAndLines"
+        String sourceDocumentCollection = "Orders"
+        String tableName = "Orders"
+        String documentKeyColumn = "Id"
+        String provider = manageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
+        def script =
+        """
+            var orderData = {Id: documentId,OrderLinesCount: this.Lines.length,TotalCost: 0};
+        """.toString()
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SQL_REPLICATION_BUNDLE])
+        waitFor { manageServeSQLReplication.saveButton.displayed }
+
+        manageServeSQLReplication.addConnection(stringName, manageServeSQLReplication.SQL_PROVIDER_SQLCLIENT)
+        manageServeSQLReplication.saveAndCloseConnectionStringSettings()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 1
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseSQLReplicationLink.displayed
+
+        databaseSQLReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+
+        createAndSaveNewSQLReplication(name, sourceDocumentCollection, tableName, documentKeyColumn, script, provider)
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 2
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+
+        databaseSQLReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+        waitFor { replicationContainer.displayed }
+        editSqlReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+    }
+
+    /**
      * User can setup database replication.
      * @Step Navigate to resources page.
      * @Step Create new resource and create new resource with Replication bundle.
@@ -397,5 +457,5 @@ class ResourcesTest extends TestBase {
         topNavigation.documentsLink.click()
         waitFor { at DocumentsPage }
         assert getRowsCount() == 2
-    }
+    }    }
 }

@@ -25,6 +25,7 @@ class ManageServeSQLReplication extends Module {
         messagesContainer { module AlertTextModule }
 
         saveButton { $("button[title='Save changes (Alt+S)']") }
+        closeButton { $("button[data-bind='click: close']") }
         createGlobalConfigurationForSQLReplicationButton { $("button", text:"Create global configuration for SQL Replication") }
         removeGlobalConfigurationForSQLReplicationButton { $("button", text:"Remove global configuration for SQL Replication") }
         newConnectionStringButton { $("button", text:"New connection string") }
@@ -67,6 +68,15 @@ class ManageServeSQLReplication extends Module {
             saveButton.@disabled == "true"
             removeGlobalConfigurationForSQLReplicationButton.displayed
             }
+    }
+
+    def saveAndCloseConnectionStringSettings() {
+        HtmlUtils.scrollToTop(browser)
+        saveButton.click()
+        waitFor(10, 0.1) {
+            saveButton.@disabled == "true"
+            }
+        closeButton.click()
     }
 
     def remove() {
