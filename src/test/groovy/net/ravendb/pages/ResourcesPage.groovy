@@ -5,6 +5,7 @@ import net.ravendb.modules.CreateEncryptionModalDialog
 import net.ravendb.modules.CreateResourceModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.DisableEnableResourceModalDialog
+import net.ravendb.modules.QuotasModalDialog
 import net.ravendb.modules.SaveEncryptionKeyModalDialog
 import net.ravendb.modules.TopNavigationBar
 import net.ravendb.modules.manage.ManageServeSQLReplication
@@ -56,6 +57,7 @@ class ResourcesPage extends Page {
         versioningModalDialog { module ManageServerVersioning }
         createEncryptionModalDialog { module CreateEncryptionModalDialog }
         saveEncryptionModalDialog { module SaveEncryptionKeyModalDialog }
+        quotasModalDialog { module QuotasModalDialog }
         manageServeSQLReplication { module ManageServeSQLReplication }
         manageServerReplication { module ManageServerReplication }
 
