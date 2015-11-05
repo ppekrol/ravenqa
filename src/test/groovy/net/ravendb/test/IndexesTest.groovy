@@ -508,6 +508,23 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
     }
 
     /**
+     * User can reset index.
+     * @Step Navigate to Indexes page.
+     * @Step User can reset index.
+     * @verification Index is reset properly.
+     */
+    @Test(groups="Smoke")
+    void canResetIndex() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        resetIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)
+        waitFor { at DetailsIndexPage }
+    }
+
+    /**
      * User can use query data exploration tool.
      * @Step Navigate to Query page.
      * @Step Navigate to the data exploration tool.
