@@ -367,6 +367,29 @@ class ResourcesTest extends TestBase {
     }
 
     @Test(groups="Smoke")
+    void canEditDatabaseSettings() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        waitFor { editDatabaseSettingsButton.displayed }
+
+        editDatabaseSettingsButton.click()
+        waitFor { areYouSure.okButton.displayed }
+
+        areYouSure.okButton.click()
+        waitFor { !editDatabaseSettingsButton.displayed }
+        waitFor { saveButton.displayed }
+    }
+
+    @Test(groups="Smoke")
     void canCreateDatabaseWithCompression() {
         at ResourcesPage
 
@@ -380,8 +403,7 @@ class ResourcesTest extends TestBase {
         waitFor { at SettingsPage }
         waitFor { databaseSettingsBundleContainer.displayed }
 
-        assert isBundlePresent("Compression")
-    }
+        assert isBundlePresent("Compression")    }
 
     @Test(groups="Smoke")
     void canCreateDatabaseWithScriptedIndex() {
