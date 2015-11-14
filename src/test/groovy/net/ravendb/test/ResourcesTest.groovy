@@ -370,7 +370,7 @@ class ResourcesTest extends TestBase {
      * @verification Replication created.
      */
     @Test(groups="Smoke")
-    void canSetupDatabaseReplication() {
+    void canCreateAndSetupDatabaseReplication() {
         at ResourcesPage
 
         String databaseNameToReplicateTo = "replicate" + rand.nextInt()
