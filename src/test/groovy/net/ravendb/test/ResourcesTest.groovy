@@ -394,17 +394,20 @@ class ResourcesTest extends TestBase {
      * @Step Create new resource with SQL Replication bundle.
      * @Step Go to Documents, then to Settings.
      * @Step Add connection string and create new SQL Replication.
-     * @verification SQL Replication created.
+     * @Step Delete SQL Replication.
+     * @verification SQL Replication created and deleted.
      */
     @Test(groups="Smoke")
-    void canSetupDatabaseSqlReplication() {
+    void canSetupAndDeleteDatabaseSqlReplication() {
         at ResourcesPage
 
         String stringName = "SQLEXPRESS"
         String name = "OrdersAndLines"
         String sourceDocumentCollection = "Orders"
-        String tableName = "Orders"
-        String documentKeyColumn = "Id"
+        String tableNameFirst = "Orders"
+        String documentKeyColumnFirst = "Id"
+        String tableNameSecond = "Product"
+        String documentKeyColumnSecond = "Count"
         String provider = ManageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
         def script =
         """
@@ -438,7 +441,7 @@ class ResourcesTest extends TestBase {
         waitFor { at SettingsPage }
         databaseSQLReplicationLink.click()
         waitFor { at DatabaseSQLReplicationPage }
-        createAndSaveNewSQLReplication(name, sourceDocumentCollection, tableName, documentKeyColumn, script, provider)
+        createAndSaveNewSQLReplication(name, sourceDocumentCollection, tableNameFirst, documentKeyColumnFirst, tableNameSecond, documentKeyColumnSecond, script, provider)
 
         topNavigation.documentsLink.click()
         waitFor { at DocumentsPage }
@@ -450,8 +453,12 @@ class ResourcesTest extends TestBase {
         databaseSQLReplicationLink.click()
         waitFor { at DatabaseSQLReplicationPage }
         waitFor { replicationContainer.displayed }
+
         editSqlReplicationLink.click()
         waitFor { at DatabaseSQLReplicationPage }
+
+        delete()
+        waitFor { at SettingsPage }
     }
 
     /**
