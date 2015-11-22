@@ -148,8 +148,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         waitFor { getLockErrorIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
 
         changeLockOption(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, IndexesPage.INDEX_TOGGLE_OPTION_UNLOCKED)
-        waitFor { !getLockIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
-        waitFor { !getLockErrorIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
+        waitFor { getUnlockIcon(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY).displayed }
 
         // copy index
         copyIndex(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY)

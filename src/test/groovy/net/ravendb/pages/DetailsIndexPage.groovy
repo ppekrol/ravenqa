@@ -123,6 +123,12 @@ class DetailsIndexPage extends Page {
         container.click()
     }
 
+    def selectColumnToFilter(String columnName) {
+        waitFor { selectField.displayed }
+        selectField.click()
+        selectQueryFilter(columnName)
+    }
+
     def selectTransformer(CharSequence optionName) {
         def container = transformerContainer
         container.find(dropdownButtonSelector).click()

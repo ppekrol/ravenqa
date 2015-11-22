@@ -66,6 +66,7 @@ class IndexesPage extends Page {
 		indexStatusContainerSelector { "small" }
 
 		// lock icon
+        unlockIconSelector { "i.fa.fa-unlock" }
         lockIconSelector { "i.fa.fa-lock" }
 		lockErrorIconSelector { "i.fa-unlock.text-danger" }
     }
@@ -89,6 +90,11 @@ class IndexesPage extends Page {
 		}
 		container
 	}
+
+    def getUnlockIcon(CharSequence indexName) {
+        def container = getIndexContainer(indexName)
+        container.find(unlockIconSelector)
+    }
 
     def getLockIcon(CharSequence indexName) {
         def container = getIndexContainer(indexName)
@@ -133,7 +139,7 @@ class IndexesPage extends Page {
 	def getIndexStatusContainer(CharSequence indexName, CharSequence statusName) {
 		def container = getIndexContainer(indexName)
 		def status
-		container.find(indexStatusContainer).each {
+		container.find(indexStatusContainerSelector).each {
 			if(it.getAttribute("innerHTML").contains(statusName)) {
 				status = it
 			}
