@@ -134,4 +134,25 @@ class TransformersTest extends DatabaseWithSampleDataTestBase {
         waitFor { !getLockIcon(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY).displayed }
         messagesContainer.waitForMessage(TransformersPage.TRANSFORMER_SAVE_SUCCESS + TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
     }
+
+    /**
+     * User can copy transformer.
+     * @Step Navigate to Indexes page.
+     * @Step Navigate to Transformers page.
+     * @Step Copy transformer.
+     * @verification Transformer copied properly.
+     */
+    @Test(groups="Smoke")
+    void canCopyTransformer() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        topNavigation.switchToTransformers()
+        waitFor { at TransformersPage }
+
+        copyTransformer(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
+        waitFor { at TransformersPage }
+    }
 }
