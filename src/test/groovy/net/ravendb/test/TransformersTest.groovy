@@ -27,7 +27,7 @@ class TransformersTest extends DatabaseWithSampleDataTestBase {
         topNavigation.switchToTransformers()
         waitFor { at TransformersPage }
 
-        newTransformerButton.click()
+        waitFor { newTransformerButton.click() }
         waitFor { at NewTransformerPage }
 
         // create transformer
@@ -131,7 +131,7 @@ class TransformersTest extends DatabaseWithSampleDataTestBase {
 
         // unlock
         clickLockUnlockButton(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
-        waitFor { !getLockIcon(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY).displayed }
+        waitFor { getUnlockIcon(TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY).displayed }
         messagesContainer.waitForMessage(TransformersPage.TRANSFORMER_SAVE_SUCCESS + TransformersPage.TRANSFORMER_NAME_ORDERS_COMPANY)
     }
 

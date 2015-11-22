@@ -39,6 +39,7 @@ class TransformersPage extends Page {
         copyTransformerSelector { "a[title='Copy the transformer']" }
         lockUnlockTransformerButtonSelector { "a[title='Lock/Un-Lock Transformer']" }
         lockTransformerIconSelector { "i.fa.fa-lock" }
+        unlockTransformerIconSelector { "i.fa.fa-unlock" }
     }
 
     def getTransformerLink(CharSequence name) {
@@ -52,7 +53,7 @@ class TransformersPage extends Page {
     }
 
     def createAndSaveTransformerFromJson(String name, String json) {
-        pasteTransformerButton.click()
+        waitFor { pasteTransformerButton.click() }
         waitFor { pasteTransformerFromJsonModalHeader.displayed }
         transformerAceEditorPasteFromJson = json
 
@@ -81,6 +82,10 @@ class TransformersPage extends Page {
         def container = getTransformerContainer(transformerName)
         container.find(lockTransformerIconSelector)
     }
+
+    def getUnlockIcon(CharSequence transformerName) {
+        def container = getTransformerContainer(transformerName)
+        container.find(unlockTransformerIconSelector)
 
     def copyTransformer(CharSequence transformerName) {
         def container = getTransformerContainer(transformerName)
