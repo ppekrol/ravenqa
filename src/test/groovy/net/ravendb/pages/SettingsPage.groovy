@@ -45,7 +45,7 @@ class SettingsPage extends Page {
         databaseSettingsBundleContainer.each {
             if(it.text().contains(title)) {
                 present = true
-}
+            }
         }
 
         return present

@@ -367,6 +367,23 @@ class ResourcesTest extends TestBase {
     }
 
     @Test(groups="Smoke")
+    void canCreateDatabaseWithExpiration() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.EXPIRATION_BUNDLE])
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        waitFor { databaseSettingsBundleContainer.displayed }
+
+        assert isBundlePresent("DocumentExpiration")
+    }
+
+    @Test(groups="Smoke")
     void canEditDatabaseSettings() {
         at ResourcesPage
 
@@ -403,7 +420,8 @@ class ResourcesTest extends TestBase {
         waitFor { at SettingsPage }
         waitFor { databaseSettingsBundleContainer.displayed }
 
-        assert isBundlePresent("Compression")    }
+        assert isBundlePresent("Compression")
+    }
 
     @Test(groups="Smoke")
     void canCreateDatabaseWithScriptedIndex() {
