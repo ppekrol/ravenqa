@@ -10,6 +10,7 @@ import net.ravendb.pages.IndexTermsPage
 import net.ravendb.pages.IndexesPage
 import net.ravendb.pages.NewIndexPage
 import net.ravendb.pages.QueryDataExplorationPage
+import net.ravendb.pages.QueryReportingPage
 
 import org.testng.annotations.Test
 
@@ -537,5 +538,36 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         assert isHeaderPresent(QueryDataExplorationPage.QUERY_RESULTS_COLUMN_ID)
         assert isHeaderPresent(QueryDataExplorationPage.QUERY_RESULTS_COLUMN_NAME)
         assert isHeaderPresent(QueryDataExplorationPage.QUERY_RESULTS_COLUMN_DESCRIPTION)
+    }
+
+    /**
+     * User can use query reporting tool.
+     * @Step Navigate to Query page.
+     * @Step Navigate to the reporting tool.
+     * @Step Run the reporting tool.
+     * @verification Query report results displayed properly.
+     */
+    @Test(groups="Smoke")
+    void canUseQueryReportingTool() {
+        at DocumentsPage
+
+        topNavigation.queryLink.click()
+        waitFor { at DetailsIndexPage  }
+
+        topNavigation.switchToReportingTool()
+        waitFor { at QueryReportingPage }
+
+        groupByDropdownButton.click()
+        selectOption(QueryReportingPage.QUERY_AVAILABLE_FIELDS_OPTION_TAG)
+        valuesDropdownButton.click()
+        selectOption(QueryReportingPage.QUERY_AVAILABLE_FIELDS_OPTION_LAST_MODIFIED_TICKS)
+        String filter = "Tag:Categories"
+        addFilter(filter)
+        runReportButton.click()
+        waitFor { queryResultsList.size() > 0 }
+
+        assert getRowsCount() == 1
+        assert isHeaderPresent(QueryReportingPage.QUERY_RESULTS_COLUMN_KEY)
+        assert isHeaderPresent(QueryReportingPage.QUERY_RESULTS_COLUMN_COUNT_OF_LAST_MODIFIED_TICKS)
     }
 }
