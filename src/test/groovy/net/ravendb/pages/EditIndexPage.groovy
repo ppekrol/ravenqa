@@ -48,7 +48,7 @@ class EditIndexPage extends Page {
     """.replaceAll("\\s","")
 
     static at = {
-        indexNameInput
+        indexNameInput.displayed
     }
 
     static content = {
@@ -75,7 +75,7 @@ class EditIndexPage extends Page {
 
     def clickEditIndexOption(CharSequence optionName) {
         def container = menuToolbar
-        container.find(editOptionButtonSelector).click()
+        waitFor { container.find(editOptionButtonSelector).click() }
         def option
         container.find(editDropdownMenuSelector).each {
             if(it.getAttribute("innerHTML").contains(optionName)) {

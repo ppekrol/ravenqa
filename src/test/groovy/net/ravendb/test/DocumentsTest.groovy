@@ -82,7 +82,7 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
 
         selectCollection(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES)
 
-        chooseColumnsButton.click()
+        waitFor { chooseColumnsButton.click() }
         waitFor { chooseColumnsModalDialog.header.displayed }
 
         chooseColumnsModalDialog.columnsButton.click()
@@ -98,6 +98,7 @@ class DocumentsTest extends DatabaseWithSampleDataTestBase {
         chooseColumnsModalDialog.addColumn(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME, TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME)
         chooseColumnsModalDialog.okButton.click()
         waitFor { chooseColumnsButton.displayed }
+        waitFor { documentsListHeaders.displayed }
         assert isHeaderPresent(TasksCreateSampleDataPage.DOCUMENTS_COLLECTION_CATEGORIES_COLUMN_NAME)
     }
 

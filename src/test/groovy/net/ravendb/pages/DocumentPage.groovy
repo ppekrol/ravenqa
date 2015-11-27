@@ -23,7 +23,7 @@ class DocumentPage extends Page {
 
         // breadcrumbs
         documentsBreadcrumb { $("ul.breadcrumb a[href='#documents']") }
-        collectionBreadcrumb { $("ul.breadcrumb a[href='System Documents']") }
+        collectionBreadcrumb { $("ul.breadcrumb a[href='No Collection']") }
 
         // tool bar
         saveButton { $("button[title='Save (Alt+S)']") }
