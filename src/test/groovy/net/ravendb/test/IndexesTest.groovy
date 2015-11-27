@@ -250,6 +250,7 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         chooseColumnsModalDialog.addColumn(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY, DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
         chooseColumnsModalDialog.okButton.click()
         waitFor { chooseColumnsButton.displayed }
+        waitFor { queryResultsListHeaders.displayed }
         assert isHeaderPresent(DetailsIndexPage.INDEX_QUERY_RESULTS_COLUMN_COMPANY)
     }
 
