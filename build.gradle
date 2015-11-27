@@ -4,8 +4,8 @@ import org.apache.tools.ant.taskdefs.condition.Os
 ext {
     groovyVersion = '2.4.4'
     gebVersion = '0.10.0'
-    seleniumVersion = '2.46.0'
-    chromeDriverVersion = '2.15'
+    seleniumVersion = '2.48.0'
+    chromeDriverVersion = '2.20'
 }
 
 apply plugin: "groovy"
