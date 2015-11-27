@@ -36,6 +36,15 @@ class ManageServerCustomFunctions extends Module {
             }
     }
 
+    def saveSettingsCustomFunctions() {
+        HtmlUtils.scrollToTop(browser)
+        waitFor { saveButton.click() }
+        waitFor(10, 0.1) {
+            messagesContainer.waitForMessage(ManageServerCustomFunctions.SUCCESS_MESSAGE)
+            saveButton.@disabled == "true"
+            }
+    }
+
     def remove() {
         HtmlUtils.scrollToTop(browser)
         removeGlobalConfigurationForCustomFunctionsButton.click()

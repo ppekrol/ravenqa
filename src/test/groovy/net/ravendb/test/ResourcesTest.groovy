@@ -462,6 +462,37 @@ class ResourcesTest extends TestBase {
     }
 
     /**
+     * User can add database custom functions.
+     * @Step Navigate to resources page.
+     * @Step Create new resource.
+     * @Step Navigate to settings page.
+     * @Step Create custom JavaScript functions
+     * @verification Custom functions created.
+     */
+    @Test(groups="Smoke")
+    void canAddDatabaseCustomFunctions() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 0
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseCustomFunctionsLink.displayed
+
+        databaseCustomFunctionsLink.click()
+        waitFor { customFunctions.saveButton.displayed }
+
+        customFunctions.typeJavascript("exports.greet = function(name) {return \"Hello\" + name + \"!\"};")
+        customFunctions.saveSettingsCustomFunctions()
+        waitFor { at SettingsPage }
+    }
+
+    /**
      * User can setup database replication.
      * @Step Navigate to resources page.
      * @Step Create new resource and create new resource with Replication bundle.
