@@ -42,6 +42,8 @@ class NewIndexPage extends Page {
         yesOption { $("option[value='Yes']") }
         spatialFieldNameInput { $("input[placeholder='spatial field name']") }
         maxIndexOutputsInput { $("input[min='0']") }
+        indexScriptEditors { $("pre[data-bind*='code: indexScript'] textarea") }
+        deleteScriptEditors { $("pre[data-bind*='code: deleteScript'] textarea") }
     }
 
     def createAndSaveIndex(String name, List<String> maps) {
@@ -69,6 +71,29 @@ class NewIndexPage extends Page {
         yesOption.click()
         spatialFieldNameInput = spatialField
         maxIndexOutputsInput = maxIndexOutputs
+
+        waitFor { !(saveButton.@disabled == 'true') }
+        saveButton.click()
+
+        messagesContainer.waitForMessage("Saved " + name)
+    }
+
+    def createAndSaveScriptedIndex(
+        String name,
+        List<String> maps,
+        List<String> indexScript,
+        List<String> deleteScript
+        ) {
+        indexNameInput = name
+        maps.eachWithIndex { map, index ->
+            mapsEditors[index].firstElement().sendKeys(map)
+        }
+        indexScript.eachWithIndex { indexScripts, index ->
+            indexScriptEditors[index].firstElement().sendKeys(indexScripts)
+        }
+        deleteScript.eachWithIndex { deleteScripts, index ->
+            deleteScriptEditors[index].firstElement().sendKeys(deleteScripts)
+        }
 
         waitFor { !(saveButton.@disabled == 'true') }
         saveButton.click()

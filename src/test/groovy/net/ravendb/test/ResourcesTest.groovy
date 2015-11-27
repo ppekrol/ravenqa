@@ -7,6 +7,8 @@ import net.ravendb.pages.DatabaseSQLReplicationPage
 import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
+import net.ravendb.pages.IndexesPage
+import net.ravendb.pages.NewIndexPage
 import net.ravendb.pages.ResourcesPage
 import net.ravendb.pages.SettingsPage
 
@@ -364,6 +366,57 @@ class ResourcesTest extends TestBase {
         assert encryptionConfigurationLink.displayed
     }
 
+    @Test(groups="Smoke")
+    void canCreateDatabaseWithScriptedIndex() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SCRIPTED_INDEX_BUNDLE])
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        newIndexButton.click()
+        waitFor { at NewIndexPage }
+
+        String indexName = "i" + rand.nextInt()
+        def maps = [
+            """
+            from order in docs.Orders
+            where order.IsShipped
+            select new {order.Date,order.Amount,RegionId = order.Region.Id}
+            """.toString()
+        ]
+        def indexScript = [
+            """
+            var company = LoadDocument(this.Company);
+            if (company == null)
+                    return;
+            company.Orders = { Count: this.Count, Total: this.Total };
+            PutDocument(this.Company, company);
+            """.toString()
+        ]
+        def deleteScript = [
+            """
+            var company = LoadDocument(key);
+            if (company == null)
+                    return;
+            delete company.Orders;
+            PutDocument(key, company);
+            """.toString()
+        ]
+        createAndSaveScriptedIndex(indexName, maps, indexScript, deleteScript)
+        waitFor { at NewIndexPage }
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+        waitFor { getIndexLink(indexName) }
+    }
+
     /**
      * User can create new database with quotas and then edit quotas.
      * @Step Navigate to resources page
@@ -395,6 +448,7 @@ class ResourcesTest extends TestBase {
         quotasLink.click()
         waitFor { quotasModalDialog.saveButton.displayed }
         quotasModalDialog.addAndSaveQuotasConfiguration("2", "3", "4", "5")
+    }
 
     @Test(groups="Smoke")
     void canCreateDatabaseSqlReplication() {
@@ -419,7 +473,7 @@ class ResourcesTest extends TestBase {
         waitFor { at SettingsPage }
         assert databaseSQLReplicationLink.displayed
     }
-    }
+
 
     /**
      * User can setup database SQL replication.
