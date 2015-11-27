@@ -531,7 +531,6 @@ class ResourcesTest extends TestBase {
         assert databaseSQLReplicationLink.displayed
     }
 
-
     /**
      * User can setup database SQL replication.
      * @Step Navigate to resources page.
@@ -671,5 +670,5 @@ class ResourcesTest extends TestBase {
         topNavigation.documentsLink.click()
         waitFor { at DocumentsPage }
         assert getRowsCount() == 2
-    }    }
+    }
 }

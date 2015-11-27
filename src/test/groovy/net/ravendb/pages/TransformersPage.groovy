@@ -86,6 +86,7 @@ class TransformersPage extends Page {
     def getUnlockIcon(CharSequence transformerName) {
         def container = getTransformerContainer(transformerName)
         container.find(unlockTransformerIconSelector)
+    }
 
     def copyTransformer(CharSequence transformerName) {
         def container = getTransformerContainer(transformerName)
