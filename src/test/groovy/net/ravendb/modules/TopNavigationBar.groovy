@@ -11,6 +11,7 @@ class TopNavigationBar extends Module {
         countersLink { $("a[href^='#counterstorages/counters']") }
         documentsLink { $("a[href^='#databases/documents']") }
         indexesLink { $("a[href^='#databases/indexes']") }
+        queryLink { $("a[href^='#databases/query']") }
         tasksLink { $("a[href^='#databases/tasks']") }
         databaseSettingsLink { $("a[href^='#databases/settings']") }
         filesystemSettingsLink { $("a[href^='#filesystems/settings']") }
@@ -24,6 +25,7 @@ class TopNavigationBar extends Module {
 
         activeDropdown { $("li.navbar-splitbutton.active") }
         transformersLink { $("a[href^='#databases/transformers']") }
+        dataExplorationLink { $("a[href^='#databases/query/exploration']") }
     }
 
     def switchToResources() {
@@ -34,5 +36,10 @@ class TopNavigationBar extends Module {
     def switchToTransformers() {
         activeDropdown.next().click()
         transformersLink.click()
+    }
+
+    def switchToDataExplorationTool() {
+        activeDropdown.next().click()
+        dataExplorationLink.click()
     }
 }
