@@ -7,6 +7,7 @@ import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.DisableEnableResourceModalDialog
 import net.ravendb.modules.SaveEncryptionKeyModalDialog
 import net.ravendb.modules.TopNavigationBar
+import net.ravendb.modules.manage.ManageServeSQLReplication
 import net.ravendb.modules.manage.ManageServerReplication
 import net.ravendb.modules.manage.ManageServerVersioning
 
@@ -55,6 +56,7 @@ class ResourcesPage extends Page {
         versioningModalDialog { module ManageServerVersioning }
         createEncryptionModalDialog { module CreateEncryptionModalDialog }
         saveEncryptionModalDialog { module SaveEncryptionKeyModalDialog }
+        manageServeSQLReplication { module ManageServeSQLReplication }
         manageServerReplication { module ManageServerReplication }
 
         // tool bar

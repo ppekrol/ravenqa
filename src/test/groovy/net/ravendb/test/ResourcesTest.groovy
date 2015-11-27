@@ -1,7 +1,9 @@
 package net.ravendb.test
 
+import net.ravendb.modules.manage.ManageServeSQLReplication
 import net.ravendb.pages.ConfigurationsPage
 import net.ravendb.pages.CounterStoragePage
+import net.ravendb.pages.DatabaseSQLReplicationPage
 import net.ravendb.pages.DocumentPage
 import net.ravendb.pages.DocumentsPage
 import net.ravendb.pages.FileSystemPage
@@ -362,6 +364,103 @@ class ResourcesTest extends TestBase {
         assert encryptionConfigurationLink.displayed
     }
 
+    @Test(groups="Smoke")
+    void canCreateDatabaseSqlReplication() {
+        at ResourcesPage
+
+        String stringName = "SQLEXPRESS"
+        String provider = ManageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SQL_REPLICATION_BUNDLE])
+        waitFor { manageServeSQLReplication.saveButton.displayed }
+
+        manageServeSQLReplication.addConnection(stringName, provider)
+        manageServeSQLReplication.saveConnectionStringSettings()
+        manageServeSQLReplication.closeButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseSQLReplicationLink.displayed
+    }
+
+    /**
+     * User can setup database SQL replication.
+     * @Step Navigate to resources page.
+     * @Step Create new resource with SQL Replication bundle.
+     * @Step Go to Documents, then to Settings.
+     * @Step Add connection string and create new SQL Replication.
+     * @Step Delete SQL Replication.
+     * @verification SQL Replication created and deleted.
+     */
+    @Test(groups="Smoke")
+    void canSetupAndDeleteDatabaseSqlReplication() {
+        at ResourcesPage
+
+        String stringName = "SQLEXPRESS"
+        String name = "OrdersAndLines"
+        String sourceDocumentCollection = "Orders"
+        String tableNameFirst = "Orders"
+        String documentKeyColumnFirst = "Id"
+        String tableNameSecond = "Product"
+        String documentKeyColumnSecond = "Count"
+        String provider = ManageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
+        def script =
+        """
+            var orderData = {Id: documentId,OrderLinesCount: this.Lines.length,TotalCost: 0};
+        """.toString()
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SQL_REPLICATION_BUNDLE])
+        waitFor { manageServeSQLReplication.closeButton.displayed }
+
+        manageServeSQLReplication.closeButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 0
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseSQLReplicationLink.displayed
+
+        databaseSQLReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+
+        manageConnectionStringsButton.click()
+        waitFor { manageServeSQLReplication.saveButton.displayed }
+        manageServeSQLReplication.addConnection(stringName, provider)
+        manageServeSQLReplication.saveConnectionStringSettings()
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        databaseSQLReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+        createAndSaveNewSQLReplication(name, sourceDocumentCollection, tableNameFirst, documentKeyColumnFirst, tableNameSecond, documentKeyColumnSecond, script, provider)
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 2
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+
+        databaseSQLReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+        waitFor { replicationContainer.displayed }
+
+        editSqlReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
+
+        delete()
+        waitFor { at SettingsPage }
+    }
+
     /**
      * User can setup database replication.
      * @Step Navigate to resources page.
@@ -397,5 +496,5 @@ class ResourcesTest extends TestBase {
         topNavigation.documentsLink.click()
         waitFor { at DocumentsPage }
         assert getRowsCount() == 2
-    }
+    }    }
 }
