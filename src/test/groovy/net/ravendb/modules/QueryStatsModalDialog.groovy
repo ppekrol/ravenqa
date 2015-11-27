@@ -18,7 +18,7 @@ class QueryStatsModalDialog extends Module {
 	def getQueryStatsData(CharSequence name) {
 		def container
 		queryStatsContainer.each {
-			if(it.getAttribute("innerHTML").contains(name)) {
+			if(it.text().equals(name)) {
 				container = it
 			}
 		}

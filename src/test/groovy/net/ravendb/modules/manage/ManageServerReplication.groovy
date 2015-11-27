@@ -71,6 +71,8 @@ class ManageServerReplication extends Module {
         destinationContainerPasswordInput { $("input[data-bind=\"value: password, valueUpdate: 'afterkeydown'\"]") }
         destinationContainerDomainInput { $("input[data-bind=\"value: domain, valueUpdate: 'afterkeydown'\"]") }
         destinationContainserAPIKeyInput { $("input[data-bind=\"value: apiKey, valueUpdate: 'afterkeydown'\"]") }
+        urlInput { $("input[title='The address of the server to replicate to']") }
+        databaseInput { $("input[title='The name of the database on the destination server to replicate to']") }
     }
 
     def fillBaseForm(String clientBehaviour, CharSequence conflictResolution) {
@@ -205,4 +207,14 @@ class ManageServerReplication extends Module {
         }
     }
 
+    def addSimpleDestination(String urlToReplicateTo, String databaseNameToReplicateTo) {
+        waitFor { addDestinationButton.click() }
+        urlInput = urlToReplicateTo
+        databaseInput = databaseNameToReplicateTo
+
+        waitFor { !(saveButton.@disabled == 'true') }
+        saveButton.click()
+
+        messagesContainer.waitForMessage("Saved Replication settings.")
+    }
 }

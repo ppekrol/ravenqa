@@ -1,10 +1,16 @@
 package net.ravendb.pages
 
 import geb.Page
+import net.ravendb.modules.CreateEncryptionModalDialog
 import net.ravendb.modules.CreateResourceModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.DisableEnableResourceModalDialog
+import net.ravendb.modules.QuotasModalDialog
+import net.ravendb.modules.SaveEncryptionKeyModalDialog
 import net.ravendb.modules.TopNavigationBar
+import net.ravendb.modules.manage.ManageServeSQLReplication
+import net.ravendb.modules.manage.ManageServerReplication
+import net.ravendb.modules.manage.ManageServerVersioning
 
 import org.openqa.selenium.interactions.Actions
 
@@ -21,6 +27,19 @@ class ResourcesPage extends Page {
     final static String FILTER_OPTION_COUNTER_STORAGE = "counterstorage"
     final static String FILTER_OPTION_TIME_SERIES = "timeSeries"
 
+    final static String COMPRESSION_BUNDLE = "Compression"
+    final static String ENCRYPTION_BUNDLE = "Encryption"
+    final static String EXPIRATION_BUNDLE = "Expiration"
+    final static String PERIODIC_EXPORT_BUNDLE = "Periodic Export"
+    final static String QUOTAS_BUNDLE = "Quotas"
+    final static String REPLICATION_BUNDLE = "Replication"
+    final static String SCRIPTED_INDEX_BUNDLE = "Scripted Index"
+    final static String SQL_REPLICATION_BUNDLE = "SQL Replication"
+    final static String VERSIONING_BUNDLE = "Versioning"
+
+    final static String FILESYSTEM_ENCRYPTION_BUNDLE = "Filesystem Encryption"
+    final static String FILESYSTEM_VERSIONING_BUNDLE = "Filesystem Versioning"
+
     private resourceDiv
     private resourceDropdownButton
     private resourceTakedownMenuOption
@@ -35,6 +54,12 @@ class ResourcesPage extends Page {
         createResourceModalDialog { module CreateResourceModalDialog }
         deleteResourceModalDialog { module DeleteResourceModalDialog }
         disableEnableResourceModalDialog { module DisableEnableResourceModalDialog }
+        versioningModalDialog { module ManageServerVersioning }
+        createEncryptionModalDialog { module CreateEncryptionModalDialog }
+        saveEncryptionModalDialog { module SaveEncryptionKeyModalDialog }
+        quotasModalDialog { module QuotasModalDialog }
+        manageServeSQLReplication { module ManageServeSQLReplication }
+        manageServerReplication { module ManageServerReplication }
 
         // tool bar
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
@@ -135,8 +160,8 @@ class ResourcesPage extends Page {
         link
     }
 
-    def createResource(String name, String resourceType) {
-        createNewResourceButton.click()
+    def createResource(String name, String resourceType, def bundles = []) {
+        waitFor { createNewResourceButton.click() }
         waitFor { createResourceModalDialog.createButton.displayed }
 
         switch(resourceType) {
@@ -158,12 +183,46 @@ class ResourcesPage extends Page {
                 break
         }
 
+        bundles.each {
+            switch(it) {
+                case COMPRESSION_BUNDLE:
+                    createResourceModalDialog.compressionButton.click()
+                    break
+                case ENCRYPTION_BUNDLE:
+                    createResourceModalDialog.encryptionButton.click()
+                    break
+                case EXPIRATION_BUNDLE:
+                    createResourceModalDialog.expirationButton.click()
+                    break
+                case PERIODIC_EXPORT_BUNDLE:
+                    createResourceModalDialog.periodicExportButton.click()
+                    break
+                case QUOTAS_BUNDLE:
+                    createResourceModalDialog.quotasButton.click()
+                    break
+                case REPLICATION_BUNDLE:
+                    createResourceModalDialog.replicationButton.click()
+                    break
+                case SCRIPTED_INDEX_BUNDLE:
+                    createResourceModalDialog.scriptedIndexButton.click()
+                    break
+                case SQL_REPLICATION_BUNDLE:
+                    createResourceModalDialog.sqlReplicationButton.click()
+                    break
+                case VERSIONING_BUNDLE:
+                    createResourceModalDialog.versioningButton.click()
+                    break
+                case FILESYSTEM_VERSIONING_BUNDLE:
+                    createResourceModalDialog.filesystemVersioningButton.click()
+                    break
+                case FILESYSTEM_ENCRYPTION_BUNDLE:
+                    createResourceModalDialog.filesystemEncryptionButton.click()
+                    break
+            }
+        }
+
         createResourceModalDialog.createButton.click()
         waitFor { createNewResourceButton.displayed }
-
-        waitFor(message: "Resource "+name+" not found on the list.") {
-            getResourceLink(name)
-        }
     }
 
     def deleteResources(List<String> names) {

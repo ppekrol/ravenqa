@@ -66,7 +66,6 @@ class DocumentsPage extends Page {
 
         checkbox.click()
         waitFor { deleteDocumentButton.displayed }
-        waitFor { alertText.alert.children().size() == 0 }
 
         deleteDocumentButton.click()
         waitFor { deleteResourceModalDialog.confirmButton.displayed }

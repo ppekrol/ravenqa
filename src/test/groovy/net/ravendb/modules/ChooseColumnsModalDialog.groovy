@@ -13,7 +13,7 @@ class ChooseColumnsModalDialog extends Module {
         columnsAuto { container.$("a[data-bind='click: customScheme.bind(\$data, false)']") }
         columnsCustom { container.$("a[data-bind='click: customScheme.bind(\$data, true)']") }
 
-        columnsRow { container.$("table tr")}
+        columnsRow { container.$("tbody tr")}
         columnsDeleteButtonSelector { "button[data-bind='click: \$root.deleteRow.bind(\$root, \$data)'" }
         columnsBindingInputSelector { "input[autocomplete='off']" }
         columnsTitleInputSelector { 'input[data-bind="value: header, valueUpdate: \'afterkeydown\'"]' }
