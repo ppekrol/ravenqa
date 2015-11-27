@@ -7,6 +7,7 @@ import net.ravendb.modules.DeleteResourceModalDialog
 import net.ravendb.modules.DisableEnableResourceModalDialog
 import net.ravendb.modules.SaveEncryptionKeyModalDialog
 import net.ravendb.modules.TopNavigationBar
+import net.ravendb.modules.manage.ManageServerReplication
 import net.ravendb.modules.manage.ManageServerVersioning
 
 import org.openqa.selenium.interactions.Actions
@@ -54,6 +55,7 @@ class ResourcesPage extends Page {
         versioningModalDialog { module ManageServerVersioning }
         createEncryptionModalDialog { module CreateEncryptionModalDialog }
         saveEncryptionModalDialog { module SaveEncryptionKeyModalDialog }
+        manageServerReplication { module ManageServerReplication }
 
         // tool bar
         createNewResourceButton { $("button[title='Create a new resource. (Alt+N)']") }
@@ -155,7 +157,7 @@ class ResourcesPage extends Page {
     }
 
     def createResource(String name, String resourceType, def bundles = []) {
-        createNewResourceButton.click()
+        waitFor { createNewResourceButton.click() }
         waitFor { createResourceModalDialog.createButton.displayed }
 
         switch(resourceType) {

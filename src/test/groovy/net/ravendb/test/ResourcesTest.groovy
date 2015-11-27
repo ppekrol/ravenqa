@@ -361,4 +361,41 @@ class ResourcesTest extends TestBase {
         waitFor { at ConfigurationsPage }
         assert encryptionConfigurationLink.displayed
     }
+
+    /**
+     * User can setup database replication.
+     * @Step Navigate to resources page.
+     * @Step Create new resource and create new resource with Replication bundle.
+     * @Step Add simple destination.
+     * @verification Replication created.
+     */
+    @Test(groups="Smoke")
+    void canCreateAndSetupDatabaseReplication() {
+        at ResourcesPage
+
+        String databaseNameToReplicateTo = "replicate" + rand.nextInt()
+        createResource(databaseNameToReplicateTo, ResourcesPage.RESOURCE_TYPE_DATABASE)
+
+        String primaryDatabaseName = "primary" + rand.nextInt()
+        createResource(primaryDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.REPLICATION_BUNDLE])
+
+        getResourceLink(primaryDatabaseName).click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 0
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseReplicationLink.displayed
+
+        databaseReplicationLink.click()
+
+        manageServerReplication.addSimpleDestination(
+            "http://localhost:8080",
+            databaseNameToReplicateTo
+            )
+
+        topNavigation.documentsLink.click()
+        waitFor { at DocumentsPage }
+        assert getRowsCount() == 2
+    }
 }
