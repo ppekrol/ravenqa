@@ -31,5 +31,17 @@ class SettingsPage extends Page {
         filesystemVersioningLink(required:false) { $("a[href^='#filesystems/settings']") }
 
         databaseSettingsDocContainer(required:false) { $("pre#dbDocEditor textarea") }
+        databaseSettingsBundleContainer { $("pre#dbDocEditor span.ace_string") }
+    }
+
+    boolean isBundlePresent(String title) {
+        boolean present = false
+        databaseSettingsBundleContainer.each {
+            if(it.text().contains(title)) {
+                present = true
+            }
+        }
+
+        return present
     }
 }
