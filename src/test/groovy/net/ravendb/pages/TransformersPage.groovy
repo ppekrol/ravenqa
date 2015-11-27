@@ -11,7 +11,7 @@ class TransformersPage extends Page {
     final static String TRANSFORMER_SAVE_SUCCESS = "Saved "
 
     static at = {
-        newTransformerButton
+        newTransformerButton.displayed
     }
 
     static content = {
@@ -30,8 +30,13 @@ class TransformersPage extends Page {
         transformerAceEditorPasteFromJson { $("pre.ace_editor.ace-xcode.ui-resizable textarea") }
         saveTransformerButton { $("button[title='Save transformer (Alt+S)']") }
 
+        // copy transformer modal dialog
+        copyTransformerModalHeader { $("h4", text:"Copy Transformer") }
+        closeCopyTransformerModal { $("button[data-bind*='Close']") }
+
         // transformer panel
         transformerRowContainer { $('.transformers-group.panel.panel-default') }
+        copyTransformerSelector { "a[title='Copy the transformer']" }
         lockUnlockTransformerButtonSelector { "a[title='Lock/Un-Lock Transformer']" }
         lockTransformerIconSelector { "i.fa.fa-lock" }
     }
@@ -75,5 +80,13 @@ class TransformersPage extends Page {
     def getLockIcon(CharSequence transformerName) {
         def container = getTransformerContainer(transformerName)
         container.find(lockTransformerIconSelector)
+    }
+
+    def copyTransformer(CharSequence transformerName) {
+        def container = getTransformerContainer(transformerName)
+        container.find(copyTransformerSelector).click()
+        waitFor { copyTransformerModalHeader.displayed }
+
+        closeCopyTransformerModal.click()
     }
 }
