@@ -4,6 +4,7 @@ import geb.Page
 import net.ravendb.modules.AlertTextModule
 import net.ravendb.modules.CopyIndexModalDialog
 import net.ravendb.modules.DeleteResourceModalDialog
+import net.ravendb.modules.ResetIndexModalDialog
 import net.ravendb.modules.TopNavigationBar
 
 
@@ -16,6 +17,7 @@ class IndexesPage extends Page {
 
 	final static String INDEX_TOGGLE_OPTION_COPY = "Copy index"
 	final static String INDEX_TOGGLE_OPTION_DELETE = "Delete Index"
+    final static String INDEX_TOGGLE_OPTION_RESET = "Reset Index"
 	final static String INDEX_TOGGLE_OPTION_UNLOCKED = "Unlocked"
 	final static String INDEX_TOGGLE_OPTION_LOCKED_SIDE_BY_SIDE = "Locked (side-by-side)"
     final static String INDEX_TOGGLE_OPTION_LOCKED = "Locked"
@@ -27,6 +29,7 @@ class IndexesPage extends Page {
 
 	final static String INDEX_DELETE_SUCCESS = "Deleted "
 	final static String INDEX_SAVE_SUCCESS = "Saved "
+    final static String INDEX_RESET_SUCCESS = " successfully reset"
 
 	final static String TRASH_DROPDOWN_OPTION_DELETE_ALL_INDEXES = "Delete All Indexes"
 	final static String TRASH_DROPDOWN_OPTION_DELETE_DISABLED_INDEXES = "Delete Disabled Indexes"
@@ -41,6 +44,7 @@ class IndexesPage extends Page {
         topNavigation { module TopNavigationBar }
 		deleteIndexModalDialog { module DeleteResourceModalDialog }
 		copyIndexModalDialog { module CopyIndexModalDialog }
+        resetIndexModalDialog { module ResetIndexModalDialog }
 		alert { module AlertTextModule }
 
 		// tool bar
@@ -159,6 +163,19 @@ class IndexesPage extends Page {
 		alert.waitForMessage(INDEX_DELETE_SUCCESS + name)
 		waitFor { !getIndexLink(name) }
 	}
+
+    def resetIndex(String name) {
+        clickDropdownOption(name, INDEX_TOGGLE_OPTION_RESET)
+        waitFor { resetIndexModalDialog.confirmButton.displayed }
+
+        resetIndexModalDialog.confirmButton.click()
+        alert.waitForMessage("Index " + name + INDEX_RESET_SUCCESS)
+        waitFor { !getIndexLink(name) }
+
+        // wait for finish reset action
+        sleep(5000)
+        waitFor { getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click() }
+    }
 
 	def changeStatus(String indexName, String indexStatus) {
 		clickDropdownOption(indexName, indexStatus)
