@@ -364,6 +364,38 @@ class ResourcesTest extends TestBase {
         assert encryptionConfigurationLink.displayed
     }
 
+    /**
+     * User can create new database with quotas and then edit quotas.
+     * @Step Navigate to resources page
+     * @Step Create new resource with Quotas bundle.
+     * @Step Add quotas configuration.
+     * @Step Go to Documents, then to Settings.
+     * @Step Edit quotas configuration.
+     * @verification Database with quotas created and edited.
+     */
+    @Test(groups="Smoke")
+    void canCreateAndEditDatabaseWithQuotas() {
+        at ResourcesPage
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.QUOTAS_BUNDLE])
+        waitFor { quotasModalDialog.header.displayed }
+
+        quotasModalDialog.addAndSaveQuotasConfiguration("1", "2", "1", "2")
+        quotasModalDialog.closeButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert quotasLink.displayed
+
+        quotasLink.click()
+        waitFor { quotasModalDialog.saveButton.displayed }
+        quotasModalDialog.addAndSaveQuotasConfiguration("2", "3", "4", "5")
+
     @Test(groups="Smoke")
     void canCreateDatabaseSqlReplication() {
         at ResourcesPage
@@ -386,6 +418,7 @@ class ResourcesTest extends TestBase {
         topNavigation.databaseSettingsLink.click()
         waitFor { at SettingsPage }
         assert databaseSQLReplicationLink.displayed
+    }
     }
 
     /**
