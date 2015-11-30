@@ -587,4 +587,30 @@ class IndexesTest extends DatabaseWithSampleDataTestBase {
         assert isHeaderPresent(QueryReportingPage.QUERY_RESULTS_COLUMN_KEY)
         assert isHeaderPresent(QueryReportingPage.QUERY_RESULTS_COLUMN_COUNT_OF_LAST_MODIFIED_TICKS)
     }
+
+    /**
+     * User can export query results to CSV.
+     * @Step Navigate to Index page.
+     * @Step Choose index.
+     * @Step Run simple query.
+     * @Step Export CSV.
+     * @verification File is exported.
+     */
+    @Test(groups="Smoke")
+    void canExportQueryResultsToCsv() {
+        at DocumentsPage
+
+        topNavigation.indexesLink.click()
+        waitFor { at IndexesPage }
+
+        getIndexLink(URLEncoder.encode(IndexesPage.INDEX_NAME_ORDERS_BY_COMPANY, "UTF-8")).click()
+        waitFor { at DetailsIndexPage }
+
+        queryInput = "Count_Range:[Dx1 TO Dx2]"
+
+        runQueryButton.click()
+        waitFor { queryResultsList.size() > 0 }
+
+        exportCsvLink.click()
+    }
 }

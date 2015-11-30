@@ -38,8 +38,12 @@ class DetailsIndexPage extends Page {
         sortByOption { $("a[title='Add a field to sort by (Alt+O)']") }
         transformerOption { $("a[title='Add a transformer to transform the results of the query (Alt+T)']") }
 		chooseColumnsButton { $("button[title='Choose columns...']") }
+        exportCsvLink { $("a[title='Export CSV']") }
 		termsButton { $("a[title='Navigate to index terms']") }
 		queryStatsButton { $("a[title='Show Query Stats In Dialog']") }
+
+        // form
+        queryInput { $("pre#queryEditor textarea") }
 
         // query filters
         selectField { $("span[data-bind='text:searchField()']") }
