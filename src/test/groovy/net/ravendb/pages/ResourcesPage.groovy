@@ -122,7 +122,6 @@ class ResourcesPage extends Page {
         waitFor { disableEnableResourceModalDialog.header.displayed }
 
         disableEnableResourceModalDialog.enableButton.click()
-        waitFor { !resourceDiv.find(resourceDisabledTextContainerSelector) }
     }
 
     def checkResources(List<String> resourcesNames) {

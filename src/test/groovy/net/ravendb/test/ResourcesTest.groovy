@@ -31,8 +31,9 @@ class ResourcesTest extends TestBase {
 
         String lastCreatedDatabaseName = "db" + rand.nextInt()
         createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+        waitFor { at ResourcesPage }
 
-        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { getResourceLink(lastCreatedDatabaseName).click() }
         waitFor { at DocumentsPage }
 
         topNavigation.resourcesLink.click()
@@ -156,7 +157,7 @@ class ResourcesTest extends TestBase {
         dependsOnMethods=[
             "canCreateAndDeleteDatabaseWithDefaultConfiguration",
             "canCreateAndDeleteFilesystemWithDefaultConfiguration"
-            ]
+           ]
         )
     void canFilterResources() {
         at ResourcesPage
@@ -283,6 +284,7 @@ class ResourcesTest extends TestBase {
 
         String dbName = "db" + rand.nextInt()
         createResource(dbName, ResourcesPage.RESOURCE_TYPE_DATABASE)
+        waitFor { at ResourcesPage }
 
         disable(dbName)
 
@@ -367,13 +369,14 @@ class ResourcesTest extends TestBase {
     }
 
     @Test(groups="Smoke")
-    void canCreateDatabaseWithExpiration() {
+    void canCreateDatabaseWithExpirationAndWithCompression() {
         at ResourcesPage
 
         String lastCreatedDatabaseName = "db" + rand.nextInt()
-        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.EXPIRATION_BUNDLE])
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.EXPIRATION_BUNDLE, ResourcesPage.COMPRESSION_BUNDLE])
+        waitFor { at ResourcesPage }
 
-        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { getResourceLink(lastCreatedDatabaseName).click() }
         waitFor { at DocumentsPage }
 
         topNavigation.databaseSettingsLink.click()
@@ -381,6 +384,7 @@ class ResourcesTest extends TestBase {
         waitFor { databaseSettingsBundleContainer.displayed }
 
         assert isBundlePresent("DocumentExpiration")
+        assert isBundlePresent("Compression")
     }
 
     @Test(groups="Smoke")
@@ -404,23 +408,6 @@ class ResourcesTest extends TestBase {
         areYouSure.okButton.click()
         waitFor { !editDatabaseSettingsButton.displayed }
         waitFor { saveButton.displayed }
-    }
-
-    @Test(groups="Smoke")
-    void canCreateDatabaseWithCompression() {
-        at ResourcesPage
-
-        String lastCreatedDatabaseName = "db" + rand.nextInt()
-        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.COMPRESSION_BUNDLE])
-
-        getResourceLink(lastCreatedDatabaseName).click()
-        waitFor { at DocumentsPage }
-
-        topNavigation.databaseSettingsLink.click()
-        waitFor { at SettingsPage }
-        waitFor { databaseSettingsBundleContainer.displayed }
-
-        assert isBundlePresent("Compression")
     }
 
     @Test(groups="Smoke")

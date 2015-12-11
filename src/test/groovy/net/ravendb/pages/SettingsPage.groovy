@@ -1,7 +1,5 @@
 package net.ravendb.pages
 
-import java.util.List;
-
 import geb.Page
 import net.ravendb.modules.AreYouSureModalDialog
 import net.ravendb.modules.QuotasModalDialog
@@ -31,7 +29,7 @@ class SettingsPage extends Page {
         databaseCustomFunctionsLink(required:false) { $("a[href^='#databases/settings/customFunctionsEditor']") }
         databaseSQLReplicationLink(required:false) { $("a[href^='#databases/settings/sqlReplication?']") }
         databaseReplicationLink(required:false) { $("a[href^='#databases/settings/replication']") }
-        databaseVersioningLink(required:false) { $("a[href^='#databases/settings']") }
+        databaseVersioningLink(required:false) { $("a[href^='#databases/settings/versioning?']") }
         filesystemVersioningLink(required:false) { $("a[href^='#filesystems/settings']") }
 
         editDatabaseSettingsButton { $("button[title='Edit Database Settings']") }
