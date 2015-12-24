@@ -364,13 +364,36 @@ class ResourcesTest extends TestBase {
         assert encryptionConfigurationLink.displayed
     }
 
+    @Test(groups="Smoke")
+    void canCreateDatabaseSqlReplication() {
+        at ResourcesPage
+
+        String stringName = "SQLEXPRESS"
+        String provider = ManageServeSQLReplication.SQL_PROVIDER_SQLCLIENT
+
+        String lastCreatedDatabaseName = "db" + rand.nextInt()
+        createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SQL_REPLICATION_BUNDLE])
+        waitFor { manageServeSQLReplication.saveButton.displayed }
+
+        manageServeSQLReplication.addConnection(stringName, provider)
+        manageServeSQLReplication.saveConnectionStringSettings()
+        manageServeSQLReplication.closeButton.click()
+        waitFor { at ResourcesPage }
+
+        getResourceLink(lastCreatedDatabaseName).click()
+        waitFor { at DocumentsPage }
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        assert databaseSQLReplicationLink.displayed
+    }
+
     /**
      * User can setup database SQL replication.
      * @Step Navigate to resources page.
      * @Step Create new resource with SQL Replication bundle.
-     * @Step Create new connection string.
      * @Step Go to Documents, then to Settings.
-     * @Step Create new SQL Replication.
+     * @Step Add connection string and create new SQL Replication.
      * @verification SQL Replication created.
      */
     @Test(groups="Smoke")
@@ -390,15 +413,14 @@ class ResourcesTest extends TestBase {
 
         String lastCreatedDatabaseName = "db" + rand.nextInt()
         createResource(lastCreatedDatabaseName, ResourcesPage.RESOURCE_TYPE_DATABASE, [ResourcesPage.SQL_REPLICATION_BUNDLE])
-        waitFor { manageServeSQLReplication.saveButton.displayed }
+        waitFor { manageServeSQLReplication.closeButton.displayed }
 
-        manageServeSQLReplication.addConnection(stringName, provider)
-        manageServeSQLReplication.saveAndCloseConnectionStringSettings()
+        manageServeSQLReplication.closeButton.click()
         waitFor { at ResourcesPage }
 
         getResourceLink(lastCreatedDatabaseName).click()
         waitFor { at DocumentsPage }
-        assert getRowsCount() == 1
+        assert getRowsCount() == 0
 
         topNavigation.databaseSettingsLink.click()
         waitFor { at SettingsPage }
@@ -407,6 +429,15 @@ class ResourcesTest extends TestBase {
         databaseSQLReplicationLink.click()
         waitFor { at DatabaseSQLReplicationPage }
 
+        manageConnectionStringsButton.click()
+        waitFor { manageServeSQLReplication.saveButton.displayed }
+        manageServeSQLReplication.addConnection(stringName, provider)
+        manageServeSQLReplication.saveConnectionStringSettings()
+
+        topNavigation.databaseSettingsLink.click()
+        waitFor { at SettingsPage }
+        databaseSQLReplicationLink.click()
+        waitFor { at DatabaseSQLReplicationPage }
         createAndSaveNewSQLReplication(name, sourceDocumentCollection, tableName, documentKeyColumn, script, provider)
 
         topNavigation.documentsLink.click()

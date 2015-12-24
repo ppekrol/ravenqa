@@ -70,13 +70,13 @@ class ManageServeSQLReplication extends Module {
             }
     }
 
-    def saveAndCloseConnectionStringSettings() {
+    def saveConnectionStringSettings() {
         HtmlUtils.scrollToTop(browser)
         saveButton.click()
         waitFor(10, 0.1) {
+            messagesContainer.containsMessage("Saved Raven/SqlReplication/Connections")
             saveButton.@disabled == "true"
             }
-        closeButton.click()
     }
 
     def remove() {

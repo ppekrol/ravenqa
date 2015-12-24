@@ -3,6 +3,7 @@ package net.ravendb.pages
 import geb.Page
 import net.ravendb.modules.AlertTextModule
 import net.ravendb.modules.TopNavigationBar
+import net.ravendb.modules.manage.ManageServeSQLReplication
 
 
 class DatabaseSQLReplicationPage extends Page {
@@ -15,8 +16,10 @@ class DatabaseSQLReplicationPage extends Page {
         // modules
         topNavigation { module TopNavigationBar }
         messagesContainer { module AlertTextModule }
+        manageServeSQLReplication { module ManageServeSQLReplication }
 
 		newSQLReplicationButton { $("a[title='New SQL Replication (Alt+N)']") }
+        manageConnectionStringsButton { $("a[title='Manage SQL connection strings (Alt+M)']") }
         replicationContainer { $("div.replication") }
         editSqlReplicationLink { $("a[href^='#databases/settings/editSqlReplication/OrdersAndLines']") }
 
